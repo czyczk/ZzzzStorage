@@ -1,0 +1,13 @@
+body{
+	background:-webkit-gradient(linear, 0 0, 0 50%, from(rgba(145,163,185,0.5)), to(rgb(87,139,199))); 
+}
+.main-content{
+	background-color: #FFFFFF;
+	margin-top: 50px;
+	border: 1px solid #f8f8f8;
+	/*width: 900px;
+	height: 500px;*/
+	-moz-box-shadow: 0px 5px 10px #909090;/*firefox*/
+	-webkit-box-shadow: 0px 5px 10px #909090;/*safari或chrome*/
+	box-shadow: 0px 5px 10px #909090;/*opera或ie9*/
+}
