@@ -1,9 +1,12 @@
 $('#downloaded-toggle').click(function(){
-	$('#downloaded').show();
-	$('#downloading').hide();
+	$(this).parent().addClass('active');
+	$('#downloading-toggle').parent().removeClass('active');
 });
 
 $('#downloading-toggle').click(function(){
-	$('#downloading').show();
-	$('#downloaded').hide();
+	$(this).parent().addClass('active');
+	$('#downloaded-toggle').parent().removeClass('active');
 });
+
+
+

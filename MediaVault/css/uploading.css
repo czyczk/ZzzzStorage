@@ -13,25 +13,12 @@
 	margin: 40px;
 }
 
-ol li.active{
-	font-size: 18px;
-	text-decoration: none;
-}
-
 #uploading img {
 	width: 120px;
 	height: 176px;
 }
 
-#uploading {
-	display: none;
-}
-
-.tag {
-	background-color: #FFFFFF;
-	border: 1px solid #f8f8f8;
-	-moz-box-shadow: 0px 2px 5px #909090;/*firefox*/
-	-webkit-box-shadow: 0px 2px 5px #909090;/*safari或chrome*/
-	box-shadow: 0px 2px 5px #909090;/*opera或ie9*/
-	height: 220px;
+ol li.active{
+	font-size: 18px;
+	text-decoration: none;
 }

@@ -43,8 +43,8 @@
 	    		<div class="header">
 	    			<div class="navigation">
 	    				<ol class="breadcrumb">
-	    					<li class="active"><a id="downloading-toggle" href="#">Downloading</a></li>
-	    					<li><a id="downloaded-toggle" href="#">Downloaded</a></li>	
+	    					<li><a id="downloading-toggle" href="downloading.jsp">Downloading</a></li>
+	    					<li  class="active"><a id="downloaded-toggle" href="#">Downloaded</a></li>	
 	    				</ol>
 	    			</div>
 	    		</div>
@@ -55,88 +55,181 @@
                 -->
                 <div id="downloaded">
                 	<div class="container">
-                		<div class="row">
-                			<div class="col-lg-4 col-sm-6">
-                				<div class="col-sm-6">
+                		<!--<div class="row">-->
+                			<div class="col-lg-6 col-sm-6">
+                				<div class="col-sm-5">
 	                				<img src="img/downloaded-movie1.png" class="thumbnail" />
 	                			</div>
-	                			<div class="col-sm-6">
-	                				<a href="#">Pirates of Caribbean</a>
-	                				<p>6-12-2017 13:25:30</p>
-	                				<p>An adventure story of a infamous pirates.</p>
+	                			<div class="col-sm-7">
+	                				<div class="tag">
+	                					<div class="header">
+	                						<div class="navigation">
+	                							<ol class="breadcrumb">
+										    		<li><a>Comedy</a></li>
+										    		<li><a>Action</a></li>
+												</ol>
+												<a href="#">Pirates of Caribbean</a>
+	                							<p>6-12-2017 13:25:30</p>
+	                							<p>An adventure story of a infamous pirates.</p>
+	                						</div>
+	                						
+	                					</div>
+	                					
+	                				</div>
+									
+
+	                				
 	                			</div>
                 			</div>
-                			<div class="col-lg-4 col-sm-6">
-                				<div class="col-sm-6">
+                			<div class="col-lg-6 col-sm-6">
+                				<div class="col-sm-5">
 	                				<img src="img/downloaded-movie2.jpg" class="thumbnail" />
 	                			</div>
-	                			<div class="col-sm-6">
-	                				<a href="#">Midnight Cowboy</a>
-	                				<p>6-11-2017 13:25:30</p>
-	                				<p>An adventure story of a cowboy.</p>
+	                			<div class="col-sm-7">
+	                				<div class="tag">
+	                					<div class="header">
+	                						<div class="navigation">
+	                							<ol class="breadcrumb">
+										    		<li><a>Comedy</a></li>
+										    		<li><a>Action</a></li>
+												</ol>
+												<a href="#">Midnight Cowboy</a>
+	                							<p>6-11-2017 13:25:30</p>
+	                							<p>An adventure story of a cowboy.</p>
+	                						</div>
+	                						
+	                					</div>
+	                					
+	                				</div>
+	                				
 	                			</div>
                 			</div>
-                			<div class="col-lg-4 col-sm-6">
-                				<div class="col-sm-6">
+                			<div class="col-lg-6 col-sm-6">
+                				<div class="col-sm-5">
 	                				<img src="img/downloaded-movie3.jpg" class="thumbnail" />
 	                			</div>
-	                			<div class="col-sm-6">
-	                				<a href="#">Musician</a>
-	                				<p>6-10-2017 13:25:30</p>
-	                				<p>A story of a musician.</p>
+	                			<div class="col-sm-7">
+	                				<div class="tag">
+	                					<div class="header">
+	                						<div class="navigation">
+	                							<ol class="breadcrumb">
+										    		<li><a>Comedy</a></li>
+										    		<li><a>Action</a></li>
+												</ol>
+												<a href="#">Musician</a>
+	                							<p>6-10-2017 13:25:30</p>
+	                							<p>A story of a musician.</p>
+	                						</div>
+	                						
+	                					</div>
+	                					
+	                				</div>
+	                				
 	                			</div>
                 			</div>
-                		</div>
+                		<!--</div>-->
                 		
-                		<div class="row">
-                			<div class="col-lg-4 col-sm-6">
-                				<div class="col-sm-6">
+                		<!--<div class="row">-->
+                			<div class="col-lg-6 col-sm-6">
+                				<div class="col-sm-5">
 	                				<img src="img/downloaded-TVShow.jpg" class="thumbnail" />
 	                			</div>
-	                			<div class="col-sm-6">
-	                				<a href="#">The Flash</a>
-	                				<p>6-9-2017 13:25:30</p>
-	                				<p>Adventure stories of a super hero.</p>
+	                			<div class="col-sm-7">
+	                				<div class="tag">
+	                					<div class="header">
+	                						<div class="navigation">
+	                							<ol class="breadcrumb">
+										    		<li><a>Comedy</a></li>
+										    		<li><a>Action</a></li>
+												</ol>
+												<a href="#">The Flash</a>
+	                							<p>6-9-2017 13:25:30</p>
+	                							<p>Adventure stories of a super hero.</p>
+	                						</div>
+	                						
+	                					</div>
+	                					
+	                				</div>
+	                				
 	                			</div>
                 			</div>
-                			<div class="col-lg-4 col-sm-6">
-                				<div class="col-sm-6">
+                			<div class="col-lg-6 col-sm-6">
+                				<div class="col-sm-5">
 	                				<img src="img/downloaded-TVShow2.jpg" class="thumbnail" />
 	                			</div>
-	                			<div class="col-sm-6">
-	                				<a href="#">In the Flesh</a>
-	                				<p>6-11-2017 13:25:30</p>
-	                				<p>A story of a someone.</p>
+	                			<div class="col-sm-7">
+	                				<div class="tag">
+	                					<div class="header">
+	                						<div class="navigation">
+	                							<ol class="breadcrumb">
+										    		<li><a>Comedy</a></li>
+										    		<li><a>Action</a></li>
+												</ol>
+													<a href="#">In the Flesh</a>
+					                				<p>6-11-2017 13:25:30</p>
+					                				<p>A story of a someone.</p>
+	                						</div>
+	                						
+	                					</div>
+	                					
+	                				</div>
+	                				
 	                			</div>
                 			</div>
-                			<div class="col-lg-4 col-sm-6">
-                				<div class="col-sm-6">
+                			<div class="col-lg-6 col-sm-6">
+                				<div class="col-sm-5">
 	                				<img src="img/downloaded-TVShow3.jpg" class="thumbnail" />
 	                			</div>
-	                			<div class="col-sm-6">
-	                				<a href="#">Red Oak</a>
-	                				<p>6-10-2017 13:25:30</p>
-	                				<p>A story of boys and girls.</p>
+	                			<div class="col-sm-7">
+	                				<div class="tag">
+	                					<div class="header">
+	                						<div class="navigation">
+	                							<ol class="breadcrumb">
+										    		<li><a>Comedy</a></li>
+										    		<li><a>Action</a></li>
+												</ol>
+													<a href="#">Red Oak</a>
+					                				<p>6-10-2017 13:25:30</p>
+					                				<p>A story of boys and girls.</p>
+	                						</div>
+	                						
+	                					</div>
+	                					
+	                				</div>
+	                				
 	                			</div>
                 			</div>
-                		</div>
+                		<!--</div>-->
                 		
-                		<div class="row">
-                			<div class="col-lg-4 col-sm-6">
-                				<div class="col-sm-6">
+                		<!--<div class="row">-->
+                			<div class="col-lg-6 col-sm-6">
+                				<div class="col-sm-5">
 	                				<img src="img/downloaded-TVShow4.jpg" class="thumbnail" />
 	                			</div>
-	                			<div class="col-sm-6">
-	                				<a href="#">Vinyl</a>
-	                				<p>6-9-2017 13:25:30</p>
-	                				<p>A story of a man.</p>
+	                			<div class="col-sm-7">
+	                				<div class="tag">
+	                					<div class="header">
+	                						<div class="navigation">
+	                							<ol class="breadcrumb">
+										    		<li><a>Comedy</a></li>
+										    		<li><a>Action</a></li>
+												</ol>
+													<a href="#">Vinyl</a>
+					                				<p>6-9-2017 13:25:30</p>
+					                				<p>A story of a man.</p>
+	                						</div>
+	                						
+	                					</div>
+	                					
+	                				</div>
+	                				
 	                			</div>
                 			</div>
-                		</div>
+                		<!--</div>-->
                 	</div>
                 </div>
                 
-                <div id="downloading">
+                <!--<div id="downloading">
 	    			<div class="row">
 	    				<div class="col-sm-2">
 	    					<img src="img/downloaded-movie1.png" alt="downloading" class="img-responsive thumbnail" />
@@ -215,7 +308,7 @@
 	    		</div>
 
 	    	</div>
-    	</div>
+    	</div>-->
     	
     	<script src="js/download.js"></script>
  	</body>
