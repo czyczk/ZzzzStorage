@@ -30,6 +30,7 @@
     					<li class="active"><a href="TVShow.jsp" data-toggle="tab" class="glyphicon glyphicon-facetime-video">&nbsp;TV<span style="color: rgb(248,248,248);">-</span>Show</a></li>
     					<li><a href="music.jsp" class="glyphicon glyphicon-music">&nbsp;Music</a></li>
     					<li><a href="upload.jsp" class="glyphicon glyphicon-open">&nbsp;Upload</a></li>
+    					<li><a href="download.jsp" class="glyphicon glyphicon-save">&nbsp;Download</a></li>
     					<li><a data-toggle="tab" class="glyphicon glyphicon-log-out" href="#">&nbsp;Log<span style="color: rgb(248,248,248);">-</span>Out</a></li>
     				</ul>
     			</div>

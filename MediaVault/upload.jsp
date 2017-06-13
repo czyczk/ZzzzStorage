@@ -33,6 +33,8 @@
     					<li><a href="TVShow.jsp" class="glyphicon glyphicon-facetime-video">&nbsp;TV<span style="color: rgb(248,248,248);">-</span>Show</a></li>
     					<li><a href="music.jsp" class="glyphicon glyphicon-music">&nbsp;Music</a></li>
     					<li class="active"><a data-toggle="tab" href="upload.jsp" class="glyphicon glyphicon-open">&nbsp;Upload</a></li>
+    					<li><a href="download.jsp" class="glyphicon glyphicon-save">&nbsp;Download</a></li>
+    					
     					<li><a data-toggle="tab" class="glyphicon glyphicon-log-out" href="#">&nbsp;Log<span style="color: rgb(248,248,248);">-</span>Out</a></li>
     				</ul>
     			</div>
@@ -45,7 +47,7 @@
 	    			<div class="navigation">
 	    				<ol class="breadcrumb">
 	    					<li><a href data-toggle="modal" data-target="#myModal" class="glyphicon glyphicon-plus pull-right"></a></li>
-	    					<li><a href="#">Uploading</a></li>
+	    					<li class="active"><a href="#">Uploading</a></li>
 	    					<li><a href="#">Uploaded</a></li>	
 	    				</ol>
 	    			</div>
