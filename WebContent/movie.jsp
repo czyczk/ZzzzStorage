@@ -5,7 +5,7 @@
 	<head>
 		<script src="jQuery/jquery.min.js"></script>
 		<link rel="stylesheet" href="css/bootstrap/bootstrap.min.css">
-		<link rel="stylesheet" href="css/nav.css">
+        <link rel="stylesheet" href="css/nav.css">
 		<link rel="stylesheet" href="css/main-page.css">
 		<link rel="stylesheet" href="css/movie.css" />
 		<script src="js/bootstrap/bootstrap.min.js"></script>
@@ -70,7 +70,7 @@
 			</div>
 
 			<div id="contentRight">
-				<div class="container">
+				<div>
 
 					<div class="col-lg-6 col-sm-6">
 						<div class="tag">
