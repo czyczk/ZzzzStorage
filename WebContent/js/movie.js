@@ -57,7 +57,7 @@ function updateSidebar(trend) {
 		// 从 0 到 1 则显示侧边栏
 		if (numItemsSelected == 1) {
 			sidebar.animate({
-	      		right: '-180px'
+	      		right: '-18rem'
     		}, "fast");
 		}
 		// 从 1 加至更多则隐藏 Play 选项
@@ -72,7 +72,7 @@ function updateSidebar(trend) {
 		// 从 1 减小至 0 则隐藏侧边栏
 		else if (numItemsSelected == 0) {
 			sidebar.animate({
-	      		right: '-300px'
+	      		right: '-30rem'
     		});
 		}
 	}
@@ -89,12 +89,12 @@ function toggleMask(mask) {
 
 function revealSidebarLabel() {
     $(this).animate({
-        right: '0px'
+        right: '0'
     }, "fast");
 }
 
 function hideSidebarLabel() {
     $(this).animate({
-        right: '-180px'
+        right: '-18rem'
     });
 }
