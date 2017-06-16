@@ -71,7 +71,7 @@
 
 			<div id="contentRight">
 				<div class="container">
-					
+
 					<div class="col-lg-6 col-sm-6">
 						<div class="tag">
 							<div class="col-sm-5">
@@ -96,7 +96,7 @@
 							</div>
 						</div>
 					</div>
-					
+
 					<div class="col-lg-6 col-sm-6">
 						<div class="tag">
 							<div class="col-sm-5">
@@ -120,7 +120,7 @@
 							</div>
 						</div>
 					</div>
-					
+
 					<div class="col-lg-6 col-sm-6">
 						<div class="tag">
 							<div class="col-sm-5">
@@ -168,7 +168,7 @@
 							</div>
 						</div>
 					</div>
-					
+
 					<div class="col-lg-6 col-sm-6">
 						<div class="tag">
 							<div class="col-sm-5">
@@ -192,7 +192,7 @@
 							</div>
 						</div>
 					</div>
-					
+
 					<div class="col-lg-6 col-sm-6">
 						<div class="tag">
 							<div class="col-sm-5">
@@ -216,7 +216,7 @@
 							</div>
 						</div>
 					</div>
-					
+
 					<div class="col-lg-6 col-sm-6">
 						<div class="tag">
 							<div class="col-sm-5">
