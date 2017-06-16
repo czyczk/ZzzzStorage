@@ -2,6 +2,7 @@
 <%@page pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
+
 	<head>
 		<script src="jQuery/jquery.min.js"></script>
 		<link rel="stylesheet" href="css/bootstrap/bootstrap.min.css">
@@ -9,10 +10,9 @@
 		<link rel="stylesheet" href="css/main-page.css">
 		<link rel="stylesheet" href="css/movie.css" />
 		<script src="js/bootstrap/bootstrap.min.js"></script>
-		<script src="js/prefixfree.min.js"></script>
 
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<title>Movie</title>
+		<title>Music</title>
 	</head>
 
 	<body>
@@ -32,14 +32,14 @@
 						<li>
 							<a class="glyphicon glyphicon-home" href="main.jsp">&nbsp;Home</a>
 						</li>
-						<li class="active">
-							<a href="movie.jsp" data-toggle="tab" class="glyphicon glyphicon-film">&nbsp;Movie</a>
+						<li>
+							<a href="movie.jsp" class="glyphicon glyphicon-film">&nbsp;Movie</a>
 						</li>
 						<li>
 							<a href="TVShow.jsp" class="glyphicon glyphicon-facetime-video">&nbsp;TV<span style="color: rgb(248,248,248);">-</span>Show</a>
 						</li>
-						<li>
-							<a href="music.jsp" class="glyphicon glyphicon-music">&nbsp;Music</a>
+						<li class="active">
+							<a href="music.jsp" data-toggle="tab" class="glyphicon glyphicon-music">&nbsp;Music</a>
 						</li>
 						<li>
 							<a href="upload.jsp" class="glyphicon glyphicon-open">&nbsp;Upload</a>
@@ -48,7 +48,7 @@
 							<a href="download.jsp" class="glyphicon glyphicon-save">&nbsp;Download</a>
 						</li>
 						<li>
-							<a data-toggle="tab" class="glyphicon glyphicon-log-out" href="#">&nbsp;Log<span style="color: rgb(248,248,248);">-</span>Out</a>
+							<a class="glyphicon glyphicon-log-out" href="welcome.jsp">&nbsp;Log<span style="color: rgb(248,248,248);">-</span>Out</a>
 						</li>
 					</ul>
 				</div>
@@ -68,7 +68,6 @@
 					</dl>
 				</div>
 			</div>
-
 			<div id="contentRight">
 				<div class="container">
 					
@@ -243,30 +242,23 @@
 			</div>
 		</div>
 
-		<!-- Sidebar -->
-		<div class="right-sidebar" id="right-sidebar">
-			<ul>
+		<div class="sidebar">
+			<ul class="menu">
 				<li>
-					<a href="play.jsp"><span class="glyphicon glyphicon-play right-sidebar-icon"></span>Play</a>
+					<a href="music-player-1.0.1/demo/listen.jsp">Play</a>
 				</li>
 				<li>
-					<a href="#"><span class="glyphicon glyphicon-cloud-download right-sidebar-icon"></span>Download</a>
+					<a href="#">Download</a>
 				</li>
 				<li>
-					<a href="#"><span class="glyphicon glyphicon-trash right-sidebar-icon"></span>Delete</a>
+					<a href="#">Delete</a>
 				</li>
 				<li>
-					<a href="#"><span class="glyphicon glyphicon-info-sign right-sidebar-icon"></span>Edit properties</a>
+					<a href="#">Update</a>
 				</li>
 			</ul>
 		</div>
 		<script src="js/movie.js"></script>
-
 	</body>
-	<!--
-		Authors:
-			2684232910@qq.com, 564108186@qq.com, 601347015@qq.com
-		Date: 2017-06-12
-		Desc: Movie Page
-	-->
+
 </html>

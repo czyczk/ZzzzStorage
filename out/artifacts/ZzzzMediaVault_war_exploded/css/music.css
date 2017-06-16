@@ -1,0 +1,63 @@
+#contentWrapper {
+	width: 100%;
+	height: 100%;
+	position: relative;
+}
+
+#contentLeft {
+/*	position: relative;*/
+	border: 1px solid #EEEEEE;
+	margin-top: -30px;
+	position: fixed;
+	height: 100%;
+/*	background-color: #EEEEEE;*/
+	background: rgba(248, 248, 248, .60);
+	overflow: hidden;
+	box-shadow: 0 0 0 1px hsla(0,0%,100%,.3) inset,
+                0 .5em 1em rgba(0, 0, 0, 0.6);
+}
+
+
+#contentLeft .leftNav ul li{
+	list-style-type: none;
+	line-height: 200%;
+}
+
+#contentLeft .leftNav {
+	padding: 0;
+	margin: 0;
+}
+
+#contentLeft .leftNav ul {
+	margin-top: 15%;
+	margin-left: 0px;
+	/*border: 1px solid red;*/
+}
+
+#contentLeft .leftNav ul li {
+	padding: 1rem;
+	border-bottom: 1px solid #E0E0E0;
+	text-align: center;
+	margin-left: -15px;
+	margin-right: 20px;
+	height: 80px;
+	padding-top: 30px;
+}
+
+#contentRight {
+	margin-top: 50px;
+	margin-left: 150px;
+}
+
+.tag {
+	background-color: rgb(248,248,248);
+	border: 1px solid #f8f8f8;
+	-moz-box-shadow: 0px 2px 5px #909090;/*firefox*/
+	-webkit-box-shadow: 0px 2px 5px #909090;/*safari或chrome*/
+	box-shadow: 0px 2px 5px #909090;/*opera或ie9*/
+	height: 240px;
+}
+
+#contentRight .container .header {
+	margin-top: 20px;
+}
