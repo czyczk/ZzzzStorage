@@ -79,9 +79,6 @@
 #contentRight > div {
     margin: 1.5rem 1.5rem;
 }
-/*#contentRight .container .header {*/
-	/*margin-top: 20px;*/
-/*}*/
 
 
 /*#contentRight input {*/
@@ -179,7 +176,17 @@ div.thumbnail-image {
 /* Override settings in thumbnail.less */
 .thumbnail {
 	margin-bottom: 0;
-	height: 234px;
+	/*height: 234px;*/
+}
+
+.item-info-container {
+    margin-top: 2rem;
+}
+.item-info-container a {
+    display: inline-block;
+    text-decoration: none;
+    font-size: 2.0rem;
+    margin-bottom: 1rem;
 }
 
 .item-checkbox{

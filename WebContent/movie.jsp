@@ -74,7 +74,7 @@
 
 					<div class="col-lg-6 col-sm-6">
 						<div class="tag">
-							<div class="col-sm-5">
+							<div class="col-sm-4">
 								<div class="thumbnail-container">
 									<div class="thumbnail-checkbox-mask thumbnail-checkbox-mask-invisible">
 										<span class="circle-pattern">&#xEC61;</span>
@@ -84,9 +84,8 @@
 									</div>
 								</div>
 							</div>
-							<!-- End of .tag -->
 							<div class="col-sm-7">
-								<div class="header">
+								<div class="item-info-container">
 									<a href="#">Pirates of Caribbean</a>
 									<p>Comedy</p>
 									<p>6-12-2017 13:25:30</p>
@@ -99,7 +98,7 @@
 
 					<div class="col-lg-6 col-sm-6">
 						<div class="tag">
-							<div class="col-sm-5">
+							<div class="col-sm-4">
 								<div class="thumbnail-container">
 									<div class="thumbnail-checkbox-mask thumbnail-checkbox-mask-invisible">
 										<span class="circle-pattern">&#xEC61;</span>
@@ -110,7 +109,7 @@
 								</div>
 							</div>
 							<div class="col-sm-7">
-								<div class="header">
+								<div class="item-info-container">
 									<a href="#">Midnight Cowboy</a>
 									<p>Romantic</p>
 									<p>6-11-2017 13:25:30</p>
@@ -123,7 +122,7 @@
 
 					<div class="col-lg-6 col-sm-6">
 						<div class="tag">
-							<div class="col-sm-5">
+							<div class="col-sm-4">
 								<div class="thumbnail-container">
 									<div class="thumbnail-checkbox-mask thumbnail-checkbox-mask-invisible">
 										<span class="circle-pattern">&#xEC61;</span>
@@ -134,7 +133,7 @@
 								</div>
 							</div>
 							<div class="col-sm-7">
-								<div class="header">
+								<div class="item-info-container">
 									<a href="#">Musician</a>
 									<p>Music</p>
 									<p>6-10-2017 13:25:30</p>
@@ -147,7 +146,7 @@
 
 					<div class="col-lg-6 col-sm-6">
 						<div class="tag">
-							<div class="col-sm-5">
+							<div class="col-sm-4">
 								<div class="thumbnail-container">
 									<div class="thumbnail-checkbox-mask thumbnail-checkbox-mask-invisible">
 										<span class="circle-pattern">&#xEC61;</span>
@@ -158,7 +157,7 @@
 								</div>
 							</div>
 							<div class="col-sm-7">
-								<div class="header">
+								<div class="item-info-container">
 									<a href="#">The Flash</a>
 									<p>Action</p>
 									<p>6-9-2017 13:25:30</p>
@@ -171,7 +170,7 @@
 
 					<div class="col-lg-6 col-sm-6">
 						<div class="tag">
-							<div class="col-sm-5">
+							<div class="col-sm-4">
 								<div class="thumbnail-container">
 									<div class="thumbnail-checkbox-mask thumbnail-checkbox-mask-invisible">
 										<span class="circle-pattern">&#xEC61;</span>
@@ -182,7 +181,7 @@
 								</div>
 							</div>
 							<div class="col-sm-7">
-								<div class="header">
+								<div class="item-info-container">
 									<a href="#">In the Flesh</a>
 									<p>Thriller</p>
 									<p>6-11-2017 13:25:30</p>
@@ -195,7 +194,7 @@
 
 					<div class="col-lg-6 col-sm-6">
 						<div class="tag">
-							<div class="col-sm-5">
+							<div class="col-sm-4">
 								<div class="thumbnail-container">
 									<div class="thumbnail-checkbox-mask thumbnail-checkbox-mask-invisible">
 										<span class="circle-pattern">&#xEC61;</span>
@@ -206,7 +205,7 @@
 								</div>
 							</div>
 							<div class="col-sm-7">
-								<div class="header">
+								<div class="item-info-container">
 									<a href="#">Red Oak</a>
 									<p>Story</p>
 									<p>6-10-2017 13:25:30</p>
@@ -219,7 +218,7 @@
 
 					<div class="col-lg-6 col-sm-6">
 						<div class="tag">
-							<div class="col-sm-5">
+							<div class="col-sm-4">
 								<div class="thumbnail-container">
 									<div class="thumbnail-checkbox-mask thumbnail-checkbox-mask-invisible">
 										<span class="circle-pattern">&#xEC61;</span>
@@ -230,7 +229,7 @@
 								</div>
 							</div>
 							<div class="col-sm-7">
-								<div class="header">
+								<div class="item-info-container">
 									<a href="#">Vinyl</a>
 									<p>6-9-2017 13:25:30</p>
 									<p>A story of a man.</p>
