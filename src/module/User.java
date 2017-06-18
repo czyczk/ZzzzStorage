@@ -8,6 +8,7 @@ public class User {
     private String username;
     private String password;
     private String email;
+    private int avatarId;
 
     public int getId() {
         return id;
@@ -37,6 +38,9 @@ public class User {
         this.email = email;
     }
 
+    public int getAvatarId() { return avatarId; }
+    public void setAvatarId(int avatarId) { this.avatarId = avatarId; }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -45,6 +49,7 @@ public class User {
         User user = (User) o;
 
         if (id != user.id) return false;
+        if (avatarId != user.avatarId) return false;
         if (username != null ? !username.equals(user.username) : user.username != null) return false;
         if (password != null ? !password.equals(user.password) : user.password != null) return false;
         return email != null ? email.equals(user.email) : user.email == null;
@@ -56,6 +61,7 @@ public class User {
         result = 31 * result + (username != null ? username.hashCode() : 0);
         result = 31 * result + (password != null ? password.hashCode() : 0);
         result = 31 * result + (email != null ? email.hashCode() : 0);
+        result = 31 * result + avatarId;
         return result;
     }
 
@@ -66,6 +72,7 @@ public class User {
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", email='" + email + '\'' +
+                ", avatarId=" + avatarId +
                 '}';
     }
 }
