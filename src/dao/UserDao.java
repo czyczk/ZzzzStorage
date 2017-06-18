@@ -94,10 +94,25 @@ public class UserDao implements IUserDao {
         }
     }
 
+    /**
+     * Delete the user with the given ID.
+     * @param id The ID of the user to be deleted.
+     */
     @Override
     public void delete(int id) {
-        // TODO
-        throw new NotImplementedException();
+        Connection con = DBUtil.getConnection();
+        PreparedStatement ps = null;
+        String sql = "DELETE FROM mv_user WHERE id = ?";
+        try {
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, id);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DBUtil.close(ps);
+            DBUtil.close(con);
+        }
     }
 
     /**
@@ -143,7 +158,9 @@ public class UserDao implements IUserDao {
             ps = con.prepareStatement(sql);
             ps.setInt(1, id);
             rs = ps.executeQuery();
-            result = toUser(rs);
+            while (rs.next()) {
+                result = toUser(rs);
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -170,7 +187,9 @@ public class UserDao implements IUserDao {
             ps = con.prepareStatement(sql);
             ps.setString(1, email.toLowerCase());
             rs = ps.executeQuery();
-            result = toUser(rs);
+            while (rs.next()) {
+                result = toUser(rs);
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -232,15 +251,12 @@ public class UserDao implements IUserDao {
 
     // Convert the data on the current cursor of the result set into a User object.
     private User toUser(ResultSet rs) throws SQLException {
-        User result = null;
-        while (rs.next()) {
-            result = new User();
-            result.setId(rs.getInt("id"));
-            result.setUsername(rs.getString("username"));
-            result.setPassword(rs.getString("password"));
-            result.setEmail(rs.getString("email"));
-            result.setAvatarId(rs.getInt("avatar_id"));
-        }
+        User result = new User();
+        result.setId(rs.getInt("id"));
+        result.setUsername(rs.getString("username"));
+        result.setPassword(rs.getString("password"));
+        result.setEmail(rs.getString("email"));
+        result.setAvatarId(rs.getInt("avatar_id"));
         return result;
     }
 }
