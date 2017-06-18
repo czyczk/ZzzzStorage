@@ -25,3 +25,12 @@ hs_err_pid*
 # built files & idea config files
 .idea
 out
+
+# Test classes in src
+src/test
+
+# Backup Files
+backup
+
+# Derby Database Log Files
+derby.log
