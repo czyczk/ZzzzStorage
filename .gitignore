@@ -32,5 +32,6 @@ src/test
 # Backup Files
 backup
 
-# Derby Database Log Files
+# Derby Database Files
 derby.log
+zzzz_media_vault/
