@@ -16,6 +16,9 @@ import java.util.List;
  * Created by czyczk on 2017-6-18.
  */
 public class UserDao implements IUserDao {
+    // Package-accessible constructor
+    UserDao() { }
+
     // Maintain the number of total users
     private Integer numTotalUsers = null;
     public int getNumTotalUsers() {
