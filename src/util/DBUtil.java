@@ -129,13 +129,13 @@ public class DBUtil {
                 ps.execute();
                 close(ps);
                 // Create a default admin if (tableName == "user")
-                if (tableName.equals("mv_user")) {
-                    String extraSql = "INSERT INTO mv_user VALUES (0, 'admin', 'admin', 'admin', 1)";
-                    ps = con.prepareStatement(extraSql);
-                    ps.executeUpdate();
-                    close(ps);
-                    System.out.println("Admin account created.");
-                }
+//                if (tableName.equals("mv_user")) {
+//                    String extraSql = "INSERT INTO mv_user VALUES (0, 'admin', 'admin', 'admin', 1)";
+//                    ps = con.prepareStatement(extraSql);
+//                    ps.executeUpdate();
+//                    close(ps);
+//                    System.out.println("Admin account created.");
+//                }
                 System.out.println("Finished creating table \"" + tableName + "\".");
             }
             System.out.println("All tables have been created.");
