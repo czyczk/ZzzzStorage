@@ -6,7 +6,7 @@ CREATE TABLE episode (
   episode_no int NOT NULL,
   SHA256 char(64) NOT NULL,
   size int NOT NULL,
-  title varchar(5) DEFAULT NULL,
+  title varchar(255) DEFAULT NULL,
   runtime int DEFAULT NULL,
   storyline varchar(255) DEFAULT NULL,
   thumb_url varchar(255) DEFAULT NULL,

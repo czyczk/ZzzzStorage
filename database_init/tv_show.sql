@@ -3,7 +3,7 @@ CREATE TABLE tv_show (
   imdb int NOT NULL,
   season int NOT NULL,
   owner_id int NOT NULL,
-  title varchar(7) NOT NULL,
+  title varchar(255) NOT NULL,
   release_year int DEFAULT NULL,
   runtime int DEFAULT NULL,
   plot varchar(255) DEFAULT NULL,
