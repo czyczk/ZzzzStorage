@@ -23,7 +23,7 @@ hs_err_pid*
 
 # built files & IDEA config files
 .idea
-.iml
+*.iml
 out
 
 # Test classes in src
