@@ -1,5 +1,7 @@
 package util;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.nio.file.Paths;
 import java.sql.*;
 import java.util.ArrayList;
@@ -11,8 +13,30 @@ import java.util.List;
  * Created by czyczk on 2017-6-17.
  */
 public class DBUtil {
-    private static final String DB_INIT_DIRECTORY = Paths.get(System.getProperty("user.dir") + "/database_init").toString();
+//    private static final String DB_INIT_DIRECTORY = Paths.get(System.getProperty("user.dir") + "/database_init").toString();
     private static final String DB_NAME = "zzzz_media_vault";
+    private static String getRootOfClasses() {
+        String root = null;
+        try {
+            root = URLDecoder.decode(
+                    Paths.get(
+                            (DBUtil.class.getResource("/").getPath().substring(1))
+                    ).toString(),
+                    "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return root;
+    }
+    private static String getRootOfProject() {
+        return getRootOfClasses().replace("WEB-INF/classes/", "");
+    }
+    public static String getDbDirectory() {
+        return getRootOfProject() + "/database";
+    }
+    private static String getDbInitDirectory() {
+        return getRootOfClasses() + "/database_init";
+    }
     // Tables needed
     private static final String[] TABLE_NAMES = {
             "mv_user",
@@ -21,28 +45,29 @@ public class DBUtil {
             "music", "music_genre", "music_artist"
     };
 
-    public static void createDatabase() {
+    private static Connection createDatabase() {
         Connection con = null;
         try {
-            con = DriverManager.getConnection("jdbc:derby:" + DB_NAME + ";create=true");
+            DriverManager.registerDriver(new org.apache.derby.jdbc.EmbeddedDriver());
+            con = DriverManager.getConnection("jdbc:derby:" + getDbDirectory() + "/" + DB_NAME + ";create=true");
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            close(con);
         }
+        return con;
     }
 
     public static Connection getConnection() {
         Connection con = null;
         try {
 //            Class.forName("org.sqlite.JDBC");
-            con = DriverManager.getConnection("jdbc:derby:" + DB_NAME);
+            DriverManager.registerDriver(new org.apache.derby.jdbc.EmbeddedDriver());
+            con = DriverManager.getConnection("jdbc:derby:" + getDbDirectory() + "/" + DB_NAME);
         } catch (SQLException e) {
             if (e.getErrorCode() == 40000) {
                 // Handle error 40000: Database not found  -> Create the database
-                createDatabase();
-                // Retry getting connection
-                return getConnection();
+                return createDatabase();
+//                // Retry getting connection
+//                return getConnection();
             } else {
                 e.printStackTrace();
             }
@@ -80,7 +105,7 @@ public class DBUtil {
         }
     }
 
-    public static boolean hasTable(String tableName) {
+    private static boolean hasTable(String tableName) {
         Connection con = null;
         ResultSet rs = null;
 
@@ -101,13 +126,34 @@ public class DBUtil {
         return false;
     }
 
-    private static List<String> checkForMissingTables() {
-        List<String> missingTables = new ArrayList<>();
-        for (String tableName : TABLE_NAMES) {
-            if (!hasTable(tableName)) {
-                System.out.println("Table \"" + tableName + "\" doesn't exist.");
-                missingTables.add(tableName);
+    // Check for the existence of the tables passed in. Missing tables returned.
+    private static List<String> hasTables(String[] tableNames) {
+        Connection con = null;
+        ResultSet rs = null;
+        List<String> missingTables = new ArrayList<String>();
+
+        try {
+            con = getConnection();
+            DatabaseMetaData metaData = con.getMetaData();
+            for (String tableName : tableNames) {
+                rs = metaData.getTables(null, null, tableName.toUpperCase(), null);
+                if (!rs.next()) {
+                    missingTables.add(tableName);
+                }
+                close(rs);
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            close(con);
+        }
+        return missingTables;
+    }
+
+    private static List<String> checkForMissingTables() {
+        List<String> missingTables = hasTables(TABLE_NAMES);
+        for (String tableName : missingTables) {
+            System.out.println("Table \"" + tableName + "\" doesn't exist.");
         }
         return missingTables;
     }
@@ -115,7 +161,10 @@ public class DBUtil {
     public static void createTablesIfNotExist() {
         // Return if all tables exist
         List<String> missingTables = checkForMissingTables();
-        if (missingTables.size() == 0) return;
+        if (missingTables.size() == 0) {
+            System.out.println("Database set.");
+            return;
+        }
 
         Connection con = null;
         try {
@@ -123,7 +172,7 @@ public class DBUtil {
             for (String tableName : missingTables) {
                 PreparedStatement ps = null;
                 System.out.println("Creating table \"" + tableName + "\".");
-                String path = DB_INIT_DIRECTORY + "/" + tableName + ".sql";
+                String path = getDbInitDirectory() + "/" + tableName + ".sql";
                 String sql = FileUtil.readTextFile(path);
                 ps = con.prepareStatement(sql);
                 ps.execute();
@@ -145,34 +194,4 @@ public class DBUtil {
             close(con);
         }
     }
-
-//    public static void test() {
-//        int numOfTables = countNumberOfTables();
-//        System.out.println("There are " + numOfTables + " table(s).");
-//        // Return if there are tables
-//        if (numOfTables > 0) return;
-//
-//        Connection con = null;
-//        try {
-//            con = getConnection();
-//            String tableName = "User";
-//            PreparedStatement ps = null;
-//            System.out.println("Creating table `" + tableName + "`.");
-//            String path = DB_INIT_DIRECTORY + "/" + tableName + ".sql";
-//            String sql = FileUtil.readTextFile(path);
-//            System.out.println(sql);
-//            ps = con.prepareStatement(sql);
-//            ps.executeUpdate();
-//            close(ps);
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        } finally {
-//            close(con);
-//        }
-//
-//        numOfTables = countNumberOfTables();
-//        System.out.println("There are " + numOfTables + " table(s).");
-//    }
-
-//    public static void
 }
