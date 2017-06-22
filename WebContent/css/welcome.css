@@ -47,18 +47,27 @@ body {
 	margin-top: 0.8em;
 }
 
+label {
+    font-weight: normal;
+}
+
 .error{
 	color: red;
+    font-weight: normal;
+    margin-top: 0.5rem;
+}
+
+.modal-title {
+    font-family: "Neue Haas Unica W1G", Helvetica, "Segoe UI", "Arial Nova", "Arial", sans-serif;
 }
 
 .modal .modal-content .modal-body {
 	color: gray;
 	line-height: 150%;
+    font-family: "Neue Haas Unica W1G", Helvetica, "Segoe UI", "Arial Nova", "Arial", sans-serif;
+    font-weight: normal;
 }
 
-div.modal-body {
-	font-family: "Segoe UI";
-}
 div.modal-body h4 {
 	margin-bottom: 4px;
 }

@@ -5,8 +5,8 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Welcome</title>
-    <link rel="stylesheet" href="css/welcome.css">
     <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="css/welcome.css">
     <script src="jQuery/jquery.min.js"></script>
     <script src="jQuery/jquery.validate.min.js"></script>
     <script src="js/bootstrap/bootstrap.js"></script>
@@ -39,10 +39,10 @@
             <div class="modal-content" style="width: 400px; margin: 0 auto">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title" id="myModalLabel1" style = "text-align: center; color: gray"><b>Media Vault Sign Up</b></h4>
+                    <h4 class="modal-title" id="myModalLabel1" style = "text-align: center; color: gray">Sign Up</h4>
                 </div>
                 <div class="modal-body">
-                    <form action="" id="register">
+                    <form action="SignUpServlet" method="post" id="register">
                         <div class="form-group">
                                 <label for="recipient-name" class="control-label" style="color: gray;">Username: </label>
                                 <input type="text" class="form-control" id="recipient-name" name="username">
@@ -76,7 +76,7 @@
             <div class="modal-content" style="width: 400px; margin: 0 auto">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title" id="myModalLabel2" style = "text-align: center; color: gray"><b>Media Vault Log In</b></h4>
+                    <h4 class="modal-title" id="myModalLabel2" style = "text-align: center; color: gray">Log In</h4>
                 </div>
                 <div class="modal-body">
                     <form>
