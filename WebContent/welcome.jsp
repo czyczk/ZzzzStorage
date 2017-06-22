@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
+<% String errorMessage = (String) request.getAttribute("errorMessage"); %>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -42,7 +43,7 @@
                     <h4 class="modal-title" id="myModalLabel1" style = "text-align: center; color: gray">Sign Up</h4>
                 </div>
                 <div class="modal-body">
-                    <form action="SignUpServlet" method="post" id="register">
+                    <form action="SignUpServlet" method="post" id="sign-up-form">
                         <div class="form-group">
                                 <label for="recipient-name" class="control-label" style="color: gray;">Username: </label>
                                 <input type="text" class="form-control" id="recipient-name" name="username">
@@ -79,17 +80,19 @@
                     <h4 class="modal-title" id="myModalLabel2" style = "text-align: center; color: gray">Log In</h4>
                 </div>
                 <div class="modal-body">
-                    <form>
+                    <form action="LogInServlet" method="post" id="log-in-form">
                         <div class="form-group">
-                            <label for="recipient-name" class="control-label" style="color: gray;">Username: </label>
-                            <input type="text" class="form-control" id="recipient-name1">
+                            <label for="email" class="control-label" style="color: gray;">Email: </label>
+                            <input type="email" class="form-control" id="email1" name="email">
                         </div>
                         <div class="form-group">
                             <label for="password" class="control-label" style="color: gray;">Password: </label>
-                            <input type="password" class="form-control" id="password1">
+                            <input type="password" class="form-control" id="password1" name="password">
                         </div>
                         <div>
-                            <button type="button" onclick="window.location.href='main.jsp'" class="btn btn-default" style="width: 345px; margin-top: 10px">Log In</button>
+                            <button type="submit" class="btn btn-default" style="width: 345px; margin-top: 10px">Log In</button>
+                            <!-- Redirection is delegated to LogInServlet -->
+                            <!-- onclick="window.location.href='main.jsp'" -->
                             <!--<button type="reset" class="btn btn-default">Reset</button>-->
                         </div>
                     </form>

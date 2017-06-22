@@ -4,6 +4,7 @@ import dao.DaoFactory;
 import dao.UserDao;
 import dao.UserDaoException;
 import model.User;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,8 +16,8 @@ import java.io.IOException;
 /**
  * Created by czyczk on 2017-6-22.
  */
-@WebServlet("/LogInServlet")
-public class LogInServlet extends HttpServlet {
+@WebServlet("/SignUpServlet")
+public class SignUpServlet extends HttpServlet {
     private UserDao userDao = DaoFactory.getUserDao();
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -27,26 +28,34 @@ public class LogInServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         // Get parameters
         String email = req.getParameter("email");
+        String username = req.getParameter("username");
         String password = req.getParameter("password");
 
-        // Try to log in. No exception is thrown if success. Error type is indicated in the exception.
-        User user = null;
+        // Create a User object according to the parameters
+        User user = new User();
+        user.setEmail(email);
+        user.setUsername(username);
+        user.setPassword(password);
+        user.setAvatarId(1);
+
+        // Try to add the user. An exception is thrown if the user exists.
         try {
-            user = userDao.login(email, password);
+            userDao.add(user);
         } catch (UserDaoException e) {
-            String errorMessage = e.getMessage();
+            // In case the user exists, send an error message to the page
+            System.err.println("[Sign up error] The email address \"" + email + "\" has been used.");
+            String errorMessage = "The email address has been used.";
             req.setAttribute("errorMessage", errorMessage);
             req.getRequestDispatcher("welcome.jsp").forward(req, resp);
             return;
         }
 
         // If no error occurs, update the attributes of the session and forward to the main page
-        System.out.println("[Log in] User with email \"" + email + "\" logged in.");
-        req.getSession().setAttribute("email", email);
+        System.out.println("[Sign up] A new user has been created. Email=\"" + email + "\". Username=\"" + username + "\".");
         req.getSession().setAttribute("username", user.getUsername());
         req.getSession().setAttribute("email", user.getEmail());
-        req.getSession().setAttribute("avatar_id", user.getAvatarId());
-        req.getSession().setAttribute("user_id", user.getId());
+        req.getSession().setAttribute("avatar_id", 1); // The new user is assigned with a default avatar.
+        req.getSession().setAttribute("user_id", userDao.getNumTotalUsers()); // The ID of the new user is assigned by the user DAO.
         resp.setCharacterEncoding("UTF-8");
         resp.sendRedirect("main.jsp");
     }

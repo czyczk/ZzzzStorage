@@ -1,8 +1,6 @@
 package dao;
 
-import com.sun.org.apache.regexp.internal.RE;
-import module.User;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+import model.User;
 import util.DBUtil;
 
 import java.sql.Connection;
@@ -21,7 +19,7 @@ public class UserDao implements IUserDao {
 
     // Maintain the number of total users
     private volatile Integer numTotalUsers = null;
-    private int getNumTotalUsers() {
+    public int getNumTotalUsers() {
         if (numTotalUsers == null) {
             synchronized (this) {
                 if (numTotalUsers == null) {

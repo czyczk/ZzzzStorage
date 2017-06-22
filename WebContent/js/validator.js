@@ -1,5 +1,6 @@
 $(document).ready(function(){
-	$('#register').validate({
+    // The validator for #sign-up-form
+	$('#sign-up-form').validate({
 		rules: {
 			username: {
 				required: true,
@@ -44,5 +45,11 @@ $(document).ready(function(){
 		unhighlight: function(element,errorClass){
 			$(element).parent().removeClass("has-error");
 		}
-	})
-})
+	});
+
+	// The validator for #log-in-form
+	$("#log-in-form").validate({
+        // TODO
+    });
+
+});
