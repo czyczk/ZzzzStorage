@@ -20,32 +20,36 @@ public class UserDao implements IUserDao {
     UserDao() { }
 
     // Maintain the number of total users
-    private Integer numTotalUsers = null;
-    public int getNumTotalUsers() {
+    private volatile Integer numTotalUsers = null;
+    private int getNumTotalUsers() {
         if (numTotalUsers == null) {
-            Connection con = DBUtil.getConnection();
-            PreparedStatement ps = null;
-            ResultSet rs = null;
-            String sql =
-                    "SELECT count(*) " +
-                    "FROM mv_user";
-            try {
-                ps = con.prepareStatement(sql);
-                rs = ps.executeQuery();
-                while (rs.next()) {
-                    numTotalUsers = rs.getInt(1);
+            synchronized (this) {
+                if (numTotalUsers == null) {
+                    Connection con = DBUtil.getConnection();
+                    PreparedStatement ps = null;
+                    ResultSet rs = null;
+                    String sql =
+                            "SELECT count(*) " +
+                                    "FROM mv_user";
+                    try {
+                        ps = con.prepareStatement(sql);
+                        rs = ps.executeQuery();
+                        while (rs.next()) {
+                            numTotalUsers = rs.getInt(1);
+                        }
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    } finally {
+                        DBUtil.close(rs);
+                        DBUtil.close(ps);
+                        DBUtil.close(con);
+                    }
                 }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            } finally {
-                DBUtil.close(rs);
-                DBUtil.close(ps);
-                DBUtil.close(con);
             }
         }
         return numTotalUsers;
     }
-    private int incrementAndGetNumTotalUsers() {
+    private synchronized int incrementAndGetNumTotalUsers() {
         numTotalUsers = getNumTotalUsers() + 1;
         return numTotalUsers;
     }
