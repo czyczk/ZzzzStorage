@@ -21,21 +21,21 @@ $(document).ready(function(){
 		},
 		messages: {
 			username: {
-				required: 'Please enter a Username.',
-				minlength: 'Username should not be less than 2 words.',
-				maxlength: 'Username should not be more than 10 words'
+				required: 'Please enter a username.',
+				minlength: 'The username should not be less than 2 words.',
+				maxlength: 'The username should not be more than 10 words.'
 			},
 			email: {
 				required: 'Please enter an email.',
-				email: 'Please enter a correct email format.'
+				email: 'Email format incorrect.'
 			},
 			password: {
-				required: 'Please enter password.',
-				minlength: 'Password should not be less than 2 words.',
-				maxlength: 'Password should not be more than 2 words'
+				required: 'Please enter a password.',
+				minlength: 'The password should not be less than 2 words.',
+				maxlength: 'The password should not be more than 16 words.'
 			},
 			cpassword: {
-				equalTo: 'Two input password must be consistent.'
+				equalTo: 'Passwords inconsistent.'
 			}
 		},
 		highlight: function(element, errorClass, validClass){
