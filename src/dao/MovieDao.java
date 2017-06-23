@@ -3,10 +3,8 @@ package dao;
 import model.Movie;
 import util.DBUtil;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,6 +21,7 @@ class MovieDao implements ILibraryItemDao<Movie> {
         PreparedStatement ps = null;
         try {
             con = DBUtil.getConnection();
+            // Insert basic info
             String sql =
                     "INSERT INTO movie(" +
                             "imdb, " +
@@ -33,7 +32,7 @@ class MovieDao implements ILibraryItemDao<Movie> {
                             "release_year, " +
                             "duration, " +
                             "plot, " +
-                            "thumbnail_url, " +
+                            "thumb_url, " +
                             "rating) " +
                     "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             ps = con.prepareStatement(sql);
@@ -42,12 +41,27 @@ class MovieDao implements ILibraryItemDao<Movie> {
             ps.setString(3, item.getSHA256());
             ps.setLong(4, item.getSize());
             ps.setString(5, item.getTitle());
-            ps.setInt(6, item.getReleaseYear());
-            ps.setInt(7, item.getDuration());
-            ps.setString(8, item.getPlot());
-            ps.setString(9, item.getThumbUrl());
-            ps.setDouble(10, item.getRating());
+
+            if (item.getReleaseYear() != null) ps.setInt(6, item.getReleaseYear());
+            else ps.setNull(6, Types.INTEGER);
+
+            if (item.getDuration() != null) ps.setInt(7, item.getDuration());
+            else ps.setNull(7, Types.INTEGER);
+
+            if (item.getPlot() != null) ps.setString(8, item.getPlot());
+            else ps.setNull(8, Types.VARCHAR);
+
+            if (item.getThumbUrl() != null) ps.setString(9, item.getThumbUrl());
+            else ps.setNull(9, Types.VARCHAR);
+
+            if (item.getRating() != null) ps.setDouble(10, item.getRating());
+            else ps.setNull(10, Types.DOUBLE);
             ps.executeUpdate();
+
+            // Insert director info
+            updateAdditionalInfo(item, "director");
+            // Insert genre info
+            updateAdditionalInfo(item, "genre");
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -118,6 +132,8 @@ class MovieDao implements ILibraryItemDao<Movie> {
     }
 
     public List<Movie> list() {
+        List<Movie> result = new ArrayList<>();
+
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -127,6 +143,12 @@ class MovieDao implements ILibraryItemDao<Movie> {
             String sql = "SELECT * FROM movie";
             ps = con.prepareStatement(sql);
             rs = ps.executeQuery();
+            while (rs.next()) {
+                Movie movie = toMovie(rs);
+                movie.setDirector(queryAdditionalInfo(movie, "director"));
+                movie.setGenre(queryAdditionalInfo(movie, "genre"));
+                result.add(movie);
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -134,8 +156,7 @@ class MovieDao implements ILibraryItemDao<Movie> {
             DBUtil.close(ps);
             DBUtil.close(con);
         }
-        return null;
-
+        return result;
     }
 
     // Convert the data on the current cursor of the result set into a Movie object.
@@ -165,7 +186,7 @@ class MovieDao implements ILibraryItemDao<Movie> {
     // Query additional info of an item (deterministic information must be provided) (null if no additional info returned)
     private String[] queryAdditionalInfo(Movie item, String infoType) {
         if (!infoType.equals("director") && !infoType.equals("genre"))
-            throw new IllegalArgumentException("Info type should be \"director\" or \"genre\".");
+            throw new IllegalArgumentException("Info type should be either \"director\" or \"genre\".");
 
         Connection con = null;
         PreparedStatement ps = null;
@@ -210,5 +231,51 @@ class MovieDao implements ILibraryItemDao<Movie> {
             DBUtil.close(con);
         }
         return null;
+    }
+
+    private void updateAdditionalInfo(Movie item, String infoType) {
+        Connection con = null;
+        PreparedStatement ps = null;
+
+        try {
+            switch (infoType) {
+                case "director":
+                    if (item.getDirector() != null) {
+                        con = DBUtil.getConnection();
+                        String sql = "INSERT INTO movie_director(imdb, owner_id, director)" +
+                                "VALUES(?, ?, ?)";
+                        for (String director : item.getDirector()) {
+                            ps = con.prepareStatement(sql);
+                            ps.setInt(1, item.getImdb());
+                            ps.setInt(2, item.getOwnerId());
+                            ps.setString(3, director);
+                            ps.executeUpdate();
+                            DBUtil.close(ps);
+                        }
+                    }
+                    break;
+                case "genre":
+                    if (item.getGenre() != null) {
+                        con = DBUtil.getConnection();
+                        String sql = "INSERT INTO movie_genre(imdb, owner_id, genre)" +
+                                "VALUES(?, ?, ?)";
+                        for (String genre : item.getGenre()) {
+                            ps = con.prepareStatement(sql);
+                            ps.setInt(1, item.getImdb());
+                            ps.setInt(2, item.getOwnerId());
+                            ps.setString(3, genre);
+                            ps.executeUpdate();
+                            DBUtil.close(ps);
+                        }
+                    }
+                    break;
+                    default: throw new IllegalArgumentException("Info type should be either \"director\" or \"genre\".");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DBUtil.close(ps);
+            DBUtil.close(con);
+        }
     }
 }

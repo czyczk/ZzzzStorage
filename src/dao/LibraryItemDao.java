@@ -34,11 +34,15 @@ public class LibraryItemDao implements ILibraryItemDao<LibraryItem> {
         // TODO
     }
 
-    public List<? extends LibraryItem> list(MediaTypeEnum mediaType) {
-        switch (mediaType) {
-            case MOVIE:
-                return DaoFactory.getMovieDao().list();
-            default: throw new IllegalArgumentException("Media type not recognized.");
-        }
+//    public List<? extends LibraryItem> list(MediaTypeEnum mediaType) {
+//        switch (mediaType) {
+//            case MOVIE:
+//                return DaoFactory.getMovieDao().list();
+//            default: throw new IllegalArgumentException("Media type not recognized.");
+//        }
+//    }
+
+    public List<Movie> listMovies() {
+        return DaoFactory.getMovieDao().list();
     }
 }
