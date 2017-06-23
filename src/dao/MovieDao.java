@@ -140,7 +140,7 @@ class MovieDao implements ILibraryItemDao<Movie> {
             ps.setInt(1, item.getImdb());
             ps.setInt(2, item.getOwnerId());
             rs = ps.executeQuery();
-            // There is a same movie belonging to the user
+            // If there is a match, extract its basic info
             while (rs.next()) {
                 result = toMovie(rs);
             }
