@@ -3,7 +3,9 @@ package servlet;
 import dao.DaoFactory;
 import dao.UserDao;
 import dao.UserDaoException;
+import model.ServletMessage;
 import model.User;
+import util.JsonUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -38,24 +40,25 @@ public class LogInServlet extends HttpServlet {
             System.err.println("[Log in error] " + errorMessage);
 //            req.setAttribute("errorMessage", errorMessage);
 //            req.getRequestDispatcher("welcome.jsp").forward(req, resp);
-            resp.setContentType("text/plain");
+            resp.setContentType("text/json");
             resp.setCharacterEncoding("UTF-8");
+            ServletMessage servletMessage = new ServletMessage();
+            servletMessage.setRequestStatus("error");
             if (errorMessage.contains("password")) {
-                resp.getWriter().write("Incorrect password.");
+                servletMessage.setMessage("Incorrect password.");
             } else {
-                resp.getWriter().write("The user with the email address does not exist.");
+                servletMessage.setMessage("The user with the email address does not exist.");
             }
+            resp.getWriter().write(servletMessage.toJson());
             return;
         }
 
         // If no error occurs, update the attributes of the session and forward to the main page
         System.out.println("[Log in] User with email \"" + email + "\" logged in.");
-        req.getSession().setAttribute("email", email);
-        req.getSession().setAttribute("username", user.getUsername());
-        req.getSession().setAttribute("email", user.getEmail());
-        req.getSession().setAttribute("avatar_id", user.getAvatarId());
-        req.getSession().setAttribute("user_id", user.getId());
+        req.getSession().setAttribute("activeUser", user);
+        ServletMessage servletMessage = new ServletMessage("success", "main.jsp");
+        resp.setContentType("text/json");
         resp.setCharacterEncoding("UTF-8");
-        resp.sendRedirect("main.jsp");
+        resp.getWriter().write(servletMessage.toJson());
     }
 }

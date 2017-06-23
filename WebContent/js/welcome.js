@@ -17,6 +17,7 @@ function handleSignUp() {
         url: "SignUpServlet",
         data: $("#sign-up-form").serialize(),
         type: "post",
+        dataType: "json",
         success: showMessage($("#sign-up-error-label"))
     });
 }
@@ -26,12 +27,18 @@ function handleLogIn() {
         url: "LogInServlet",
         data: $("#log-in-form").serialize(),
         type: "post",
+        dataType: "json",
         success: showMessage($("#log-in-error-label"))
     });
 }
 
 function showMessage(elementToShow) {
     return function (data) {
-        elementToShow.css("display", "inline").html(data);
+        if (data.requestStatus == "success") {
+            // data.redirect contains the string URL to redirect to
+            window.location.href = data.message;
+        } else {
+            elementToShow.css("display", "inline").html(data.message);
+        }
     }
 }

@@ -3,8 +3,8 @@ package servlet;
 import dao.DaoFactory;
 import dao.UserDao;
 import dao.UserDaoException;
+import model.ServletMessage;
 import model.User;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -44,22 +44,24 @@ public class SignUpServlet extends HttpServlet {
         } catch (UserDaoException e) {
             // In case the user exists, send an error message to the page
             System.err.println("[Sign up error] The email address \"" + email + "\" has been used.");
-            String errorMessage = "The email address has been used.";
+            ServletMessage servletMessage = new ServletMessage("error", "The email address has been used.");
 //            req.setAttribute("errorMessage", errorMessage);
 //            req.getRequestDispatcher("welcome.jsp").forward(req, resp);
-            resp.setContentType("text/plain");
+            resp.setContentType("text/json");
             resp.setCharacterEncoding("UTF-8");
-            resp.getWriter().write(errorMessage);
+            resp.getWriter().write(servletMessage.toJson());
             return;
         }
 
         // If no error occurs, update the attributes of the session and forward to the main page
         System.out.println("[Sign up] A new user has been created. Email=\"" + email + "\". Username=\"" + username + "\".");
-        req.getSession().setAttribute("username", user.getUsername());
-        req.getSession().setAttribute("email", user.getEmail());
-        req.getSession().setAttribute("avatar_id", 1); // The new user is assigned with a default avatar.
-        req.getSession().setAttribute("user_id", userDao.getNumTotalUsers()); // The ID of the new user is assigned by the user DAO.
+        user.setAvatarId(1); // The new user is assigned with a default avatar.
+        user.setId(userDao.getNumTotalUsers()); // The ID of the new user is assigned by the user DAO
+        req.getSession().setAttribute("activeUser", user);
+        resp.setContentType("text/json");
         resp.setCharacterEncoding("UTF-8");
-        resp.sendRedirect("main.jsp");
+//        resp.sendRedirect("main.jsp");
+        ServletMessage servletMessage = new ServletMessage("success", "main.jsp");
+        resp.getWriter().write(servletMessage.toJson());
     }
 }

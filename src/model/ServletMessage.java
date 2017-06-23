@@ -1,9 +1,9 @@
-package servlet;
+package model;
 
 /**
  * Created by czyczk on 2017-6-23.
  */
-class ServletMessage {
+public class ServletMessage implements IJsonable {
     private String requestStatus;
     private String message;
     public String getRequestStatus() {
