@@ -225,10 +225,7 @@ class MovieDao implements ILibraryItemDao<Movie> {
 
     // Check if the sample item contains the deterministic characteristics of the target item.
     private boolean isDeterministic(Movie item) {
-        if (item.getImdb() == null || item.getOwnerId() == null) {
-            return false;
-        }
-        return true;
+        return !(item.getImdb() == null || item.getOwnerId() == null);
     }
 
     // Query additional info of an item (deterministic information must be provided) (null if no additional info returned)
