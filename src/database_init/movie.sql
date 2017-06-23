@@ -3,7 +3,7 @@ CREATE TABLE movie (
   imdb int NOT NULL,
   owner_id int NOT NULL,
   SHA256 char(64) NOT NULL,
-  size int NOT NULL,
+  size bigint NOT NULL,
   title varchar(255) NOT NULL,
   release_year int DEFAULT NULL,
   duration int DEFAULT NULL,
