@@ -11,6 +11,7 @@
     <script src="jQuery/jquery.min.js"></script>
     <script src="jQuery/jquery.validate.min.js"></script>
     <script src="js/bootstrap/bootstrap.js"></script>
+    <script src="js/welcome.js"></script>
 </head>
 <body>
     <nav class="navbar navbar-default navbar-fixed-top">
@@ -43,29 +44,31 @@
                     <h4 class="modal-title" id="myModalLabel1" style = "text-align: center; color: gray">Sign Up</h4>
                 </div>
                 <div class="modal-body">
-                    <form action="SignUpServlet" method="post" id="sign-up-form">
+                    <form id="sign-up-form">
                         <div class="form-group">
-                                <label for="recipient-name" class="control-label" style="color: gray;">Username: </label>
+                                <label for="recipient-name" class="control-label">Username: </label>
                                 <input type="text" class="form-control" id="recipient-name" name="username">
 
                         </div>
                         <div class="form-group">
-                                <label for="email" class="control-label" style="color: gray;">Email: </label>
+                                <label for="email" class="control-label">Email: </label>
                                 <input type="email" class="form-control" id="email" name="email">
                         </div>
                         <div class="form-group">
-                                <label for="password" class="control-label" style="color: gray;">Password: </label>
+                                <label for="password" class="control-label">Password: </label>
                                 <input type="password" class="form-control" id="password" name="password">
 
                         </div>
                         <div class="form-group">
-                            <label for="password" class="control-label" style="color: gray;">Confirm Password: </label>
+                            <label for="password" class="control-label">Confirm Password: </label>
                             <input type="password" class="form-control" id="cpassword" name="cpassword">
                         </div>
-                        <div>
-                            <button type="submit" class="btn btn-default" style="width: 345px; margin-top: 10px">Sign Up</button>
+                        <div class="form-group">
+                            <label class="error" style="display: none" id="sign-up-error-label"></label>
                         </div>
-
+                        <div>
+                            <button type="button" class="submit-button btn btn-default" id="sign-up-button">Sign Up</button>
+                        </div>
                     </form>
                 </div>
             </div>
@@ -80,17 +83,20 @@
                     <h4 class="modal-title" id="myModalLabel2" style = "text-align: center; color: gray">Log In</h4>
                 </div>
                 <div class="modal-body">
-                    <form action="LogInServlet" method="post" id="log-in-form">
+                    <form id="log-in-form">
                         <div class="form-group">
-                            <label for="email" class="control-label" style="color: gray;">Email: </label>
+                            <label for="email" class="control-label">Email: </label>
                             <input type="email" class="form-control" id="email1" name="email">
                         </div>
                         <div class="form-group">
-                            <label for="password" class="control-label" style="color: gray;">Password: </label>
+                            <label for="password" class="control-label">Password: </label>
                             <input type="password" class="form-control" id="password1" name="password">
                         </div>
+                        <div class="form-group">
+                            <label class="error" style="display: none" id="log-in-error-label"></label>
+                        </div>
                         <div>
-                            <button type="submit" class="btn btn-default" style="width: 345px; margin-top: 10px">Log In</button>
+                            <button type="button" class="submit-button btn btn-default" id="log-in-button">Log In</button>
                             <!-- Redirection is delegated to LogInServlet -->
                             <!-- onclick="window.location.href='main.jsp'" -->
                             <!--<button type="reset" class="btn btn-default">Reset</button>-->

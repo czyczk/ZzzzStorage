@@ -45,8 +45,11 @@ public class SignUpServlet extends HttpServlet {
             // In case the user exists, send an error message to the page
             System.err.println("[Sign up error] The email address \"" + email + "\" has been used.");
             String errorMessage = "The email address has been used.";
-            req.setAttribute("errorMessage", errorMessage);
-            req.getRequestDispatcher("welcome.jsp").forward(req, resp);
+//            req.setAttribute("errorMessage", errorMessage);
+//            req.getRequestDispatcher("welcome.jsp").forward(req, resp);
+            resp.setContentType("text/plain");
+            resp.setCharacterEncoding("UTF-8");
+            resp.getWriter().write(errorMessage);
             return;
         }
 

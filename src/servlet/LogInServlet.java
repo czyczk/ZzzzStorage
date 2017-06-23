@@ -35,8 +35,16 @@ public class LogInServlet extends HttpServlet {
             user = userDao.login(email, password);
         } catch (UserDaoException e) {
             String errorMessage = e.getMessage();
-            req.setAttribute("errorMessage", errorMessage);
-            req.getRequestDispatcher("welcome.jsp").forward(req, resp);
+            System.err.println("[Log in error] " + errorMessage);
+//            req.setAttribute("errorMessage", errorMessage);
+//            req.getRequestDispatcher("welcome.jsp").forward(req, resp);
+            resp.setContentType("text/plain");
+            resp.setCharacterEncoding("UTF-8");
+            if (errorMessage.contains("password")) {
+                resp.getWriter().write("Incorrect password.");
+            } else {
+                resp.getWriter().write("The user with the email address does not exist.");
+            }
             return;
         }
 
