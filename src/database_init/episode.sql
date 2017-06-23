@@ -5,7 +5,7 @@ CREATE TABLE episode (
   owner_id int NOT NULL,
   episode_no int NOT NULL,
   SHA256 char(64) NOT NULL,
-  size int NOT NULL,
+  size bigint NOT NULL,
   title varchar(255) DEFAULT NULL,
   runtime int DEFAULT NULL,
   storyline varchar(255) DEFAULT NULL,

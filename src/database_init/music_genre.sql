@@ -1,7 +1,7 @@
 /* DROP TABLE IF EXISTS music_genre; */
 CREATE TABLE music_genre (
   SHA256 char(64) NOT NULL,
-  size int NOT NULL,
+  size bigint NOT NULL,
   owner_id int NOT NULL,
   genre varchar(255) NOT NULL,
   PRIMARY KEY (SHA256,size,owner_id,genre),

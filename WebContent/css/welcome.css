@@ -61,6 +61,10 @@ label {
     font-family: "Neue Haas Unica W1G", Helvetica, "Segoe UI", "Arial Nova", "Arial", sans-serif;
 }
 
+.control-label {
+    color: gray;
+}
+
 .modal .modal-content .modal-body {
 	color: gray;
 	line-height: 150%;
@@ -97,4 +101,10 @@ div.modal-body p {
     left: 0px;
     background: inherit;
     z-index: -1;
+}
+
+.submit-button {
+    /*width: 345px; margin-top: 10px*/
+    width: 100%;
+    margin-top: 1rem;
 }

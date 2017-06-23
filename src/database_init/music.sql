@@ -1,7 +1,7 @@
 /* DROP TABLE IF EXISTS music; */
 CREATE TABLE music (
   SHA256 char(64) NOT NULL,
-  size int NOT NULL,
+  size bigint NOT NULL,
   owner_id int NOT NULL,
   title varchar(255) NOT NULL,
   album varchar(255) NOT NULL,
