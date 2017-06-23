@@ -6,6 +6,10 @@ import java.util.Arrays;
  * Created by czyczk on 2017-6-23.
  */
 public class Movie extends FileAssociatedItem {
+    public Movie() {
+        setMediaType(MediaTypeEnum.MOVIE);
+    }
+
     private Integer imdb;
     private Integer releaseYear;
     private Integer duration;
