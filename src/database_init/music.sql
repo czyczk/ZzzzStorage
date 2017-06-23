@@ -5,7 +5,7 @@ CREATE TABLE music (
   owner_id int NOT NULL,
   title varchar(255) NOT NULL,
   album varchar(255) NOT NULL,
-  track int NOT NULL,
+  track int DEFAULT NULL,
   rating int DEFAULT NULL,
   thumb_url varchar(255) DEFAULT NULL,
   PRIMARY KEY (SHA256,size,owner_id),
