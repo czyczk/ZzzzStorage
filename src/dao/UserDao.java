@@ -57,7 +57,7 @@ public class UserDao implements IUserDao {
      * @param user The user to be added.
      */
     @Override
-    public void add(User user) {
+    public synchronized void add(User user) {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -101,7 +101,7 @@ public class UserDao implements IUserDao {
      * @param id The ID of the user to be deleted.
      */
     @Override
-    public void delete(int id) {
+    public synchronized void delete(int id) {
         Connection con = DBUtil.getConnection();
         PreparedStatement ps = null;
         String sql = "DELETE FROM mv_user WHERE id = ?";
@@ -122,7 +122,7 @@ public class UserDao implements IUserDao {
      * @param user A User object containing updated information.
      */
     @Override
-    public void update(User user) {
+    public synchronized void update(User user) {
         Connection con = DBUtil.getConnection();
         PreparedStatement ps = null;
         String sql =
