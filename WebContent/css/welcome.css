@@ -62,11 +62,11 @@ label {
 }
 
 .control-label {
-    color: gray;
+    color: black;
 }
 
 .modal .modal-content .modal-body {
-	color: gray;
+	color: black;
 	line-height: 150%;
     font-family: "Neue Haas Unica W1G", Helvetica, "Segoe UI", "Arial Nova", "Arial", sans-serif;
     font-weight: normal;
@@ -85,7 +85,7 @@ div.modal-body p {
     -webkit-border-radius: 20px;
     -moz-border-radius: 20px;
     border-radius: 20px;
-    background: hsla(0, 0%, 100%, .3);
+    background: hsla(0, 0%, 100%, .7);
     position: relative;
     overflow: hidden;
 }
@@ -101,6 +101,10 @@ div.modal-body p {
     left: 0px;
     background: inherit;
     z-index: -1;
+    -webkit-filter: blur(300px);
+    -ms-filter: blur(300px);
+    filter: blur(300px);
+    margin:-30px;
 }
 
 .submit-button {
@@ -108,3 +112,10 @@ div.modal-body p {
     width: 100%;
     margin-top: 1rem;
 }
+
+.border-blue{
+    background-color:transparent ;
+    border: rgb(192, 211, 226) 1px solid;
+    color: black;
+}
+
