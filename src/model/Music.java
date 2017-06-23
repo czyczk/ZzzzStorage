@@ -8,8 +8,9 @@ import java.util.Arrays;
 public class Music extends FileAssociatedItem {
     private String album;
     private Integer track;
+    private Integer duration;
     private Integer rating;
-    private String thumb_url;
+    private String thumbUrl;
     private String[] artist;
     private String[] genre;
 
@@ -18,6 +19,13 @@ public class Music extends FileAssociatedItem {
     }
     public void setAlbum(String album) {
         this.album = album;
+    }
+
+    public Integer getDuration() {
+        return duration;
+    }
+    public void setDuration(int duration) {
+        this.duration = duration;
     }
 
     public Integer getTrack() {
@@ -34,11 +42,11 @@ public class Music extends FileAssociatedItem {
         this.rating = rating;
     }
 
-    public String getThumb_url() {
-        return thumb_url;
+    public String getThumbUrl() {
+        return thumbUrl;
     }
-    public void setThumb_url(String thumb_url) {
-        this.thumb_url = thumb_url;
+    public void setThumbUrl(String thumbUrl) {
+        this.thumbUrl = thumbUrl;
     }
 
     public String[] getArtist() {
@@ -64,9 +72,10 @@ public class Music extends FileAssociatedItem {
         sb.append("ownerId=").append(getOwnerId());
         sb.append('\n');
         sb.append("album='").append(album).append('\'');
+        sb.append(", duration=").append(duration);
         sb.append(", track=").append(track);
         sb.append(", rating=").append(rating);
-        sb.append(", thumb_url='").append(thumb_url).append('\'');
+        sb.append(", thumb_url='").append(thumbUrl).append('\'');
         sb.append('\n');
         sb.append("artist=").append(Arrays.toString(artist));
         sb.append(", genre=").append(Arrays.toString(genre));

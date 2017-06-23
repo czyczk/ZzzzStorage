@@ -6,6 +6,7 @@ CREATE TABLE music (
   title varchar(255) NOT NULL,
   album varchar(255) NOT NULL,
   track int DEFAULT NULL,
+  duration int DEFAULT NULL,
   rating int DEFAULT NULL,
   thumb_url varchar(255) DEFAULT NULL,
   PRIMARY KEY (SHA256,size,owner_id),
