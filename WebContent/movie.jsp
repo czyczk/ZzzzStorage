@@ -33,7 +33,7 @@
 							<a class="glyphicon glyphicon-home" href="main.jsp">&nbsp;Home</a>
 						</li>
 						<li class="active">
-							<a href="movie.jsp" data-toggle="tab" class="glyphicon glyphicon-film">&nbsp;Movie</a>
+							<a href="movie.jsp" class="glyphicon glyphicon-film">&nbsp;Movie</a>
 						</li>
 						<li>
 							<a href="TVShow.jsp" class="glyphicon glyphicon-facetime-video">&nbsp;TV<span style="color: rgb(248,248,248);">-</span>Show</a>
@@ -48,7 +48,7 @@
 							<a href="download.jsp" class="glyphicon glyphicon-save">&nbsp;Download</a>
 						</li>
 						<li>
-							<a data-toggle="tab" class="glyphicon glyphicon-log-out" href="#">&nbsp;Log<span style="color: rgb(248,248,248);">-</span>Out</a>
+							<a class="glyphicon glyphicon-log-out" href="welcome.jsp">&nbsp;Log<span style="color: rgb(248,248,248);">-</span>Out</a>
 						</li>
 					</ul>
 				</div>
@@ -57,7 +57,7 @@
 
 		<div id="contentWrapper">
 			<div id="contentLeft">
-				<div class="leftNav">
+				<div class="left-sidebar leftNav">
 					<dl>
 						<dt><a href="#">Comedy</a></dt>
 						<dt><a href="#">Action</a></dt>

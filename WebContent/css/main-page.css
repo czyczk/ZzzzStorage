@@ -1,6 +1,4 @@
 body{
-	/*background:-webkit-gradient(linear, 0 0, 0 50%, from(rgba(145,163,185,0.5)), to(rgb(87,139,199)));*/
-	/*background:-moz-linear-gradient(top, rgba(145,163,185,0.5), rgb(87,139,199));*/
 	background: rgba(145,163,185,0.8);
 }
 .jumbotron{
