@@ -3,7 +3,7 @@ package model;
 /**
  * Created by czyczk on 2017-6-18.
  */
-public class User {
+public class User implements IJsonable {
     private int id;
     private String username;
     private String password;
