@@ -3,6 +3,7 @@ package dao;
 import model.LibraryItem;
 import model.MediaTypeEnum;
 import model.Movie;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.List;
 
@@ -15,22 +16,34 @@ public class LibraryItemDao implements ILibraryItemDao<LibraryItem> {
         switch (item.getMediaType()) {
             case MOVIE:
                 DaoFactory.getMovieDao().add((Movie) item);
+                break;
+            default: throw new NotImplementedException();
         }
+        // TODO
     }
 
     @Override
     public void delete(LibraryItem item) {
+        switch (item.getMediaType()) {
+            case MOVIE:
+                DaoFactory.getMovieDao().delete((Movie) item);
+                break;
+            default: throw new NotImplementedException();
+        }
         // TODO
     }
 
     @Override
-    public LibraryItem load(LibraryItem item) {
-        // TODO
-        return null;
-    }
+    public void update(LibraryItem oldItem, LibraryItem newItem) {
+        if (oldItem.getMediaType() != newItem.getMediaType())
+            throw new LibraryItemDaoException("Media types of the two items are not consistent.");
 
-    @Override
-    public void update(LibraryItem item) {
+        switch (newItem.getMediaType()) {
+            case MOVIE:
+                DaoFactory.getMovieDao().update((Movie) oldItem, (Movie) newItem);
+                break;
+            default: throw new NotImplementedException();
+        }
         // TODO
     }
 

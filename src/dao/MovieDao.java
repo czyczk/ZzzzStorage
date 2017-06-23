@@ -12,11 +12,20 @@ import java.util.List;
  */
 class MovieDao implements ILibraryItemDao<Movie> {
     /**
-     * Add a movie item to the database. Use it only when the item does not exist! (Use load() to check the existence.)
+     * Add a movie item to the database
      * @param item The movie item to be added.
      */
     @Override
     public void add(Movie item) {
+        // Check if the item contains the deterministic characteristics
+        boolean isDeterministic = isDeterministic(item);
+        if (!isDeterministic) throw new IllegalArgumentException("The item does not contain all " +
+                "the deterministic characteristics to identify an item.");
+
+        // Check if the item exists
+        Movie existingMovie = load(item);
+        if (existingMovie != null) throw new LibraryItemDaoException("The item exists already.");
+
         Connection con = null;
         PreparedStatement ps = null;
         try {
@@ -70,16 +79,46 @@ class MovieDao implements ILibraryItemDao<Movie> {
         }
     }
 
+    /**
+     * Delete a movie item from the database (including the additional info).
+     * @param item The sample item containing the deterministic characteristics of the target item.
+     */
     @Override
     public void delete(Movie item) {
-        // TODO
+        // Check if the sample item contains the deterministic characteristics of the target item
+        boolean isDeterministic = isDeterministic(item);
+        if (!isDeterministic) throw new IllegalArgumentException("The sample item does not contain all " +
+                "the deterministic characteristics to identify a target item.");
+
+        // Check if the item exists
+        Movie existingMovie = load(item);
+        if (existingMovie == null) throw new LibraryItemDaoException("The item does not exist.");
+
+        // Remove the item from "movie".
+        // ON DELETE CASCADE will manage to delete the additional information in other two tables.
+        Connection con = null;
+        PreparedStatement ps = null;
+
+        try {
+            con = DBUtil.getConnection();
+            String sql = "DELETE FROM movie " +
+                    "WHERE imdb = ? AND owner_id = ?";
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, item.getImdb());
+            ps.setInt(2, item.getOwnerId());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DBUtil.close(ps);
+            DBUtil.close(con);
+        }
     }
 
     /**
      * Load the movie from the database. Null if the item does not exist.
      * @param item A sample item containing the deterministic characteristics of the target item.
      */
-    @Override
     public Movie load(Movie item) {
         // Check if the sample item contains the deterministic characteristics of the target item
         boolean isDeterministic = isDeterministic(item);
@@ -127,8 +166,9 @@ class MovieDao implements ILibraryItemDao<Movie> {
     }
 
     @Override
-    public void update(Movie item) {
-        // TODO
+    public void update(Movie oldItem, Movie newItem) {
+        delete(oldItem);
+        add(newItem);
     }
 
     public List<Movie> list() {
@@ -168,10 +208,18 @@ class MovieDao implements ILibraryItemDao<Movie> {
         result.setSize(rs.getLong("size"));
         result.setTitle(rs.getString("title"));
         result.setReleaseYear(rs.getInt("release_year"));
-        result.setDuration(rs.getInt("duration"));
+        int tempInt = 0;
+        tempInt = rs.getInt("duration");
+        if (!rs.wasNull()) {
+            result.setDuration(tempInt);
+        }
         result.setPlot(rs.getString("plot"));
         result.setThumbUrl(rs.getString("thumb_url"));
-        result.setRating(rs.getDouble("rating"));
+        double tempDouble = 0.0;
+        tempDouble = rs.getDouble("rating");
+        if (!rs.wasNull()) {
+            result.setRating(tempDouble);
+        }
         return result;
     }
 

@@ -8,6 +8,5 @@ import model.LibraryItem;
 public interface ILibraryItemDao<E> {
     void add(E item);
     void delete(E item);
-    E load(E item);
-    void update(E item);
+    void update(E oldItem, E newItem);
 }
