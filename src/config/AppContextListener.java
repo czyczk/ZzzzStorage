@@ -1,6 +1,6 @@
 package config;
 
-import test.TestMovieDao;
+//import test.TestMovieDao;
 import util.DBUtil;
 
 import javax.servlet.ServletContextEvent;
