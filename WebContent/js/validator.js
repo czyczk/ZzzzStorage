@@ -63,5 +63,22 @@ $(document).ready(function(){
 	// });
 
 
-
+	$('#upload-form').validate({
+		rules: {
+			title: {
+				required:true
+			}
+		},
+		message: {
+			title: {
+				required: "Pleas enter a title."
+			}
+		},
+		highlight: function (element, errorClass, validClass) {
+			$(element).parent().addClass('has-error');
+        },
+		unhighlight: function (element, errorClass) {
+			$(element).parent().removeClass('has-error');
+        }
+	});
 });
