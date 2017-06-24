@@ -1,3 +1,7 @@
+body {
+	font-family: "Neue Haas Unica W1G", "Segoe UI", Helvetica, "Arial Nova", "Arial", sans-serif;
+}
+
 #contentWrapper {
 	width: 100%;
 	height: 200%;
@@ -177,17 +181,22 @@ div.thumbnail-image {
 /* Override settings in thumbnail.less */
 .thumbnail {
 	margin-bottom: 0;
+	width: 16.2rem;
 	/*height: 234px;*/
 }
 
 .item-info-container {
     margin-top: 2rem;
 }
-.item-info-container a {
+.item-title {
     display: inline-block;
     text-decoration: none;
     font-size: 2.0rem;
-    margin-bottom: 1rem;
+    /*margin-bottom: 1rem;*/
+	color: rgb(51, 122, 183);
+}
+.item-info-container div {
+	margin-bottom: 1rem;
 }
 
 .item-checkbox{

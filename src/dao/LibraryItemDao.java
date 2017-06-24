@@ -3,6 +3,7 @@ package dao;
 import model.LibraryItem;
 import model.MediaTypeEnum;
 import model.Movie;
+import model.OrderByEnum;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.List;
@@ -55,7 +56,22 @@ public class LibraryItemDao implements ILibraryItemDao<LibraryItem> {
 //        }
 //    }
 
+    public int count(MediaTypeEnum mediaType) {
+        switch (mediaType) {
+            case MOVIE:
+                return DaoFactory.getMovieDao().count();
+            default: throw new NotImplementedException();
+        }
+    }
+
     public List<Movie> listMovies() {
         return DaoFactory.getMovieDao().list();
+    }
+    public List<? extends LibraryItem> list(int ownerId, MediaTypeEnum mediaType, OrderByEnum orderBy, int start, int range) {
+        switch (mediaType) {
+            case MOVIE:
+                return DaoFactory.getMovieDao().list(ownerId, orderBy, start, range);
+            default: throw new NotImplementedException();
+        }
     }
 }

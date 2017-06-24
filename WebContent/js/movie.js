@@ -1,14 +1,17 @@
 // 记录当前页面选中项目个数的整数
 // Holds the number of items selected in this page
 numItemsSelected = 0;
+numItemsInTotal = 0;
+var items;
 
 // jquery
 $(function() {
-	// Register a handler for items.
-	// If the item card is tapped, invoke the handler.
-	$("div.tag").click(selectAnItem);
-	// Hover on the right sidebar to reveal the labels
-	$("#right-sidebar").hover(revealSidebarLabel, hideSidebarLabel);
+	// Query the servlet for items
+	loadItems();
+    // If the item card is tapped, invoke the handler.
+    $("div.tag").click(selectAnItem);
+    // Hover on the right sidebar to reveal the labels
+    $("#right-sidebar").hover(revealSidebarLabel, hideSidebarLabel);
 });
 
 // $('#contentRight input:radio').click(function(){
@@ -30,6 +33,115 @@ $(function() {
 // 	}
 //
 // });
+
+// Query the servlet for items
+function loadItems() {
+	var container = $("#contentRight");
+	// First query for the total number of movies
+	$.ajax({
+		url: "FileListGeneratorServlet",
+		data: "requestType=count&mediaType=movie",
+		type: "post",
+		async: false,
+		success: updateNumTotal
+	});
+	// Then, query for items
+	$.ajax({
+		url: "FileListGeneratorServlet",
+		data: "requestType=list&mediaType=movie&orderBy=title&start=0&range=10",
+		type: "post",
+		async: false,
+		success: updateItems
+	});
+	// Arrange the items
+	// container.html("");
+    var html = '<div>';
+	items.forEach(function(it) {
+	    html += '\
+	    <div class="col-lg-6 col-sm-6">\
+	    <div class="tag">\
+	    <div class="col-sm-4">\
+	    <div class="thumbnail-container">\
+	    <div class="thumbnail-checkbox-mask thumbnail-checkbox-mask-invisible">\
+	    <span class="circle-pattern">&#xEC61;</span>\
+	    </div>\
+	    <div class="thumbnail-image">\
+	    ';
+
+	    // Append cover image (if available) or the default icon (if not available)
+        html += '<img src="';
+        if (it.thumbUrl != undefined) {
+            html += it.thumbUrl;
+        } else {
+            html += "img/sample-covers/movie-default-icon-tailored.png";
+        }
+	    html += '" class="thumbnail" />';
+
+	    html += '\
+	    </div>\
+	    </div>\
+	    </div>\
+	    <div class="col-sm-7">\
+	    <div class="item-info-container">\
+	    ';
+
+	    // Append title and release year (if available)
+	    // Append title
+	    html += '<div><span class="item-title">' + it.title + '</span>';
+	    // Append year if available
+        if (it.releaseYear != 0) {
+            html += '<span style="margin-left: 1rem;">(' + it.releaseYear + ')</span>';
+        }
+        html += '</div>'
+
+        //Append IMDB and duration (if available)
+	    // Append IMDB
+        html += '<div><span>IMDB: ' + it.imdb + "</span>";
+        // Append duration if available
+        if (it.duration != 0) {
+            html += '<span style="margin-left: 2rem;">Duration: ' + it.duration + ' min</span>';
+        }
+        html += '</div>'
+
+        // Append genres if available
+        var genres = it.genre;
+        if (genres != undefined && genres.length > 0) {
+            html += '<p>Genre: '
+            for (i = 0; i < genres.length; i++) {
+                html += genres[i];
+                if (i < genres.length - 1) {
+                    html += ', ';
+                }
+            }
+            html += "</p>"
+        }
+
+        // Append rating if available
+        if (it.rating != undefined) {
+            html += '<p>Rating: ' + it.rating + "</p>";
+        }
+        // Append plot if available
+        if (it.plot != undefined) {
+            html += '<p>Plot: ' + it.plot + '</p>';
+        }
+        // Append a hidden checkbox (structural requirement)
+        html += '<input name="selected-items" type="checkbox" class="item-checkbox" /> <!-- the hidden checkbox -->';
+        // Endings
+        html += '</div></div></div></div>';
+	});
+	html += '</div>';
+    container.html(html);
+}
+
+function updateNumTotal(data) {
+	numItemsInTotal = data;
+	console.info("Total number: " + data);
+}
+
+function updateItems(data) {
+	items = data;
+	console.info(data.length + " item(s) returned.");
+}
 
 // The handler for item cards
 function selectAnItem() {

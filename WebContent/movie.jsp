@@ -70,6 +70,8 @@
 			</div>
 
 			<div id="contentRight">
+				<!-- Sample data -->
+				<!--
 				<div>
 
 					<div class="col-lg-6 col-sm-6">
@@ -90,7 +92,7 @@
 									<p>Comedy</p>
 									<p>6-12-2017 13:25:30</p>
 									<p>An adventure story of a infamous pirates.</p>
-									<input name="selected-items" type="checkbox" class="item-checkbox" /> <!-- the hidden checkbox -->
+									<input name="selected-items" type="checkbox" class="item-checkbox" />
 								</div>
 							</div>
 						</div>
@@ -114,7 +116,7 @@
 									<p>Romantic</p>
 									<p>6-11-2017 13:25:30</p>
 									<p>An adventure story of a cowboy.</p>
-									<input name="selected-items" type="checkbox" class="item-checkbox" /> <!-- the hidden checkbox -->
+									<input name="selected-items" type="checkbox" class="item-checkbox" />
 								</div>
 							</div>
 						</div>
@@ -138,7 +140,7 @@
 									<p>Music</p>
 									<p>6-10-2017 13:25:30</p>
 									<p>A story of a musician.</p>
-									<input name="selected-items" type="checkbox" class="item-checkbox" /> <!-- the hidden checkbox -->
+									<input name="selected-items" type="checkbox" class="item-checkbox" />
 								</div>
 							</div>
 						</div>
@@ -162,7 +164,7 @@
 									<p>Action</p>
 									<p>6-9-2017 13:25:30</p>
 									<p>Adventure stories of a super hero.</p>
-									<input name="selected-items" type="checkbox" class="item-checkbox" /> <!-- the hidden checkbox -->
+									<input name="selected-items" type="checkbox" class="item-checkbox" />
 								</div>
 							</div>
 						</div>
@@ -186,7 +188,7 @@
 									<p>Thriller</p>
 									<p>6-11-2017 13:25:30</p>
 									<p>A story of a someone.</p>
-									<input name="selected-items" type="checkbox" class="item-checkbox" /> <!-- the hidden checkbox -->
+									<input name="selected-items" type="checkbox" class="item-checkbox" />
 								</div>
 							</div>
 						</div>
@@ -210,7 +212,7 @@
 									<p>Story</p>
 									<p>6-10-2017 13:25:30</p>
 									<p>A story of boys and girls.</p>
-									<input name="selected-items" type="checkbox" class="item-checkbox" /> <!-- the hidden checkbox -->
+									<input name="selected-items" type="checkbox" class="item-checkbox" />
 								</div>
 							</div>
 						</div>
@@ -233,12 +235,13 @@
 									<a href="#">Vinyl</a>
 									<p>6-9-2017 13:25:30</p>
 									<p>A story of a man.</p>
-									<input name="selected-items" type="checkbox" class="item-checkbox" /> <!-- the hidden checkbox -->
+									<input name="selected-items" type="checkbox" class="item-checkbox" />
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
+				-->
 			</div>
 		</div>
 

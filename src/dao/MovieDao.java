@@ -1,6 +1,7 @@
 package dao;
 
 import model.Movie;
+import model.OrderByEnum;
 import util.DBUtil;
 
 import java.sql.*;
@@ -171,6 +172,31 @@ class MovieDao implements ILibraryItemDao<Movie> {
         add(newItem);
     }
 
+    public int count() {
+        int count = 0;
+
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            con = DBUtil.getConnection();
+            String sql = "SELECT count(*) FROM movie";
+            ps = con.prepareStatement(sql);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                count = rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DBUtil.close(rs);
+            DBUtil.close(ps);
+            DBUtil.close(con);
+        }
+        return count;
+    }
+
     public List<Movie> list() {
         List<Movie> result = new ArrayList<>();
 
@@ -195,6 +221,93 @@ class MovieDao implements ILibraryItemDao<Movie> {
             DBUtil.close(rs);
             DBUtil.close(ps);
             DBUtil.close(con);
+        }
+        return result;
+    }
+
+    public List<Movie> list(int ownerId, OrderByEnum orderBy, int start, int range) {
+        List<Movie> result = new ArrayList<>();
+
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        if (orderBy == OrderByEnum.IMDB || orderBy == OrderByEnum.TITLE) {
+            try {
+                con = DBUtil.getConnection();
+//                String sql = "SELECT * " +
+//                        "FROM movie " +
+//                        "WHERE owner_id = ? " +
+//                        "ORDER BY ? " +
+//                        "OFFSET ? ROWS " +
+//                        "FETCH NEXT ? ROWS ONLY";
+                String sql = "SELECT * FROM movie WHERE owner_id=" + ownerId + " ORDER BY " + orderBy.toString() +
+                        " OFFSET " + start + " ROWS FETCH NEXT " + range + " ROWS ONLY";
+                ps = con.prepareStatement(sql);
+//                ps.setInt(1, ownerId);
+//                ps.setString(2, orderBy.toString());
+//                ps.setInt(3, start);
+//                ps.setInt(4, range);
+                rs = ps.executeQuery();
+                while (rs.next()) {
+                    Movie movie = toMovie(rs);
+                    movie.setDirector(queryAdditionalInfo(movie, "director"));
+                    movie.setGenre(queryAdditionalInfo(movie, "genre"));
+                    result.add(movie);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                DBUtil.close(rs);
+                DBUtil.close(ps);
+                DBUtil.close(con);
+            }
+        } else if (orderBy == OrderByEnum.DIRECTOR || orderBy == OrderByEnum.GENRE) {
+            try {
+                con = DBUtil.getConnection();
+                String sql = "SELECT DISTINCT imdb, owner_id FROM movie_" + orderBy.toString().toLowerCase() +
+                        " WHERE owner_id = " + ownerId + " ORDER BY " + orderBy.toString().toLowerCase() +
+                        " OFFSET " + start + " ROWS FETCH NEXT " + range + " ROWS ONLY";
+//                if (orderBy == OrderByEnum.DIRECTOR) {
+//                    sql = "SELECT DISTINCT imdb, owner_id " +
+//                            "FROM movie_director " +
+//                            "WHERE owner_id = ? " +
+//                            "ORDER BY genre " +
+//                            "OFFSET ? ROWS " +
+//                            "FETCH NEXT ? ROWS ONLY";
+//                } else if (orderBy == OrderByEnum.GENRE) {
+//                    sql = "SELECT DISTINCT imdb, owner_id " +
+//                            "FROM movie_genre " +
+//                            "WHERE owner_id = ? " +
+//                            "ORDER BY genre " +
+//                            "OFFSET ? ROWS " +
+//                            "FETCH NEXT ? ROWS ONLY";
+//                } else {
+//                    throw new IllegalArgumentException("Not supported order for movies.");
+//                }
+                ps = con.prepareStatement(sql);
+//                ps.setInt(1, ownerId);
+//                ps.setInt(2, start);
+//                ps.setInt(3, range);
+                rs = ps.executeQuery();
+                while (rs.next()) {
+                    Movie movie = new Movie();
+                    movie.setOwnerId(ownerId);
+                    movie.setImdb(rs.getInt("imdb"));
+                    movie = load(movie);
+                    movie.setDirector(queryAdditionalInfo(movie, "director"));
+                    movie.setGenre(queryAdditionalInfo(movie, "genre"));
+                    result.add(movie);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                DBUtil.close(rs);
+                DBUtil.close(ps);
+                DBUtil.close(con);
+            }
+        } else {
+            throw new IllegalArgumentException("Not supported order for movies.");
         }
         return result;
     }
