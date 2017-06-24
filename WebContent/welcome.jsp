@@ -52,7 +52,7 @@
                         </div>
                         <div class="form-group">
                                 <label for="email" class="control-label">Email: </label>
-                                <input type="text" class="email-ajax-input form-control border-blue" id="email" name="email">
+                                <input type="text" class="sign-up-email-ajax-input form-control border-blue" id="email" name="email">
                         </div>
                         <div class="form-group">
                                 <label for="password" class="control-label">Password: </label>
@@ -86,7 +86,7 @@
                     <form id="log-in-form">
                         <div class="form-group">
                             <label for="email" class="control-label">Email: </label>
-                            <input type="email" class="form-control" id="email1" name="email">
+                            <input type="email" class="log-in-email-ajax-input form-control" id="email1" name="email">
                         </div>
                         <div class="form-group">
                             <label for="password" class="control-label">Password: </label>
