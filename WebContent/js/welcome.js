@@ -6,11 +6,16 @@ $(function() {
     $("#sign-up-button").click(handleSignUp);
     // The submit button in log in form
     $("#log-in-button").click(handleLogIn);
+    // $('.email-ajax-input').bind('input propertychange', function(){
+    //     $.ajax({
+    //         url: "CheckEmailServlet",
+    //         data: $("#sign-up-form").serialize(),
+    //         type: "get",
+    //         dataType: "json",
+    //         success: showMessage($("#sign-up-error-label"))
+    //     });
+    // })
 });
-
-function rssToTarget(element) {
-
-}
 
 function handleSignUp() {
     $.ajax({
@@ -39,6 +44,8 @@ function showMessage(elementToShow) {
             window.location.href = data.message;
         } else {
             elementToShow.css("display", "inline").html(data.message);
+            // $('.submit-button').addClass("disabled");
         }
     }
 }
+

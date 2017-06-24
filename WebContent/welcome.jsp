@@ -41,33 +41,33 @@
             <div class="modal-content" style="width: 400px; margin: 0 auto">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title" id="myModalLabel1" style = "text-align: center; color: gray">Sign Up</h4>
+                    <h4 class="modal-title" id="myModalLabel1" style = "text-align: center; color: black">Sign Up</h4>
                 </div>
                 <div class="modal-body">
                     <form id="sign-up-form">
                         <div class="form-group">
                                 <label for="recipient-name" class="control-label">Username: </label>
-                                <input type="text" class="form-control" id="recipient-name" name="username">
+                                <input type="text" class="form-control border-blue" id="recipient-name" name="username">
 
                         </div>
                         <div class="form-group">
                                 <label for="email" class="control-label">Email: </label>
-                                <input type="email" class="form-control" id="email" name="email">
+                                <input type="text" class="email-ajax-input form-control border-blue" id="email" name="email">
                         </div>
                         <div class="form-group">
                                 <label for="password" class="control-label">Password: </label>
-                                <input type="password" class="form-control" id="password" name="password">
+                                <input type="password" class="form-control border-blue" id="password" name="password">
 
                         </div>
                         <div class="form-group">
                             <label for="password" class="control-label">Confirm Password: </label>
-                            <input type="password" class="form-control" id="cpassword" name="cpassword">
+                            <input type="password" class="form-control border-blue" id="cpassword" name="cpassword">
                         </div>
                         <div class="form-group">
                             <label class="error" style="display: none" id="sign-up-error-label"></label>
                         </div>
                         <div>
-                            <button type="button" class="submit-button btn btn-default" id="sign-up-button">Sign Up</button>
+                            <button class="submit-button btn btn-primary" id="sign-up-button">Sign Up</button>
                         </div>
                     </form>
                 </div>
@@ -96,7 +96,7 @@
                             <label class="error" style="display: none" id="log-in-error-label"></label>
                         </div>
                         <div>
-                            <button type="button" class="submit-button btn btn-default" id="log-in-button">Log In</button>
+                            <button class="submit-button btn btn-default" id="log-in-button">Log In</button>
                             <!-- Redirection is delegated to LogInServlet -->
                             <!-- onclick="window.location.href='main.jsp'" -->
                             <!--<button type="reset" class="btn btn-default">Reset</button>-->
