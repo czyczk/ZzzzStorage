@@ -53,5 +53,15 @@ $(document).ready(function(){
     });
 
 
+	// The validator for upload form
+	// $("#upload-form").validate({
+	// 	rules: {
+	// 		fileName: {
+	// 			required: true
+	// 		}
+	// 	}
+	// });
+
+
 
 });

@@ -404,13 +404,37 @@
     					<h4 class="modal-title" id="myModalLabel">Upload Form</h4>
     				</div>
     				<div class="modal-body">
-    					<form>
+    					<form id="upload-form">
 	                        <div class="form-group">
-	                            <label for="recipient-name" class="control-label" style="color: #909090;">File Name: </label>
-	                            <input type="text" class="form-control" id="recipient-name">
+	                            <label for="recipient-name" class="control-label" style="color: #909090;">Title: </label>
+	                            <input type="text" class="form-control" id="recipient-name" name="fileName">
 	                        </div>
+							<div class="form-group">
+								<label for="year" class="control-label" style="color: #909090;">Realease Year: </label>
+								<select name="releaseYear" id="year" class="form-control">
+									<% for(int year = 2017; year > 1900; year --) {
+									 	%><option value="<%=year%>"><%=year%></option>
+									<%}%>
+								</select>
+							</div>
+							<div class="form-group">
+								<label for="desc" class="control-label" style="color: #909090;">Plot: </label>
+								<textarea class="form-control" id="desc" name="plot"></textarea>
+							</div>
+							<div class="form-group">
+								<label for="duration" class="control-label" style="color: #909090;">Duration: </label>
+								<input type="time" class="form-control" id="duration" name="duration">
+							</div>
+							<div class="form-group">
+								<label for="thumbUrl" class="control-label" style="color: #909090;">Thumb Url: </label>
+								<input type="text" class="form-control" id="thumbUrl" name="thumbUrl">
+							</div>
+							<div class="form-group">
+								<label for="rating" class="control-label" style="color: #909090;">Rating: </label>
+								<input type="number" class="form-control" id="rating" name="rating">
+							</div>
 	                        <div class="form-group">
-	                            <label for="type" class="control-label" style="color: #909090;">Types: </label>
+	                            <label for="type" class="control-label" style="color: #909090;">Type: </label>
 	                            <select class="form-control" id="type">
 	                            	<option value="Movie">Movie</option>
 	                            	<option value="Music">Music</option>
@@ -422,7 +446,7 @@
 								<input id="input-2" name="input2[]" type="file" class="file" multiple data-show-upload="false" data-show-caption="true">
 	                       </div>
 	                       <div class="form-group">
-	                       		<label class="control-label" for="category" style="color: #909090;">Select Categories</label>
+	                       		<label class="control-label" style="color: #909090;">Select Categories</label>
 	                       		<select class="form-control category movie">
 	                       			<option value="Comedy">comedy</option>
 	                       			<option value="Action">action</option>
