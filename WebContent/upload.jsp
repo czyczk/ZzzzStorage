@@ -401,16 +401,16 @@
     			<div class="modal-content">
     				<div class="modal-header">
     					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-    					<h4 class="modal-title" id="myModalLabel">Upload Form</h4>
+    					<h4 class="modal-title" id="myModalLabel">Upload</h4>
     				</div>
     				<div class="modal-body">
     					<form id="upload-form">
 	                        <div class="form-group">
 	                            <label for="recipient-name" class="control-label" style="color: #909090;">Title: </label>
-	                            <input type="text" class="form-control" id="recipient-name" name="fileName">
+	                            <input type="text" class="form-control" id="recipient-name" name="title">
 	                        </div>
 							<div class="form-group">
-								<label for="year" class="control-label" style="color: #909090;">Realease Year: </label>
+								<label for="year" class="control-label" style="color: #909090;">Release year: </label>
 								<select name="releaseYear" id="year" class="form-control">
 									<% for(int year = 2017; year > 1900; year --) {
 									 	%><option value="<%=year%>"><%=year%></option>
@@ -427,7 +427,7 @@
 								<input type="time" class="form-control" id="duration" name="duration">
 							</div>
 							<div class="form-group">
-								<label for="thumbUrl" class="control-label" style="color: #909090;">Thumb Url: </label>
+								<label for="thumbUrl" class="control-label" style="color: #909090;">Thumbnail url: </label>
 								<input type="text" class="form-control" id="thumbUrl" name="thumbUrl">
 							</div>
 							<div class="form-group">
@@ -436,41 +436,41 @@
 							</div>
 	                        <div class="form-group">
 	                            <label for="type" class="control-label" style="color: #909090;">Type: </label>
-	                            <select class="form-control" id="type">
+	                            <select class="form-control" id="type" name="mediaType">
 	                            	<option value="Movie">Movie</option>
 	                            	<option value="Music">Music</option>
 	                            	<option value="TVShow">TV Show</option>
 	                            </select>
 	                        </div>
 	                        <div class="form-group">
-	                            <label class="control-label" for="input-2" style="color: #909090;">Select File</label>
-								<input id="input-2" name="input2[]" type="file" class="file" multiple data-show-upload="false" data-show-caption="true">
+	                            <label class="control-label" for="input-2" style="color: #909090;">Select file...</label>
+								<input id="input-2" name="inputFile" type="file" class="file" multiple data-show-upload="false" data-show-caption="true">
 	                       </div>
 	                       <div class="form-group">
-	                       		<label class="control-label" style="color: #909090;">Select Categories</label>
+	                       		<label class="control-label" style="color: #909090;">Select genre: </label>
 	                       		<select class="form-control category movie">
-	                       			<option value="Comedy">comedy</option>
-	                       			<option value="Action">action</option>
-	                       			<option value="Fantasy">fantasy</option>
-	                       			<option value="Thriller">thriller</option>
-	                       			<option value="Adventure">adventure</option>
-	                       			<option value="Others">others</option>
+	                       			<option value="Comedy">Comedy</option>
+	                       			<option value="Action">Action</option>
+	                       			<option value="Fantasy">Fantasy</option>
+	                       			<option value="Thriller">Thriller</option>
+	                       			<option value="Adventure">Adventure</option>
+	                       			<option value="Others">Other</option>
 	                       		</select>
 	                       		<select class="form-control category tvshow">
-	                       			<option value="Criminal">criminal</option>
-	                       			<option value="Action">action</option>
-	                       			<option value="Fantasy">fantasy</option>
-	                       			<option value="Thriller">thriller</option>
-	                       			<option value="Adventure">adventure</option>
-	                       			<option value="Others">others</option>
+	                       			<option value="Criminal">Criminal</option>
+	                       			<option value="Action">Action</option>
+	                       			<option value="Fantasy">Fantasy</option>
+	                       			<option value="Thriller">Thriller</option>
+	                       			<option value="Adventure">Adventure</option>
+	                       			<option value="Others">Other</option>
 	                       		</select>
 	                       		<select class="form-control category music">
-	                       			<option value="Rock">rock</option>
-	                       			<option value="Action">action</option>
-	                       			<option value="Fantasy">fantasy</option>
-	                       			<option value="Thriller">thriller</option>
-	                       			<option value="Adventure">adventure</option>
-	                       			<option value="Others">others</option>
+	                       			<option value="Rock">Rock</option>
+	                       			<option value="Action">Action</option>
+	                       			<option value="Fantasy">Fantasy</option>
+	                       			<option value="Thriller">Thriller</option>
+	                       			<option value="Adventure">Adventure</option>
+	                       			<option value="Others">Other</option>
 	                       		</select>
 	                       </div>
 	                       <div class="form-group">

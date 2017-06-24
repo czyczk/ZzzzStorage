@@ -20,8 +20,8 @@ public class ServletMessage implements IJsonable {
     }
 
     public ServletMessage() { }
-    public ServletMessage(String requestStatus, String message) {
-        this.messageType = requestStatus;
+    public ServletMessage(String messageType, String message) {
+        this.messageType = messageType;
         this.message = message;
     }
 }

@@ -172,7 +172,32 @@ class MovieDao implements ILibraryItemDao<Movie> {
         add(newItem);
     }
 
-    public int count() {
+//    public int count(int ownerId) {
+//        int count = 0;
+//
+//        Connection con = null;
+//        PreparedStatement ps = null;
+//        ResultSet rs = null;
+//
+//        try {
+//            con = DBUtil.getConnection();
+//            String sql = "SELECT count(*) FROM movie WHERE owner_id = " + ownerId;
+//            ps = con.prepareStatement(sql);
+//            rs = ps.executeQuery();
+//            while (rs.next()) {
+//                count = rs.getInt(1);
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        } finally {
+//            DBUtil.close(rs);
+//            DBUtil.close(ps);
+//            DBUtil.close(con);
+//        }
+//        return count;
+//    }
+
+    public int count(String[] additionalConditions) {
         int count = 0;
 
         Connection con = null;
@@ -182,6 +207,15 @@ class MovieDao implements ILibraryItemDao<Movie> {
         try {
             con = DBUtil.getConnection();
             String sql = "SELECT count(*) FROM movie";
+            if (additionalConditions != null && additionalConditions.length > 0) {
+                for (int i = 0; i < additionalConditions.length; i++) {
+                    if (i == 0)
+                        sql += " WHERE ";
+                    else
+                        sql += " AND ";
+                    sql += additionalConditions[i];
+                }
+            }
             ps = con.prepareStatement(sql);
             rs = ps.executeQuery();
             while (rs.next()) {

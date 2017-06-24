@@ -35,7 +35,7 @@ public class FileListGeneratorServlet extends HttpServlet {
         switch (requestType) {
             case "count": {
                 MediaTypeEnum mediaType = MediaTypeEnum.valueOf(req.getParameter("mediaType").toUpperCase());
-                Integer total = DaoFactory.getLibraryItemDao().count(mediaType);
+                Integer total = DaoFactory.getLibraryItemDao().count(mediaType, new String[] { ("owner_id = " + ownerId) });
                 System.out.println("[SQL query] There are " + total + " item(s) of type " + mediaType.toString() + " in user " + ownerId + ".");
                 resp.setContentType("text/plain");
                 resp.setCharacterEncoding("UTF-8");
