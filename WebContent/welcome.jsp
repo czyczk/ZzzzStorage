@@ -67,7 +67,7 @@
                             <label class="error" style="display: none" id="sign-up-error-label"></label>
                         </div>
                         <div>
-                            <button class="submit-button btn btn-primary" id="sign-up-button">Sign Up</button>
+                            <button type="button" class="submit-button btn btn-primary" id="sign-up-button">Sign Up</button>
                         </div>
                     </form>
                 </div>
@@ -96,7 +96,7 @@
                             <label class="error" style="display: none" id="log-in-error-label"></label>
                         </div>
                         <div>
-                            <button class="submit-button btn btn-default" id="log-in-button">Log In</button>
+                            <button type="button" class="submit-button btn btn-default" id="log-in-button">Log In</button>
                             <!-- Redirection is delegated to LogInServlet -->
                             <!-- onclick="window.location.href='main.jsp'" -->
                             <!--<button type="reset" class="btn btn-default">Reset</button>-->
