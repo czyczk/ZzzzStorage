@@ -12,7 +12,7 @@
     	<link rel="stylesheet" href="css/uploading.css" />
     	<script src="js/bootstrap/bootstrap.min.js"></script>
     	<script src="js/bootstrap/fileinput.min.js"></script>
-    	
+    	<script src="node_modules/crypto-js/crypto-js.js"></script>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Upload</title>
     </head>
@@ -419,7 +419,8 @@
 							</div>
 							<div class="form-group">
 								<label for="desc" class="control-label" style="color: #909090;">Plot: </label>
-								<textarea class="form-control" id="desc" name="plot"></textarea>
+								<textarea class="form-control plot" id="desc" name="plot"></textarea>
+								<div class="msg"></div>
 							</div>
 							<div class="form-group">
 								<label for="duration" class="control-label" style="color: #909090;">Duration: </label>
@@ -491,6 +492,6 @@
     	
     	<script src="js/upload.js"></script>
     	<script src="js/uploadForm.js"></script>
-    	
+    	<script src="js/FileUpload.js"></script>
  	</body>
 </html>

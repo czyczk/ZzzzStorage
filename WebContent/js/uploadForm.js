@@ -84,3 +84,21 @@ $('.upload-submit').click(function(){
 
 	}
 });
+
+$(".plot").bind('input propertychange', function () {
+
+    if ($(this).val().length <= 256) {
+        $('.msg').html($(this).val().length + '/256 words.');
+
+	} else {
+        $(this).val($(this).val().substring(0, 256));
+	}
+});
+
+// $('.upload-submit').click(handleUpload);
+// function handleUpload() {
+// 	$.ajax({
+// 		url: "UploadServlet",
+// 		data: $
+// 	})
+// }
