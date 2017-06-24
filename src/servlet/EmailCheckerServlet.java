@@ -33,6 +33,7 @@ public class EmailCheckerServlet extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
         response.getWriter().write(message.toJson());
     }
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doPost(request, response);
