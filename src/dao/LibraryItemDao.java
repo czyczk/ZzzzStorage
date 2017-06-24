@@ -57,9 +57,12 @@ public class LibraryItemDao implements ILibraryItemDao<LibraryItem> {
 //    }
 
     public int count(MediaTypeEnum mediaType) {
+        return count(mediaType, null);
+    }
+    public int count(MediaTypeEnum mediaType, String[] additionalConditions) {
         switch (mediaType) {
             case MOVIE:
-                return DaoFactory.getMovieDao().count();
+                return DaoFactory.getMovieDao().count(additionalConditions);
             default: throw new NotImplementedException();
         }
     }
