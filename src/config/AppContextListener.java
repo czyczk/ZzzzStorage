@@ -1,5 +1,6 @@
 package config;
 
+import test.TestMovieDao;
 import util.DBUtil;
 
 import javax.servlet.ServletContextEvent;
@@ -16,6 +17,9 @@ public class AppContextListener implements ServletContextListener {
     public void contextInitialized(ServletContextEvent sce) {
         // Create the database
         DBUtil.createTablesIfNotExist();
+        // Create sample movies for testing purpose
+//        TestMovieDao.testAddFull();
+//        TestMovieDao.testAddLite();
     }
 
     @Override
