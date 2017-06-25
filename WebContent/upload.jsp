@@ -13,6 +13,7 @@
     	<script src="js/bootstrap/bootstrap.min.js"></script>
     	<script src="js/bootstrap/fileinput.min.js"></script>
     	<script src="node_modules/crypto-js/crypto-js.js"></script>
+		<script src="node_modules/jquery.form.min.js"></script>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Upload</title>
     </head>
@@ -437,7 +438,7 @@
 	                        <div class="form-group">
 	                            <label for="type" class="control-label" style="color: #909090;">Type: </label>
 	                            <select class="form-control" id="type" name="mediaType">
-	                            	<option value="Movie">Movie</option>
+	                            	<option value="Movie" select="selected">Movie</option>
 	                            	<option value="Music">Music</option>
 	                            	<option value="TVShow">TV Show</option>
 	                            </select>
