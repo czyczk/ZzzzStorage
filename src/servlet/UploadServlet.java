@@ -36,12 +36,12 @@ public class UploadServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setCharacterEncoding("UTF-8");
         // Collect user info
         User user = (User) req.getSession().getAttribute("activeUser");
         int ownerId = user.getId();
         ArrayList<UploadTask> uploadTasks = (ArrayList<UploadTask>) req.getSession().getAttribute("uploadTasks");
 
-        req.setCharacterEncoding("UTF-8");
         String requestType = req.getParameter("requestType");
         /* requestType:
          * "metadata": receive only the metadata fields
@@ -116,12 +116,11 @@ public class UploadServlet extends HttpServlet {
         // Get the file part
         Part filePart = req.getPart("inputFile");
         String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
-        String[] fileNameParts = fileName.split("..");
+        String[] fileNameParts = fileName.split("\\.");
         String extension = "";
         if (fileNameParts.length > 1) {
             extension = fileNameParts[fileNameParts.length - 1];
         }
-        // TODO:!!!!!!!!!!!!!!!!!
         InputStream fileContentStream = filePart.getInputStream();
 
         // Target path : [fileDbPath]/[SHA256] + . + [extension]

@@ -24,6 +24,7 @@ public class TransferTaskServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setCharacterEncoding("UTF-8");
         String requestType = req.getParameter("requestType");
         resp.setContentType("text/json");
         resp.setCharacterEncoding("UTF-8");

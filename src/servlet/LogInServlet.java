@@ -30,6 +30,7 @@ public class LogInServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setCharacterEncoding("UTF-8");
         // Get parameters
         String email = req.getParameter("email");
         String password = req.getParameter("password");
