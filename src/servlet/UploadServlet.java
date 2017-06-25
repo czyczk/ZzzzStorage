@@ -116,12 +116,11 @@ public class UploadServlet extends HttpServlet {
         // Get the file part
         Part filePart = req.getPart("inputFile");
         String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
-        String[] fileNameParts = fileName.split("..");
+        String[] fileNameParts = fileName.split("\\.");
         String extension = "";
         if (fileNameParts.length > 1) {
             extension = fileNameParts[fileNameParts.length - 1];
         }
-        // TODO:!!!!!!!!!!!!!!!!!
         InputStream fileContentStream = filePart.getInputStream();
 
         // Target path : [fileDbPath]/[SHA256] + . + [extension]

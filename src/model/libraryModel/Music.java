@@ -6,6 +6,10 @@ import java.util.Arrays;
  * Created by czyczk on 2017-6-23.
  */
 public class Music extends FileAssociatedItem {
+    public Music() {
+        setMediaType(MediaTypeEnum.MUSIC);
+    }
+
     private String album;
     private Integer track;
     private Integer duration;
