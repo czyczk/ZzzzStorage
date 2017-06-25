@@ -11,7 +11,7 @@ public abstract class FileAssociatedItem extends LibraryItem {
         return SHA256;
     }
     public void setSHA256(String SHA256) {
-        this.SHA256 = SHA256;
+        this.SHA256 = SHA256.toUpperCase();
     }
 
     public Long getSize() {

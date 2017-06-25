@@ -37,14 +37,14 @@ public class HashCheckerServlet extends HttpServlet {
         ServletMessage message = new ServletMessage();
 
         // Query for existence of the file
-        int numOfThisFile = DaoFactory.getLibraryItemDao().count(mediaType, new String[] { "SHA256 = " + SHA256, "size = " + size });
+        int numOfThisFile = DaoFactory.getLibraryItemDao().count(mediaType, new String[] { "SHA256 = '" + SHA256 + "'", "size = " + size });
         boolean isFileExisting = numOfThisFile > 0;
 
         // If a file with the same SHA256 is not found, the user needs to upload the file.
         if (!isFileExisting)
             message.setMessage("full");
         else {
-            int itemOfThisUser = DaoFactory.getLibraryItemDao().count(mediaType, new String[] { ("owner_id = " + ownerId), "SHA256 = " + SHA256, "size = " + size });
+            int itemOfThisUser = DaoFactory.getLibraryItemDao().count(mediaType, new String[] { ("owner_id = " + ownerId), "SHA256 = '" + SHA256 + "'", "size = " + size });
             boolean isFileExistingInUserLib = itemOfThisUser > 0;
 
             // Else, if the file is found in the database but not in user library, the user needs only to upload the metadata.

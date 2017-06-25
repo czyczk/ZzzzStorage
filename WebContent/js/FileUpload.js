@@ -96,7 +96,13 @@ function uploadForm() {
         contentType: false,
         processData: false,
         error: function() {
-            alert("loser");
+            alert("Internal error.");
+        },
+        success: function(data) {
+            if (data.messageType == "success") {
+                // data.redirect contains the string URL to redirect to
+                window.location.href = data.message;
+            }
         }
     });
 }

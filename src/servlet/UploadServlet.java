@@ -41,6 +41,7 @@ public class UploadServlet extends HttpServlet {
         int ownerId = user.getId();
         ArrayList<UploadTask> uploadTasks = (ArrayList<UploadTask>) req.getSession().getAttribute("uploadTasks");
 
+        req.setCharacterEncoding("UTF-8");
         String requestType = req.getParameter("requestType");
         /* requestType:
          * "metadata": receive only the metadata fields
@@ -52,7 +53,7 @@ public class UploadServlet extends HttpServlet {
         resp.setCharacterEncoding("UTF-8");
 
         // Get basic file characteristics
-        String SHA256 = req.getParameter("SHA256");
+        String SHA256 = req.getParameter("SHA256").toUpperCase();
         if (SHA256.trim().isEmpty()) {
             sendErrorMessage(resp, "SHA256 should not be empty.");
             return;
@@ -106,19 +107,21 @@ public class UploadServlet extends HttpServlet {
         // If requestType == "metadata", add the task to the completed queue and stop here
         if (requestType.equalsIgnoreCase("metadata")) {
             uploadTasks.add(uploadTask);
+            // Refresh the page
+            sendSuccessRedirection(resp, "upload.jsp");
             return;
         }
 
         // If requestType == "full", get the file part as well
         // Get the file part
         Part filePart = req.getPart("inputFile");
-        System.out.println(filePart.getSubmittedFileName());
         String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
-        String[] fileNameParts = fileName.split(".");
+        String[] fileNameParts = fileName.split("..");
         String extension = "";
         if (fileNameParts.length > 1) {
             extension = fileNameParts[fileNameParts.length - 1];
         }
+        // TODO:!!!!!!!!!!!!!!!!!
         InputStream fileContentStream = filePart.getInputStream();
 
         // Target path : [fileDbPath]/[SHA256] + . + [extension]
@@ -184,6 +187,7 @@ public class UploadServlet extends HttpServlet {
             sendErrorMessage(resp, "Title cannot be empty.");
             throw new FieldMissingException();
         }
+        movie.setTitle(title);
         try {
             int releaseYear = Integer.parseInt(req.getParameter("releaseYear"));
             movie.setReleaseYear(releaseYear);

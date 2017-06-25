@@ -52,6 +52,7 @@ function handleUploadingTasks(data) {
         return;
     }
 
+    keepQuerying = true;
     var html = "";
     var numTasksUnfolded = 0;
 
