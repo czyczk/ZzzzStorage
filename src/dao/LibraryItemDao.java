@@ -5,7 +5,12 @@ import model.libraryModel.MediaTypeEnum;
 import model.libraryModel.Movie;
 import model.libraryModel.OrderByEnum;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+import util.DBUtil;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -59,12 +64,44 @@ public class LibraryItemDao implements ILibraryItemDao<LibraryItem> {
     public int count(MediaTypeEnum mediaType) {
         return count(mediaType, null);
     }
+
+    /**
+     * Count the items meeting the conditions passed in. Use at your own risk.
+     * @param additionalConditions Additional conditions.
+     * @return Number of items meeting the conditions.
+     */
     public int count(MediaTypeEnum mediaType, String[] additionalConditions) {
-        switch (mediaType) {
-            case MOVIE:
-                return DaoFactory.getMovieDao().count(additionalConditions);
-            default: throw new NotImplementedException();
+        int count = 0;
+
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            con = DBUtil.getConnection();
+            String sql = "SELECT count(*) FROM " + mediaType.toString().toLowerCase();
+            if (additionalConditions != null && additionalConditions.length > 0) {
+                for (int i = 0; i < additionalConditions.length; i++) {
+                    if (i == 0)
+                        sql += " WHERE ";
+                    else
+                        sql += " AND ";
+                    sql += additionalConditions[i];
+                }
+            }
+            ps = con.prepareStatement(sql);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                count = rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DBUtil.close(rs);
+            DBUtil.close(ps);
+            DBUtil.close(con);
         }
+        return count;
     }
 
     public List<Movie> listMovies() {

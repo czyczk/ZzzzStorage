@@ -12,6 +12,8 @@ $(function () {
     $("div.tag").click(selectAnItem);
     // Hover on the right sidebar to reveal the labels
     $("#right-sidebar").hover(revealSidebarLabel, hideSidebarLabel);
+    // Download button handler
+    $("#download-button").click(handleDownloadButton);
 });
 
 // $('#contentRight input:radio').click(function(){
@@ -227,13 +229,26 @@ function hideSidebarLabel() {
 function handleDownloadButton() {
     // Fetch all the checkboxes that are checked
     var checkedCbs = $(".item-checkbox:checkbox:checked");
+    console.info(checkedCbs);
+    for (var i = 0; i < checkedCbs.length; i++) {
+        triggerDownload(checkedCbs[i].parentNode);
+    }
 
     // For each such checkbox, collect its context data and create a new window to access the download servlet
-    checkedCbs.forEach(function(it) {
-        var contextData = it.getParent().getParent();
-        var title = contextData.find("span.item-title").html;
-        var SHA256 = contextData.findByName("SHA256").val();
-        var size = contextData.findByName("size").val();
-        window.open("DownloadServlet?SHA256=" + SHA256 + "&size=" + size + "&indicatedFilename" + title);
-    });
+    // if (checkedCbs.length == 1) {
+    //     triggerDownload(checkedCbs);
+    // } else {
+    //     for (i in checkedCbs) {
+    //         triggerDownload(checkedCbs[i]);
+    //     }
+    // }
+}
+
+function triggerDownload(it) {
+    console.info(it);
+    // var contextData = it.getParent().getParent();
+    var title = it.find("span.item-title").html;
+    var SHA256 = it.findByName("SHA256").val();
+    var size = it.findByName("size").val();
+    window.open("DownloadServlet?SHA256=" + SHA256 + "&size=" + size + "&indicatedFilename=" + title);
 }
