@@ -1,8 +1,10 @@
 package servlet;
 
 import dao.DaoFactory;
-import dao.LibraryItemDao;
 import model.*;
+import model.libraryModel.LibraryItem;
+import model.libraryModel.MediaTypeEnum;
+import model.libraryModel.OrderByEnum;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import util.JsonUtil;
 

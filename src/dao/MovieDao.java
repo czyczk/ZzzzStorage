@@ -1,7 +1,7 @@
 package dao;
 
-import model.Movie;
-import model.OrderByEnum;
+import model.libraryModel.Movie;
+import model.libraryModel.OrderByEnum;
 import util.DBUtil;
 
 import java.sql.*;

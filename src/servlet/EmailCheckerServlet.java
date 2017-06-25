@@ -2,8 +2,7 @@ package servlet;
 
 import dao.DaoFactory;
 import dao.UserDao;
-import dao.UserDaoException;
-import model.ServletMessage;
+import model.servletModel.ServletMessage;
 import model.User;
 
 import javax.servlet.ServletException;

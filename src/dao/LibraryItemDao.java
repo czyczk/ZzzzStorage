@@ -1,9 +1,9 @@
 package dao;
 
-import model.LibraryItem;
-import model.MediaTypeEnum;
-import model.Movie;
-import model.OrderByEnum;
+import model.libraryModel.LibraryItem;
+import model.libraryModel.MediaTypeEnum;
+import model.libraryModel.Movie;
+import model.libraryModel.OrderByEnum;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.List;

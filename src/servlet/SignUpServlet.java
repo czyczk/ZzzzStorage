@@ -3,7 +3,7 @@ package servlet;
 import dao.DaoFactory;
 import dao.UserDao;
 import dao.UserDaoException;
-import model.ServletMessage;
+import model.servletModel.ServletMessage;
 import model.User;
 
 import javax.servlet.ServletException;
@@ -58,6 +58,7 @@ public class SignUpServlet extends HttpServlet {
         user.setAvatarId(1); // The new user is assigned with a default avatar.
         user.setId(userDao.getNumTotalUsers()); // The ID of the new user is assigned by the user DAO
         req.getSession().setAttribute("activeUser", user);
+//        req.getSession().setAttribute("downloadTasks");
         resp.setContentType("text/json");
         resp.setCharacterEncoding("UTF-8");
 //        resp.sendRedirect("main.jsp");

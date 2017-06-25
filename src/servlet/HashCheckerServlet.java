@@ -1,8 +1,8 @@
 package servlet;
 
 import dao.DaoFactory;
-import model.MediaTypeEnum;
-import model.ServletMessage;
+import model.libraryModel.MediaTypeEnum;
+import model.servletModel.ServletMessage;
 import model.User;
 
 import javax.servlet.ServletException;

@@ -1,6 +1,6 @@
 package dao;
 
-import model.Music;
+import model.libraryModel.Music;
 import util.DBUtil;
 
 import java.sql.Connection;

@@ -1,4 +1,6 @@
-package model;
+package model.servletModel;
+
+import model.IJsonable;
 
 /**
  * Created by czyczk on 2017-6-23.

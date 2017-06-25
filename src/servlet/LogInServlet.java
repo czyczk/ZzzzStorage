@@ -3,9 +3,8 @@ package servlet;
 import dao.DaoFactory;
 import dao.UserDao;
 import dao.UserDaoException;
-import model.ServletMessage;
+import model.servletModel.ServletMessage;
 import model.User;
-import util.JsonUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

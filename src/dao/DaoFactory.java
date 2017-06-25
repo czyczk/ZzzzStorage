@@ -1,7 +1,5 @@
 package dao;
 
-import model.LibraryItem;
-
 /**
  * Created by czyczk on 2017-6-18.
  */
