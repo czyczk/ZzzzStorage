@@ -26,7 +26,7 @@ ol li.active{
 	font-size: 18px;
 	text-decoration: none;
 }
-.category-input, .music, .tvshow, .tract, .album, .artist, .runtime, .season, .errorIMDB-required, .error-range, .errorTitle-required{
+.category-input, .music, .tvshow, .tract, .album, .artist, .runtime, .season, .error-range{
 	display: none;
 }
 .error{

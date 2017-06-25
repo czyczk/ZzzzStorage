@@ -5,7 +5,7 @@
 var fileSize;
 var sha256;
 var mediaType;
-var uploadRange = 'prihibited';
+var uploadRange = 'prohibited';
 var formError = false;
 
 $(function () {

@@ -127,7 +127,7 @@
 								<div class="msg"></div>
 							</div>
 							<div class="form-group tract">
-								<label for="tract" class="control-label" style="color: #909090;">Tract</label>
+								<label for="tract" class="control-label" style="color: #909090;">Track: </label>
 								<input type="number" class="form-control" id="tract" name="tract">
 							</div>
 							<div class="form-group duration">

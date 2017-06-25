@@ -96,7 +96,9 @@ function loadItems() {
 
         // Append title and release year (if available)
         // Append title
-        html += '<div><span class="item-title">' + it.title + '</span>';
+        html += '<div id="'+ it.imdb +'"><span class="item-title">' + it.title + '</span>';
+        html += '<span class="item-sha256" style="display: none;">' + it.SHA256 + '</span>';
+        html += '<span class="item-size" style="display: none;">' + it.size + '</span>';
         // Append year if available
         if (it.releaseYear != 0) {
             html += '<span style="margin-left: 1rem;">(' + it.releaseYear + ')</span>';
@@ -134,7 +136,7 @@ function loadItems() {
             html += '<p>Plot: ' + it.plot + '</p>';
         }
         // Append a hidden checkbox (structural requirement)
-        html += '<input name="selected-items" type="checkbox" class="item-checkbox" /> <!-- the hidden checkbox -->';
+        html += '<input name="selected-items" type="checkbox" class="item-checkbox" value="' +it.imdb+ '"/> <!-- the hidden checkbox -->';
         // Endings
         html += '</div></div></div></div>';
     });
@@ -228,11 +230,13 @@ function hideSidebarLabel() {
 
 function handleDownloadButton() {
     // Fetch all the checkboxes that are checked
-    var checkedCbs = $(".item-checkbox:checkbox:checked");
-    console.info(checkedCbs);
-    for (var i = 0; i < checkedCbs.length; i++) {
-        triggerDownload(checkedCbs[i].parentNode);
-    }
+    $("input:checkbox[name='selected-items']:checked").each(function () {
+        triggerDownload($(this).val());
+    });
+    // console.log(checkedCbs);
+    // for (var i = 0; i < checkedCbs.length; i++) {
+    //     triggerDownload(checkedCbs[i].parentNode);
+    // }
 
     // For each such checkbox, collect its context data and create a new window to access the download servlet
     // if (checkedCbs.length == 1) {
@@ -247,8 +251,14 @@ function handleDownloadButton() {
 function triggerDownload(it) {
     console.info(it);
     // var contextData = it.getParent().getParent();
-    var title = it.find("span.item-title").html;
-    var SHA256 = it.findByName("SHA256").val();
-    var size = it.findByName("size").val();
+    // var title = it.find("span.item-title").html;
+    // var SHA256 = it.findByName("SHA256").val();
+    // var size = it.findByName("size").val();
+    var SHA256 = $('#'+it).children('.item-sha256').text();
+    var size = $('#'+it).children('.item-size').text();
+    var title = $('#'+it).children('.item-title').text();
+    console.log(SHA256);
+    console.log(size);
+    console.log(title);
     window.open("DownloadServlet?SHA256=" + SHA256 + "&size=" + size + "&indicatedFilename=" + title);
 }
