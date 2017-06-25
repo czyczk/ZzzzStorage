@@ -7,6 +7,7 @@ import model.servletModel.ServletMessage;
 import model.User;
 import model.transferModel.DownloadTask;
 import model.transferModel.UploadTask;
+//import test.TestUploadTask;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -60,6 +61,10 @@ public class LogInServlet extends HttpServlet {
         req.getSession().setAttribute("activeUser", user);
         req.getSession().setAttribute("downloadTasks", new ArrayList<DownloadTask>());
         req.getSession().setAttribute("uploadTasks", new ArrayList<UploadTask>());
+
+        // For testing purpose only
+//        req.getSession().setAttribute("uploadTasks", TestUploadTask.test());
+
         ServletMessage servletMessage = new ServletMessage("success", "main.jsp");
         resp.setContentType("text/json");
         resp.setCharacterEncoding("UTF-8");
