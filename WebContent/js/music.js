@@ -1,3 +1,6 @@
+/**
+ * Created by czyczk on 2017-6-26.
+ */
 // 记录当前页面选中项目个数的整数
 // Holds the number of items selected in this page
 numItemsSelected = 0;
@@ -16,33 +19,13 @@ $(function () {
     $("#download-button").click(handleDownloadButton);
 });
 
-// $('#contentRight input:radio').click(function(){
-// //   alert('sss');
-// 	var $radio = $(this);
-// 	//if this was previously checked
-// 	if($radio.data('waschecked') == true) {
-// 		$radio.prop('checked', false);
-// 		$radio.data('waschecked', false);
-// 		$(".right-sidebar").animate({
-// 	      	right: '-100px'
-//     	});
-// 	} else {
-// 		$radio.prop('checked', true);
-// 		$radio.data('waschecked', true);
-// 		$(".right-sidebar").animate({
-// 	      	right: '0px'
-//     	});
-// 	}
-//
-// });
-
 // Query the servlet for items
 function loadItems() {
     var container = $("#contentRight");
     // First query for the total number of movies
     $.ajax({
         url: "FileListGeneratorServlet",
-        data: "requestType=count&mediaType=movie",
+        data: "requestType=count&mediaType=music",
         type: "post",
         async: false,
         success: updateNumTotal
@@ -50,15 +33,15 @@ function loadItems() {
     // Then, query for items
     $.ajax({
         url: "FileListGeneratorServlet",
-        data: "requestType=list&mediaType=movie&orderBy=title&start=0&range=10",
+        data: "requestType=list&mediaType=music&orderBy=title&start=0&range=10",
         type: "post",
         async: false,
         success: updateItems
     });
 
-    // Show info only if no movie is found
+    // Show info only if no music is found
     if (items == undefined || items.length == 0) {
-        var html = '<div class="info"><h2>No movie.</h2></div>';
+        var html = '<div class="info"><h2>No music.</h2></div>';
         container.html(html);
         return;
     }
@@ -94,23 +77,31 @@ function loadItems() {
 	    <div class="item-info-container">\
 	    ';
 
-        // Append title and release year (if available)
-        // Append title
-        html += '<div><span class="item-title">' + it.title + '</span>';
-        // Append year if available
-        if (it.releaseYear != 0) {
-            html += '<span style="margin-left: 1rem;">(' + it.releaseYear + ')</span>';
+        // Append artist (if available) and title
+        var header = "";
+        if (it.artist != undefined && it.artist.length > 0) {
+            for (i = 0; i < it.artist.length; i++) {
+                header += it.artist[i];
+                if (i < genres.length - 1) {
+                    html += ' & ';
+                }
+            }
         }
-        html += '</div>'
-
-        //Append IMDB and duration (if available)
-        // Append IMDB
-        html += '<div><span>IMDB: ' + it.imdb + "</span>";
+        header += it.title;
+        html += '<div><span class="item-title">' + header + '</span>';
         // Append duration if available
         if (it.duration == undefined || it.duration != 0) {
-            html += '<span style="margin-left: 2rem;">Duration: ' + it.duration + ' min</span>';
+            html += '<p>Duration: ' + parseDuration(it.duration) + '</p>';
         }
         html += '</div>';
+
+        // Append album
+        html += '<p>Album: ' + it.album + '</p>';
+
+        // Append track if available
+        if (it.track != undefined && it.track != 0) {
+            html += '<p>Track: ' + it.track + '</p>';
+        }
 
         // Append genres if available
         var genres = it.genre;
@@ -122,16 +113,12 @@ function loadItems() {
                     html += ', ';
                 }
             }
-            html += "</p>";
+            html += "</p>"
         }
 
         // Append rating if available
         if (it.rating != undefined) {
             html += '<p>Rating: ' + it.rating + "</p>";
-        }
-        // Append plot if available
-        if (it.plot != undefined) {
-            html += '<p>Plot: ' + it.plot + '</p>';
         }
         // Append a hidden checkbox (structural requirement)
         html += '<input name="selected-items" type="checkbox" class="item-checkbox" /> <!-- the hidden checkbox -->';
@@ -226,29 +213,13 @@ function hideSidebarLabel() {
     });
 }
 
-function handleDownloadButton() {
-    // Fetch all the checkboxes that are checked
-    var checkedCbs = $(".item-checkbox:checkbox:checked");
-    console.info(checkedCbs);
-    for (var i = 0; i < checkedCbs.length; i++) {
-        triggerDownload(checkedCbs[i].parentNode);
+function parseDuration(duration) {
+    var str = "";
+    var min = (int) (duration / 60);
+    var sec = duration % 60;
+    var secStr = sec;
+    if (sec < 10) {
+        secStr = "0" + sec;
     }
-
-    // For each such checkbox, collect its context data and create a new window to access the download servlet
-    // if (checkedCbs.length == 1) {
-    //     triggerDownload(checkedCbs);
-    // } else {
-    //     for (i in checkedCbs) {
-    //         triggerDownload(checkedCbs[i]);
-    //     }
-    // }
-}
-
-function triggerDownload(it) {
-    console.info(it);
-    // var contextData = it.getParent().getParent();
-    var title = it.find("span.item-title").html;
-    var SHA256 = it.findByName("SHA256").val();
-    var size = it.findByName("size").val();
-    window.open("DownloadServlet?SHA256=" + SHA256 + "&size=" + size + "&indicatedFilename=" + title);
+    return min + ":" + secStr;
 }

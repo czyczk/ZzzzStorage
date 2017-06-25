@@ -2,10 +2,7 @@ package servlet;
 
 import dao.DaoFactory;
 import model.*;
-import model.libraryModel.FieldMissingException;
-import model.libraryModel.FileAssociatedItem;
-import model.libraryModel.MediaTypeEnum;
-import model.libraryModel.Movie;
+import model.libraryModel.*;
 import model.servletModel.ServletMessage;
 import model.transferModel.UploadTask;
 import util.DBUtil;
@@ -83,7 +80,11 @@ public class UploadServlet extends HttpServlet {
                 break;
                 case MUSIC:
                 {
-                    // TODO
+                    Music music = parseMusic(req, resp);
+                    music.setOwnerId(ownerId);
+                    music.setSHA256(SHA256);
+                    music.setSize(size);
+                    transferTaskItem = music;
                 }
                 break;
                 case TV_SHOW:
@@ -211,5 +212,47 @@ public class UploadServlet extends HttpServlet {
         } catch (NumberFormatException e) {
         }
         return movie;
+    }
+
+    private Music parseMusic(HttpServletRequest req, HttpServletResponse resp) throws IOException, FieldMissingException {
+        Music music = new Music();
+        // Not null title
+        String title = req.getParameter("title");
+        if (title.trim().isEmpty()) {
+            sendErrorMessage(resp, "Title cannot be empty.");
+            throw new FieldMissingException();
+        }
+        music.setTitle(title);
+        // Not null album
+        String album = req.getParameter("album");
+        if (title.trim().isEmpty()) {
+            sendErrorMessage(resp, "Album cannot be empty.");
+            throw new FieldMissingException();
+        }
+        music.setAlbum(album);
+        // Track
+        try {
+            int track = Integer.parseInt(req.getParameter("track"));
+            music.setTrack(track);
+        } catch (NumberFormatException e) {
+        }
+        // Duration
+        try {
+            int duration = Integer.parseInt(req.getParameter("duration"));
+            music.setDuration(duration);
+        } catch (NumberFormatException e) {
+        }
+        // Rating
+        try {
+            int rating = Integer.parseInt(req.getParameter("rating"));
+            music.setRating(rating);
+        } catch (NumberFormatException e) {
+        }
+        // Thumb URL
+        String thumbUrl = req.getParameter("thumbUrl");
+        if (!thumbUrl.trim().isEmpty()) {
+            music.setThumbUrl(thumbUrl);
+        }
+        return music;
     }
 }
