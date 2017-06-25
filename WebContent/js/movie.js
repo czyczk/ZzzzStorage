@@ -73,7 +73,7 @@ function loadItems() {
         if (it.thumbUrl != undefined) {
             html += it.thumbUrl;
         } else {
-            html += "img/sample-covers/movie-default-icon-tailored.png";
+            html += "img/sample-covers/default-movie-icon-poster-size.png";
         }
 	    html += '" class="thumbnail" />';
 

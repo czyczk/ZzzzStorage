@@ -161,7 +161,7 @@
     					<h4 class="modal-title" id="myModalLabel">Upload</h4>
     				</div>
     				<div class="modal-body">
-    					<form id="upload-form">
+    					<form id="upload-form" enctype="multipart/form-data">
 	                        <div class="form-group">
 	                            <label for="recipient-name" class="control-label" style="color: #909090;">Title: </label>
 	                            <input type="text" class="form-control" id="recipient-name" name="title">
