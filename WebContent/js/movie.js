@@ -5,9 +5,9 @@ numItemsInTotal = 0;
 var items;
 
 // jquery
-$(function() {
-	// Query the servlet for items
-	loadItems();
+$(function () {
+    // Query the servlet for items
+    loadItems();
     // If the item card is tapped, invoke the handler.
     $("div.tag").click(selectAnItem);
     // Hover on the right sidebar to reveal the labels
@@ -36,28 +36,35 @@ $(function() {
 
 // Query the servlet for items
 function loadItems() {
-	var container = $("#contentRight");
-	// First query for the total number of movies
-	$.ajax({
-		url: "FileListGeneratorServlet",
-		data: "requestType=count&mediaType=movie",
-		type: "post",
-		async: false,
-		success: updateNumTotal
-	});
-	// Then, query for items
-	$.ajax({
-		url: "FileListGeneratorServlet",
-		data: "requestType=list&mediaType=movie&orderBy=title&start=0&range=10",
-		type: "post",
-		async: false,
-		success: updateItems
-	});
-	// Arrange the items
-	// container.html("");
+    var container = $("#contentRight");
+    // First query for the total number of movies
+    $.ajax({
+        url: "FileListGeneratorServlet",
+        data: "requestType=count&mediaType=movie",
+        type: "post",
+        async: false,
+        success: updateNumTotal
+    });
+    // Then, query for items
+    $.ajax({
+        url: "FileListGeneratorServlet",
+        data: "requestType=list&mediaType=movie&orderBy=title&start=0&range=10",
+        type: "post",
+        async: false,
+        success: updateItems
+    });
+
+    // Show info only if no movie is found
+    if (items == undefined || items.length == 0) {
+        var html = '<div class="info"><h2>No movie.</h2></div>';
+        container.html(html);
+        return;
+    }
+
+    // Arrange the items
     var html = '<div>';
-	items.forEach(function(it) {
-	    html += '\
+    items.forEach(function (it) {
+        html += '\
 	    <div class="col-lg-6 col-sm-6">\
 	    <div class="tag">\
 	    <div class="col-sm-4">\
@@ -68,16 +75,16 @@ function loadItems() {
 	    <div class="thumbnail-image">\
 	    ';
 
-	    // Append cover image (if available) or the default icon (if not available)
+        // Append cover image (if available) or the default icon (if not available)
         html += '<img src="';
         if (it.thumbUrl != undefined) {
             html += it.thumbUrl;
         } else {
             html += "img/sample-covers/default-movie-icon-poster-size.png";
         }
-	    html += '" class="thumbnail" />';
+        html += '" class="thumbnail" />';
 
-	    html += '\
+        html += '\
 	    </div>\
 	    </div>\
 	    </div>\
@@ -85,20 +92,20 @@ function loadItems() {
 	    <div class="item-info-container">\
 	    ';
 
-	    // Append title and release year (if available)
-	    // Append title
-	    html += '<div><span class="item-title">' + it.title + '</span>';
-	    // Append year if available
+        // Append title and release year (if available)
+        // Append title
+        html += '<div><span class="item-title">' + it.title + '</span>';
+        // Append year if available
         if (it.releaseYear != 0) {
             html += '<span style="margin-left: 1rem;">(' + it.releaseYear + ')</span>';
         }
         html += '</div>'
 
         //Append IMDB and duration (if available)
-	    // Append IMDB
+        // Append IMDB
         html += '<div><span>IMDB: ' + it.imdb + "</span>";
         // Append duration if available
-        if (it.duration != 0) {
+        if (it.duration == undefined || it.duration != 0) {
             html += '<span style="margin-left: 2rem;">Duration: ' + it.duration + ' min</span>';
         }
         html += '</div>'
@@ -128,81 +135,81 @@ function loadItems() {
         html += '<input name="selected-items" type="checkbox" class="item-checkbox" /> <!-- the hidden checkbox -->';
         // Endings
         html += '</div></div></div></div>';
-	});
-	html += '</div>';
+    });
+    html += '</div>';
     container.html(html);
 }
 
 function updateNumTotal(data) {
-	numItemsInTotal = data;
-	console.info("Total number: " + data);
+    numItemsInTotal = data;
+    console.info("Total number: " + data);
 }
 
 function updateItems(data) {
-	items = data;
-	console.info(data.length + " item(s) returned.");
+    items = data;
+    console.info(data.length + " item(s) returned.");
 }
 
 // The handler for item cards
 function selectAnItem() {
-	// Find the mask (containing the visible checkbox) and toggle it
-	var mask = $(this).find(".thumbnail-checkbox-mask").first();
-	toggleMask(mask);
-	
-	// 找到这个项目的隐藏复选框，改变其勾选状态，维护 numItemsSelected 并更新侧边栏状态
-	// Find the hidden checkbox of the item, toggle the checkbox, update numItemsSelected and the sidear
-	var hiddenCb = $(this).find(".item-checkbox").first();
-	if (hiddenCb.prop("checked")) {
-		hiddenCb.prop("checked", false);
-		numItemsSelected--;
-		updateSidebar("-");
-	} else {
-		hiddenCb.prop("checked", true);
-		numItemsSelected++;
-		updateSidebar("+");
-	}
+    // Find the mask (containing the visible checkbox) and toggle it
+    var mask = $(this).find(".thumbnail-checkbox-mask").first();
+    toggleMask(mask);
+
+    // 找到这个项目的隐藏复选框，改变其勾选状态，维护 numItemsSelected 并更新侧边栏状态
+    // Find the hidden checkbox of the item, toggle the checkbox, update numItemsSelected and the sidear
+    var hiddenCb = $(this).find(".item-checkbox").first();
+    if (hiddenCb.prop("checked")) {
+        hiddenCb.prop("checked", false);
+        numItemsSelected--;
+        updateSidebar("-");
+    } else {
+        hiddenCb.prop("checked", true);
+        numItemsSelected++;
+        updateSidebar("+");
+    }
 }
 
 function updateSidebar(trend) {
-	var sidebar = $(".right-sidebar").first();
-	if (trend == "+") {
-		// 从 0 到 1 则显示侧边栏
-		// From 0 to 1: Show the sidebar
-		if (numItemsSelected == 1) {
-			sidebar.animate({
+    var sidebar = $(".right-sidebar").first();
+    if (trend == "+") {
+        // 从 0 到 1 则显示侧边栏
+        // From 0 to 1: Show the sidebar
+        if (numItemsSelected == 1) {
+            sidebar.animate({
                 opacity: 1.00,
-	      		right: '-18rem'
-    		}, "fast");
-		}
-		// 从 1 加至更多则隐藏 Play 选项
+                right: '-18rem'
+            }, "fast");
+        }
+        // 从 1 加至更多则隐藏 Play 选项
         // From 1 to more: Hide "Play"
-		else {
-			sidebar.find("li").first().slideToggle("normal");
-		}
-	} else if (trend == "-") {
-		// 从更多减少至 1 则显示 Play 选项
+        else {
+            sidebar.find("li").first().slideToggle("normal");
+        }
+    } else if (trend == "-") {
+        // 从更多减少至 1 则显示 Play 选项
         // From more to 1: Show "Play"
-		if (numItemsSelected == 1) {
-			sidebar.find("li").first().slideToggle("normal");
-		}
-		// 从 1 减小至 0 则隐藏侧边栏
+        if (numItemsSelected == 1) {
+            sidebar.find("li").first().slideToggle("normal");
+        }
+        // 从 1 减小至 0 则隐藏侧边栏
         // From 1 to 0: Hide the sidebar
-		else if (numItemsSelected == 0) {
-			sidebar.animate({
+        else if (numItemsSelected == 0) {
+            sidebar.animate({
                 opacity: 0.25,
-	      		right: '-30rem'
-    		});
-		}
-	}
+                right: '-30rem'
+            });
+        }
+    }
 }
 
 function toggleMask(mask) {
-	if (mask.hasClass("thumbnail-checkbox-mask-visible")) {
-		mask.removeClass("thumbnail-checkbox-mask-visible").addClass("thumbnail-checkbox-mask-invisible");
-	} else {
-		mask.removeClass("thumbnail-checkbox-mask-invisible");
-		mask.addClass("thumbnail-checkbox-mask-visible");
-	}
+    if (mask.hasClass("thumbnail-checkbox-mask-visible")) {
+        mask.removeClass("thumbnail-checkbox-mask-visible").addClass("thumbnail-checkbox-mask-invisible");
+    } else {
+        mask.removeClass("thumbnail-checkbox-mask-invisible");
+        mask.addClass("thumbnail-checkbox-mask-visible");
+    }
 }
 
 function revealSidebarLabel() {
@@ -214,5 +221,19 @@ function revealSidebarLabel() {
 function hideSidebarLabel() {
     $(this).animate({
         right: '-18rem'
+    });
+}
+
+function handleDownloadButton() {
+    // Fetch all the checkboxes that are checked
+    var checkedCbs = $(".item-checkbox:checkbox:checked");
+
+    // For each such checkbox, collect its context data and create a new window to access the download servlet
+    checkedCbs.forEach(function(it) {
+        var contextData = it.getParent().getParent();
+        var title = contextData.find("span.item-title").html;
+        var SHA256 = contextData.findByName("SHA256").val();
+        var size = contextData.findByName("size").val();
+        window.open("DownloadServlet?SHA256=" + SHA256 + "&size=" + size + "&indicatedFilename" + title);
     });
 }

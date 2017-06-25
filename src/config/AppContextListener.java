@@ -23,6 +23,8 @@ public class AppContextListener implements ServletContextListener {
         // Create sample movies for testing purpose
 //        TestMovieDao.testAddFull();
 //        TestMovieDao.testAddLite();
+//        TestMovieDao.testDeleteLite();
+//        TestMovieDao.testDeleteFull();
     }
 
     @Override

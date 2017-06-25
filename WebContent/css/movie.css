@@ -79,6 +79,7 @@ body {
     float: left;
     /*position: absolute;*/
     /*left: 180px;*/
+	min-width: 85%;
     max-width: 85%;
 }
 #contentRight > div {
