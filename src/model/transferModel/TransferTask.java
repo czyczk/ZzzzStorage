@@ -8,6 +8,8 @@ import model.libraryModel.FileAssociatedItem;
 public abstract class TransferTask {
     private TransferTaskTypeEnum type;
     private FileAssociatedItem item;
+    private boolean isRunning;
+    private long bytesTransferred;
 
     public TransferTaskTypeEnum getType() {
         return type;
@@ -23,17 +25,34 @@ public abstract class TransferTask {
         this.item = item;
     }
 
+    public boolean isRunning() {
+        return isRunning;
+    }
+    public void setRunning(boolean running) {
+        isRunning = running;
+    }
+
+    public long getBytesTransferred() {
+        return bytesTransferred;
+    }
+    public void setBytesTransferred(long bytesTransferred) {
+        this.bytesTransferred = bytesTransferred;
+    }
+
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("TransferTask {\n");
+        final StringBuilder sb = new StringBuilder("TransferTask{\n");
         sb.append("type=").append(type);
         sb.append(", item=").append(item);
-        sb.append("\n}");
+        sb.append(", isRunning=").append(isRunning);
+        sb.append(", bytesTransferred=").append(bytesTransferred);
+        sb.append("\n");
         return sb.toString();
     }
 
-    public TransferTask(FileAssociatedItem item) {
+    public TransferTask(FileAssociatedItem item, boolean isRunning) {
         setItem(item);
+        setRunning(isRunning);
     }
 }
 

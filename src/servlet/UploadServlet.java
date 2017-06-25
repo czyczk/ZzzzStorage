@@ -1,10 +1,13 @@
 package servlet;
 
+import dao.DaoFactory;
 import model.*;
 import model.libraryModel.FieldMissingException;
+import model.libraryModel.FileAssociatedItem;
 import model.libraryModel.MediaTypeEnum;
 import model.libraryModel.Movie;
 import model.servletModel.ServletMessage;
+import model.transferModel.UploadTask;
 import util.DBUtil;
 
 import javax.servlet.ServletException;
@@ -18,6 +21,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 
 /**
  * Created by czyczk on 2017-6-24.
@@ -35,6 +39,7 @@ public class UploadServlet extends HttpServlet {
         // Collect user info
         User user = (User) req.getSession().getAttribute("activeUser");
         int ownerId = user.getId();
+        ArrayList<UploadTask> uploadTasks = (ArrayList<UploadTask>) req.getSession().getAttribute("uploadTasks");
 
         String requestType = req.getParameter("requestType");
         /* requestType:
@@ -62,43 +67,74 @@ public class UploadServlet extends HttpServlet {
 
         // Get basic metadata info
         MediaTypeEnum mediaType = parseMediaType(req.getParameter("mediaType"));
+        FileAssociatedItem transferTaskItem = null;
         try {
             switch (mediaType) {
                 case MOVIE:
                 {
                     Movie movie = parseMovie(req, resp);
-                    // TODO: add to database
+                    movie.setOwnerId(ownerId);
+                    movie.setSHA256(SHA256);
+                    movie.setSize(size);
+                    transferTaskItem = movie;
                 }
+                break;
+                case MUSIC:
+                {
+                    // TODO
+                }
+                break;
+                case TV_SHOW:
+                {
+                    // TODO
+                }
+                break;
+                default: throw new IllegalArgumentException("Not supported media type.");
             }
+
+            // Add to database
+            DaoFactory.getLibraryItemDao().add(transferTaskItem);
         } catch (FieldMissingException e) {
             // If any key field is missing, stop processing
             return;
         }
 
-        // If requestType == "metadata", stop here
-        if (requestType.equalsIgnoreCase("metadata")) return;
+        // Create an upload task
+        UploadTask uploadTask = new UploadTask((transferTaskItem), false);
 
-        // If requestType == "full", get file part as well
-        // Get file part
+        // If requestType == "metadata", add the task to the completed queue and stop here
+        if (requestType.equalsIgnoreCase("metadata")) {
+            uploadTasks.add(uploadTask);
+            return;
+        }
+
+        // If requestType == "full", get the file part as well
+        // Get the file part
         Part filePart = req.getPart("inputFile");
         String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
         String[] fileNameParts = fileName.split(".");
         String extension = fileNameParts[fileNameParts.length - 1];
         InputStream fileContentStream = filePart.getInputStream();
 
-        // Target path : [dbPath]/files/[SHA256] + . + [extension]
+        // Target path : [fileDbPath]/[SHA256] + . + [extension]
         String fileDbPath = DBUtil.getFileDbDirectory() + "/";
         String targetFilename = SHA256 + "." + extension;
         String targetFullPath = fileDbPath + targetFilename;
+        FileOutputStream fos = new FileOutputStream(targetFullPath);
+
+        // Add the task to the processing queue
+        uploadTask.setRunning(true);
+        uploadTasks.add(uploadTask);
 
         // Receive the uploading file
-        FileOutputStream fos = new FileOutputStream(targetFullPath);
-        byte[] buffer = new byte[1024];
+        byte[] buffer = new byte[4096];
         int len = 0;
         while ((len = (fileContentStream.read(buffer))) > 0) {
             fos.write(buffer, 0, len);
+            uploadTask.setBytesTransferred(uploadTask.getBytesTransferred() + len);
         }
         fos.close();
+        uploadTask.setRunning(false);
         fileContentStream.close();
     }
 
