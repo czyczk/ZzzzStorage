@@ -5,6 +5,8 @@
 var fileSize;
 var sha256;
 var mediaType;
+var uploadRange = 'prihibited';
+
 $(function () {
     // function startRead() {
     //     //Obtain input element through DOM
@@ -54,31 +56,48 @@ function handleSubmit() {
         data: "SHA256=" + sha256 + "&size=" + fileSize + "&mediaType=" + mediaType,
         type: "post",
         dataType: "json",
+        async: false,
         success: uploadOrNot()
     });
+
+    if (uploadRange == 'prohibited') return;
+
+    uploadForm();
 };
 
 function uploadOrNot() {
     return function (data) {
-        if(data.message == 'full') {
-            uploadForm(data);
-        }
-        else if(data.message == 'metadata') {
-            console.log("metadata");
+        if(data.message == 'full' || data.message == 'metadata') {
+            // uploadForm(data);
+            uploadRange = data.message;
         } else {
-            alert('This file exists.')
+            alert('This file exists in your library.');
         }
     }
 }
 
-function uploadForm(data) {
-
-    $("#upload-form").ajaxForm({
-        beforeSend: alert("asdlkfjwrei0fjdxclkvnaSKL"),
-        url: 'UploadServlet',
-        type: 'post',
-        dataType: 'json',
-        data: "SHA256=" + sha256 + "&size=" + fileSize + "&mediaType=" + mediaType
+function uploadForm() {
+    // $("#upload-form").ajaxForm({
+    //     beforeSend: alert("asdlkfjwrei0fjdxclkvnaSKL"),
+    //     url: 'UploadServlet',
+    //     type: 'post',
+    //     dataType: 'json',
+    //     data: "SHA256=" + sha256 + "&size=" + fileSize + "&mediaType=" + encodeURIComponent(mediaType)
+    // }).submit();
+    var formData = new FormData($("#upload-form")[0]);
+    formData.append("requestType", uploadRange);
+    formData.append("SHA256", sha256);
+    formData.append("size", fileSize);
+    $.ajax({
+        url: "UploadServlet",
+        data: formData,
+        type: "post",
+        cache: false,
+        contentType: false,
+        processData: false,
+        error: function() {
+            alert("loser");
+        }
     });
 }
 

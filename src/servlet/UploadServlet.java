@@ -67,6 +67,7 @@ public class UploadServlet extends HttpServlet {
 
         // Get basic metadata info
         MediaTypeEnum mediaType = parseMediaType(req.getParameter("mediaType"));
+        System.out.println(req.getParameter("mediaType"));
         FileAssociatedItem transferTaskItem = null;
         try {
             switch (mediaType) {

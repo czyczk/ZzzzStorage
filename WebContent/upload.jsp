@@ -11,7 +11,7 @@
     	<link rel="stylesheet" href="css/bootstrap/fileinput.min.css">
     	<link rel="stylesheet" href="css/uploading.css" />
     	<script src="js/bootstrap/bootstrap.min.js"></script>
-    	<script src="js/bootstrap/fileinput.min.js"></script>
+    	<script src="node_modules/bootstrap-fileinput/js/fileinput.js"></script>
     	<script src="node_modules/crypto-js/crypto-js.js"></script>
 		<script src="node_modules/jquery.form.min.js"></script>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -161,7 +161,23 @@
     					<h4 class="modal-title" id="myModalLabel">Upload</h4>
     				</div>
     				<div class="modal-body">
-    					<form id="upload-form">
+    					<form id="upload-form" enctype="multipart/form-data">
+							<div class="form-group">
+								<label class="control-label" for="input-2" style="color: #909090;">Select file...</label>
+								<input id="input-2" name="inputFile" type="file" class="file" multiple data-show-upload="false" data-show-caption="true">
+							</div>
+							<div class="form-group">
+								<label for="type" class="control-label" style="color: #909090;">Type: </label>
+								<select class="form-control" id="type" name="mediaType">
+									<option value="Movie" select="selected">Movie</option>
+									<option value="Music">Music</option>
+									<option value="TVShow">TV Show</option>
+								</select>
+							</div>
+							<div class="form-group">
+								<label for="imdb" class="control-label" style="color: #909090;">IMDB: </label>
+								<input type="number" class="form-control" name="imdb" id="imdb">
+							</div>
 	                        <div class="form-group">
 	                            <label for="recipient-name" class="control-label" style="color: #909090;">Title: </label>
 	                            <input type="text" class="form-control" id="recipient-name" name="title">
@@ -191,18 +207,7 @@
 								<label for="rating" class="control-label" style="color: #909090;">Rating: </label>
 								<input type="number" class="form-control" id="rating" name="rating">
 							</div>
-	                        <div class="form-group">
-	                            <label for="type" class="control-label" style="color: #909090;">Type: </label>
-	                            <select class="form-control" id="type" name="mediaType">
-	                            	<option value="Movie" select="selected">Movie</option>
-	                            	<option value="Music">Music</option>
-	                            	<option value="TVShow">TV Show</option>
-	                            </select>
-	                        </div>
-	                        <div class="form-group">
-	                            <label class="control-label" for="input-2" style="color: #909090;">Select file...</label>
-								<input id="input-2" name="inputFile" type="file" class="file" multiple data-show-upload="false" data-show-caption="true">
-	                       </div>
+
 	                       <div class="form-group">
 	                       		<label class="control-label" style="color: #909090;">Select genre: </label>
 	                       		<select class="form-control category movie">
