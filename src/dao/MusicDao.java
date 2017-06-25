@@ -1,9 +1,12 @@
 package dao;
 
 import model.libraryModel.Music;
+import model.libraryModel.OrderByEnum;
 import util.DBUtil;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by czyczk on 2017-6-24.
@@ -91,7 +94,7 @@ public class MusicDao implements ILibraryItemDao<Music> {
                             "track, " +
                             "thumb_url, " +
                             "rating) " +
-                            "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                            "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
             ps = con.prepareStatement(sql);
             ps.setString(1, item.getSHA256());
             ps.setLong(2, item.getSize());
@@ -165,6 +168,66 @@ public class MusicDao implements ILibraryItemDao<Music> {
     public void update(Music oldItem, Music newItem) {
         delete(oldItem);
         add(newItem);
+    }
+
+    public List<Music> list(int ownerId, OrderByEnum orderBy, int start, int range) {
+        if (orderBy != OrderByEnum.ARTIST && orderBy != OrderByEnum.GENRE && orderBy != OrderByEnum.TITLE)
+            throw new IllegalArgumentException("Not support order.");
+
+        List<Music> result = new ArrayList<>();
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        if (orderBy == OrderByEnum.TITLE) {
+            try {
+                con = DBUtil.getConnection();
+                String sql = "SELECT * FROM music WHERE owner_id=" + ownerId + " ORDER BY " + orderBy.toString() +
+                        " OFFSET " + start + " ROWS FETCH NEXT " + range + " ROWS ONLY";
+                ps = con.prepareStatement(sql);
+                rs = ps.executeQuery();
+                while (rs.next()) {
+                    Music music = toMusic(rs);
+                    music.setArtist(queryAdditionalInfo(music, "artist"));
+                    music.setGenre(queryAdditionalInfo(music, "genre"));
+                    result.add(music);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                DBUtil.close(rs);
+                DBUtil.close(ps);
+                DBUtil.close(con);
+            }
+        } else if (orderBy == OrderByEnum.ARTIST || orderBy == OrderByEnum.GENRE) {
+            try {
+                con = DBUtil.getConnection();
+                String sql = "SELECT DISTINCT imdb, owner_id FROM music_" + orderBy.toString().toLowerCase() +
+                        " WHERE owner_id = " + ownerId + " ORDER BY " + orderBy.toString().toLowerCase() +
+                        " OFFSET " + start + " ROWS FETCH NEXT " + range + " ROWS ONLY";
+                ps = con.prepareStatement(sql);
+                rs = ps.executeQuery();
+                while (rs.next()) {
+                    Music music = new Music();
+                    music.setOwnerId(ownerId);
+                    music.setSHA256(rs.getString("SHA256"));
+                    music.setSize(rs.getLong("size"));
+                    music = load(music);
+                    music.setArtist(queryAdditionalInfo(music, "artist"));
+                    music.setGenre(queryAdditionalInfo(music, "genre"));
+                    result.add(music);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                DBUtil.close(rs);
+                DBUtil.close(ps);
+                DBUtil.close(con);
+            }
+        } else {
+            throw new IllegalArgumentException("Not supported order for movies.");
+        }
+        return result;
     }
 
     // Check if the sample item contains the deterministic characteristics of the target item.

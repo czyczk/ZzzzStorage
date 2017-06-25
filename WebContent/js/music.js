@@ -16,7 +16,7 @@ $(function () {
     // Hover on the right sidebar to reveal the labels
     $("#right-sidebar").hover(revealSidebarLabel, hideSidebarLabel);
     // Download button handler
-    $("#download-button").click(handleDownloadButton);
+    // $("#download-button").click(handleDownloadButton);
 });
 
 // Query the servlet for items
@@ -215,7 +215,7 @@ function hideSidebarLabel() {
 
 function parseDuration(duration) {
     var str = "";
-    var min = (int) (duration / 60);
+    var min = (duration / 60).toFixed(0);
     var sec = duration % 60;
     var secStr = sec;
     if (sec < 10) {
