@@ -5,6 +5,8 @@ import dao.UserDao;
 import dao.UserDaoException;
 import model.servletModel.ServletMessage;
 import model.User;
+import model.transferModel.DownloadTask;
+import model.transferModel.UploadTask;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,6 +14,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * Created by czyczk on 2017-6-22.
@@ -58,7 +61,8 @@ public class SignUpServlet extends HttpServlet {
         user.setAvatarId(1); // The new user is assigned with a default avatar.
         user.setId(userDao.getNumTotalUsers()); // The ID of the new user is assigned by the user DAO
         req.getSession().setAttribute("activeUser", user);
-//        req.getSession().setAttribute("downloadTasks");
+        req.getSession().setAttribute("downloadTasks", new ArrayList<DownloadTask>());
+        req.getSession().setAttribute("uploadTasks", new ArrayList<UploadTask>());
         resp.setContentType("text/json");
         resp.setCharacterEncoding("UTF-8");
 //        resp.sendRedirect("main.jsp");

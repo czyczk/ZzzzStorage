@@ -5,6 +5,8 @@ import dao.UserDao;
 import dao.UserDaoException;
 import model.servletModel.ServletMessage;
 import model.User;
+import model.transferModel.DownloadTask;
+import model.transferModel.UploadTask;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,6 +14,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * Created by czyczk on 2017-6-22.
@@ -55,6 +58,8 @@ public class LogInServlet extends HttpServlet {
         // If no error occurs, update the attributes of the session and forward to the main page
         System.out.println("[Log in] User with email \"" + email + "\" logged in.");
         req.getSession().setAttribute("activeUser", user);
+        req.getSession().setAttribute("downloadTasks", new ArrayList<DownloadTask>());
+        req.getSession().setAttribute("uploadTasks", new ArrayList<UploadTask>());
         ServletMessage servletMessage = new ServletMessage("success", "main.jsp");
         resp.setContentType("text/json");
         resp.setCharacterEncoding("UTF-8");
