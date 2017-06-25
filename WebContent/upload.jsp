@@ -56,93 +56,100 @@
 	    		</div>
 	    		
 	    		<div id="uploaded">
-                	<div class="container" id="list">
+					<div id="list">
+						<%--<div class="row">--%>
+							<%--<div class="col-sm-2">--%>
+								<%--<img src="img/sample-covers/downloaded-movie1.png" alt="Loading..." class="img-responsive thumbnail" />--%>
+							<%--</div>--%>
+							<%--<div class="col-sm-9">--%>
+								<%--<div>--%>
+									<%--<h4>Title</h4>--%>
+									<%--<p>Media Type</p>--%>
+								<%--</div>--%>
+							<%--</div>--%>
 
-						<div class="col-lg-6 col-sm-6">
-							<div class="tag">
-                                <div class="col-sm-5">
-                                    <img src="img/sample-covers/downloaded-movie1.png" class="thumbnail" />
-                                </div>
-                                <div class="col-sm-7">
-                                    <div class="header">
-                                        <a href="#">Pirates of Caribbean</a>
-                                        <p>Comedy</p>
-                                        <p>6-12-2017 13:25:30</p>
-                                        <p>An adventure story of a infamous pirates.</p>
-                                        <br />
-                                        <br />
-                                    </div>
-                                </div>
-							</div>
-						</div>
+						<%--</div>--%>
 
-                    </div>
+						<%--<hr />--%>
+
+						<%--<div class="row">--%>
+							<%--<div class="col-sm-2">--%>
+								<%--<img src="img/sample-covers/downloaded-movie2.jpg" alt="Loading..." class="img-responsive thumbnail" />--%>
+							<%--</div>--%>
+							<%--<div class="col-sm-9">--%>
+								<%--<div style="margin-top: 20px;">--%>
+									<%--<h4>Title</h4>--%>
+									<%--<p>Media Type</p>--%>
+								<%--</div>--%>
+							<%--</div>--%>
+						<%--</div>--%>
+					</div>
                 </div>
                 
                 <div id="uploading">
-                    <div class="row">
-                        <div class="col-sm-2">
-                            <img src="img/sample-covers/downloaded-movie1.png" alt="Loading..." class="img-responsive thumbnail" />
-                        </div>
-                        <div class="col-sm-9">
-                            <div>
-                                <h4>Title</h4>
-                                <p>Media Type</p>
-                            </div>
-                        </div>
-                        <div class="col-sm-9">
-                            <div class="progress" style="margin-top: 20px;">
-                                <div class="progress-bar" role="progressbar" aria-valuenow="40"
-                                    aria-valuemin="0" aria-valuemax="100" style="width: 40%;">
-                                    <span>40%</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <%--<div class="row">--%>
+                        <%--<div class="col-sm-2">--%>
+                            <%--<img src="img/sample-covers/downloaded-movie1.png" alt="Loading..." class="img-responsive thumbnail" />--%>
+                        <%--</div>--%>
+                        <%--<div class="col-sm-9">--%>
+                            <%--<div>--%>
+                                <%--<h4>Title</h4>--%>
+                                <%--<p>Media Type</p>--%>
+                            <%--</div>--%>
+                        <%--</div>--%>
+                        <%--<div class="col-sm-9">--%>
+                            <%--<div class="progress" style="margin-top: 20px;">--%>
+                                <%--<div class="progress-bar" role="progressbar" aria-valuenow="40"--%>
+                                    <%--aria-valuemin="0" aria-valuemax="100" style="width: 40%;">--%>
+                                    <%--<span>40%</span>--%>
+                                <%--</div>--%>
+                            <%--</div>--%>
+                        <%--</div>--%>
+                    <%--</div>--%>
 
-                    <hr />
+                    <%--<hr />--%>
 
-                    <div class="row">
-                        <div class="col-sm-2">
-                            <img src="img/sample-covers/downloaded-movie2.jpg" alt="Loading..." class="img-responsive thumbnail" />
-                        </div>
-                        <div class="col-sm-9">
-                            <div style="margin-top: 20px;">
-                                <h4>Title</h4>
-                                <p>Media Type</p>
-                            </div>
-                        </div>
-                        <div class="col-sm-9">
-                            <div class="progress" style="margin-top: 20px;">
-                                <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="20"
-                                    aria-valuemin="0" aria-valuemax="100" style="width: 20%;">
-                                    <span>20%</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <%--<div class="row">--%>
+                        <%--<div class="col-sm-2">--%>
+                            <%--<img src="img/sample-covers/downloaded-movie2.jpg" alt="Loading..." class="img-responsive thumbnail" />--%>
+                        <%--</div>--%>
+                        <%--<div class="col-sm-9">--%>
+                            <%--<div style="margin-top: 20px;">--%>
+                                <%--<h4>Title</h4>--%>
+                                <%--<p>Media Type</p>--%>
+                            <%--</div>--%>
+                        <%--</div>--%>
+                        <%--<div class="col-sm-9">--%>
+                            <%--<div class="progress" style="margin-top: 20px;">--%>
+                                <%--<div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="20"--%>
+                                    <%--aria-valuemin="0" aria-valuemax="100" style="width: 20%;">--%>
+                                    <%--<span>20%</span>--%>
+                                <%--</div>--%>
+                            <%--</div>--%>
+                        <%--</div>--%>
+                    <%--</div>--%>
 
-                    <hr />
+                    <%--<hr />--%>
 
-                    <div class="row">
-                        <div class="col-sm-2">
-                            <img src="img/sample-covers/downloaded-movie3.jpg" alt="Loading..." class="img-responsive thumbnail" />
-                        </div>
-                        <div class="col-sm-9">
-                            <div style="margin-top: 20px;">
-                                <h4>Title</h4>
-                                <p>Media Type</p>
-                            </div>
-                        </div>
-                        <div class="col-sm-9">
-                            <div class="progress" style="margin-top: 20px;">
-                                <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="90"
-                                aria-valuemin="0" aria-valuemax="100" style="width: 90%;">
-                                    <span>90%</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <%--<div class="row">--%>
+                        <%--<div class="col-sm-2">--%>
+                            <%--<img src="img/sample-covers/downloaded-movie3.jpg" alt="Loading..." class="img-responsive thumbnail" />--%>
+                        <%--</div>--%>
+                        <%--<div class="col-sm-9">--%>
+                            <%--<div style="margin-top: 20px;">--%>
+                                <%--<h4>Title</h4>--%>
+                                <%--<p>Media Type</p>--%>
+                            <%--</div>--%>
+                        <%--</div>--%>
+                        <%--<div class="col-sm-9">--%>
+                            <%--<div class="progress" style="margin-top: 20px;">--%>
+                                <%--<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="90"--%>
+                                <%--aria-valuemin="0" aria-valuemax="100" style="width: 90%;">--%>
+                                    <%--<span>90%</span>--%>
+                                <%--</div>--%>
+                            <%--</div>--%>
+                        <%--</div>--%>
+                    <%--</div>--%>
                 </div> <!-- End of Uploading -->
 
 	    	</div> <!-- End of MainContent -->
