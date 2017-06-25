@@ -54,8 +54,9 @@ function handleUploadingTasks(data) {
 
     var html = "";
     var numTasksUnfolded = 0;
-    tasks.forEach(function() {
-        var item = this.item;
+
+    tasks.forEach(function(it) {
+        var item = it.item;
         html += '\
         <div class="row">\
         <div class="col-sm-2">\
@@ -63,7 +64,7 @@ function handleUploadingTasks(data) {
         // Append cover
         html += '<img src="';
         if (item.thumbUrl == undefined) {
-            html += 'img/sample-covers/default-upload-icon.png';
+            html += 'img/sample-covers/default-upload-icon-poster-size.png';
         } else {
             html += item.thumbUrl;
         }
@@ -75,7 +76,7 @@ function handleUploadingTasks(data) {
         <div style="margin-top: 2rem;">\
         ';
         // Append title
-        html += '<h4>' + item.title + '</h4>>';
+        html += '<h4>' + item.title + '</h4>';
         // Append media type
         html += '<p>' + item.mediaType.charAt(0) + item.mediaType.substr(1).toLowerCase() + '</p>';
 
@@ -87,7 +88,7 @@ function handleUploadingTasks(data) {
         ';
 
         // Calculate progress and append the progress bar
-        var progress = this.bytesTransferred / item.size;
+        var progress = it.bytesTransferred / item.size * 100;
         var progressBarClass = parseProgress(progress);
         html += '<div class="' + progressBarClass + '" role="progressbar" aria-valuenow="' + progress +
                 '"aria-valuemin="0" aria-valuemax="100" style="width: ' + progress + '%;">';
@@ -103,9 +104,9 @@ function handleUploadingTasks(data) {
 }
 
 function parseProgress(progress) {
-    if (progress < 0.2) {
+    if (progress < 20) {
         return "progress-bar progress-bar-warning";
-    } else if (progress < 0.9) {
+    } else if (progress < 90) {
         return "progress-bar";
     } else {
         return "progress-bar progress-bar-success";

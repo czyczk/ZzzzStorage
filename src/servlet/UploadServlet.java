@@ -112,9 +112,13 @@ public class UploadServlet extends HttpServlet {
         // If requestType == "full", get the file part as well
         // Get the file part
         Part filePart = req.getPart("inputFile");
+        System.out.println(filePart.getSubmittedFileName());
         String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
         String[] fileNameParts = fileName.split(".");
-        String extension = fileNameParts[fileNameParts.length - 1];
+        String extension = "";
+        if (fileNameParts.length > 1) {
+            extension = fileNameParts[fileNameParts.length - 1];
+        }
         InputStream fileContentStream = filePart.getInputStream();
 
         // Target path : [fileDbPath]/[SHA256] + . + [extension]
@@ -126,6 +130,9 @@ public class UploadServlet extends HttpServlet {
         // Add the task to the processing queue
         uploadTask.setRunning(true);
         uploadTasks.add(uploadTask);
+
+        // Refresh the page
+        sendSuccessRedirection(resp, "upload.jsp");
 
         // Receive the uploading file
         byte[] buffer = new byte[4096];
