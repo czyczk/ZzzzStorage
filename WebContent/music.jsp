@@ -249,7 +249,7 @@
 			<a href="play.jsp"><span class="glyphicon glyphicon-play right-sidebar-icon"></span>Play</a>
 		</li>
 		<li>
-			<a href="#"><span class="glyphicon glyphicon-cloud-download right-sidebar-icon"></span>Download</a>
+			<a href="#" id="download-button"><span class="glyphicon glyphicon-cloud-download right-sidebar-icon"></span>Download</a>
 		</li>
 		<li>
 			<a href="#"><span class="glyphicon glyphicon-trash right-sidebar-icon"></span>Delete</a>
@@ -259,7 +259,7 @@
 		</li>
 	</ul>
 </div>
-<script src="js/movie.js"></script>
+<script src="js/music.js"></script>
 
 </body>
 <!--

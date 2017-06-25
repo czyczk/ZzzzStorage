@@ -57,99 +57,12 @@
 	    		
 	    		<div id="uploaded">
 					<div id="list">
-						<%--<div class="row">--%>
-							<%--<div class="col-sm-2">--%>
-								<%--<img src="img/sample-covers/downloaded-movie1.png" alt="Loading..." class="img-responsive thumbnail" />--%>
-							<%--</div>--%>
-							<%--<div class="col-sm-9">--%>
-								<%--<div>--%>
-									<%--<h4>Title</h4>--%>
-									<%--<p>Media Type</p>--%>
-								<%--</div>--%>
-							<%--</div>--%>
 
-						<%--</div>--%>
-
-						<%--<hr />--%>
-
-						<%--<div class="row">--%>
-							<%--<div class="col-sm-2">--%>
-								<%--<img src="img/sample-covers/downloaded-movie2.jpg" alt="Loading..." class="img-responsive thumbnail" />--%>
-							<%--</div>--%>
-							<%--<div class="col-sm-9">--%>
-								<%--<div style="margin-top: 20px;">--%>
-									<%--<h4>Title</h4>--%>
-									<%--<p>Media Type</p>--%>
-								<%--</div>--%>
-							<%--</div>--%>
-						<%--</div>--%>
 					</div>
                 </div>
                 
                 <div id="uploading">
-                    <%--<div class="row">--%>
-                        <%--<div class="col-sm-2">--%>
-                            <%--<img src="img/sample-covers/downloaded-movie1.png" alt="Loading..." class="img-responsive thumbnail" />--%>
-                        <%--</div>--%>
-                        <%--<div class="col-sm-9">--%>
-                            <%--<div>--%>
-                                <%--<h4>Title</h4>--%>
-                                <%--<p>Media Type</p>--%>
-                            <%--</div>--%>
-                        <%--</div>--%>
-                        <%--<div class="col-sm-9">--%>
-                            <%--<div class="progress" style="margin-top: 20px;">--%>
-                                <%--<div class="progress-bar" role="progressbar" aria-valuenow="40"--%>
-                                    <%--aria-valuemin="0" aria-valuemax="100" style="width: 40%;">--%>
-                                    <%--<span>40%</span>--%>
-                                <%--</div>--%>
-                            <%--</div>--%>
-                        <%--</div>--%>
-                    <%--</div>--%>
 
-                    <%--<hr />--%>
-
-                    <%--<div class="row">--%>
-                        <%--<div class="col-sm-2">--%>
-                            <%--<img src="img/sample-covers/downloaded-movie2.jpg" alt="Loading..." class="img-responsive thumbnail" />--%>
-                        <%--</div>--%>
-                        <%--<div class="col-sm-9">--%>
-                            <%--<div style="margin-top: 20px;">--%>
-                                <%--<h4>Title</h4>--%>
-                                <%--<p>Media Type</p>--%>
-                            <%--</div>--%>
-                        <%--</div>--%>
-                        <%--<div class="col-sm-9">--%>
-                            <%--<div class="progress" style="margin-top: 20px;">--%>
-                                <%--<div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="20"--%>
-                                    <%--aria-valuemin="0" aria-valuemax="100" style="width: 20%;">--%>
-                                    <%--<span>20%</span>--%>
-                                <%--</div>--%>
-                            <%--</div>--%>
-                        <%--</div>--%>
-                    <%--</div>--%>
-
-                    <%--<hr />--%>
-
-                    <%--<div class="row">--%>
-                        <%--<div class="col-sm-2">--%>
-                            <%--<img src="img/sample-covers/downloaded-movie3.jpg" alt="Loading..." class="img-responsive thumbnail" />--%>
-                        <%--</div>--%>
-                        <%--<div class="col-sm-9">--%>
-                            <%--<div style="margin-top: 20px;">--%>
-                                <%--<h4>Title</h4>--%>
-                                <%--<p>Media Type</p>--%>
-                            <%--</div>--%>
-                        <%--</div>--%>
-                        <%--<div class="col-sm-9">--%>
-                            <%--<div class="progress" style="margin-top: 20px;">--%>
-                                <%--<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="90"--%>
-                                <%--aria-valuemin="0" aria-valuemax="100" style="width: 90%;">--%>
-                                    <%--<span>90%</span>--%>
-                                <%--</div>--%>
-                            <%--</div>--%>
-                        <%--</div>--%>
-                    <%--</div>--%>
                 </div> <!-- End of Uploading -->
 
 	    	</div> <!-- End of MainContent -->
@@ -171,13 +84,13 @@
     					<form id="upload-form" enctype="multipart/form-data">
 							<div class="form-group">
 								<label class="control-label" for="input-2" style="color: #909090;">Select file...</label>
-								<input id="input-2" name="inputFile" type="file" class="file" multiple data-show-upload="false" data-show-caption="true">
+								<input id="input-2" name="inputFile" type="file" class="file" multiple data-show-upload="false" data-show-caption="true" style="background-color: transparent; border: rgb(192, 211, 226) 1px solid; color: black;">
 							</div>
 							<div class="form-group">
 								<label for="type" class="control-label" style="color: #909090;">Type: </label>
-								<select class="form-control" id="type" name="mediaType">
+								<select class="form-control border-blue" id="type" name="mediaType">
 									<option value="Movie" select="selected">Movie</option>
-									<option value="Music">Music</option>
+									<option value="Music" >Music</option>
 									<option value="TVShow">TV Show</option>
 								</select>
 							</div>
@@ -191,14 +104,14 @@
 	                            <label for="recipient-name" class="control-label" style="color: #909090;">Title: </label>
 	                            <input type="text" class="form-control" id="recipient-name" name="title">
 								<div class="errorTitle-required error">Title is required</div>
-	                        </div>
+							</div>
 							<div class="form-group season">
 								<label for="season" class="control-label" style="color: #909090;">Season: </label>
 								<input type="number" class="form-control" id="season" name="season">
 							</div>
 							<div class="form-group releaseYear">
 								<label for="year" class="control-label" style="color: #909090;">Release year: </label>
-								<select name="releaseYear" id="year" class="form-control">
+								<select name="releaseYear" id="year" class="form-control border-blue">
 									<% for(int year = 2017; year > 1900; year --) {
 									 	%><option value="<%=year%>"><%=year%></option>
 									<%}%>
@@ -219,7 +132,7 @@
 							</div>
 							<div class="form-group duration">
 								<label for="duration" class="control-label" style="color: #909090;">Duration: </label>
-								<input type="time" class="form-control" id="duration" name="duration">
+								<input type="time" class="form-control border-blue" id="duration" name="duration">
 							</div>
 							<div class="form-group runtime">
 								<label for="runtime" class="control-label" style="color: #909090;">Runtime: </label>
@@ -235,11 +148,11 @@
 							</div>
 							<div class="form-group">
 								<label for="thumbUrl" class="control-label" style="color: #909090;">Thumbnail url: </label>
-								<input type="text" class="form-control" id="thumbUrl" name="thumbUrl">
+								<input type="text" class="form-control border-blue" id="thumbUrl" name="thumbUrl">
 							</div>
 							<div class="form-group">
 								<label for="rating" class="control-label" style="color: #909090;">Rating: </label>
-								<input type="number" class="form-control" id="rating" name="rating">
+								<input type="number" class="form-control border-blue" id="rating" name="rating">
 							</div>
 
 	                       <div class="form-group">
