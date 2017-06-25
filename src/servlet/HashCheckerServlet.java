@@ -27,7 +27,7 @@ public class HashCheckerServlet extends HttpServlet {
         // Collect necessary data
         User user = (User) req.getSession().getAttribute("activeUser");
         int ownerId = user.getId();
-        String SHA256 = req.getParameter("SHA256");
+        String SHA256 = req.getParameter("SHA256").toUpperCase();
         long size = Long.parseLong(req.getParameter("size"));
         MediaTypeEnum mediaType = MediaTypeEnum.valueOf(req.getParameter("mediaType").toUpperCase());
 
@@ -43,16 +43,17 @@ public class HashCheckerServlet extends HttpServlet {
         // If a file with the same SHA256 is not found, the user needs to upload the file.
         if (!isFileExisting)
             message.setMessage("full");
+        else {
+            int itemOfThisUser = DaoFactory.getLibraryItemDao().count(mediaType, new String[] { ("owner_id = " + ownerId), "SHA256 = " + SHA256, "size = " + size });
+            boolean isFileExistingInUserLib = itemOfThisUser > 0;
 
-        int itemOfThisUser = DaoFactory.getLibraryItemDao().count(mediaType, new String[] { ("owner_id = " + ownerId), "SHA256 = " + SHA256, "size = " + size });
-        boolean isFileExistingInUserLib = itemOfThisUser > 0;
-
-        // Else, if the file is found in the database but not in user library, the user needs only to upload the metadata.
-        if (!isFileExistingInUserLib)
-            message.setMessage("metadata");
-        // Else, the file is found in the user library. The user cannot upload a second same item.
-        else
-            message.setMessage("conflict");
+            // Else, if the file is found in the database but not in user library, the user needs only to upload the metadata.
+            if (!isFileExistingInUserLib)
+                message.setMessage("metadata");
+                // Else, the file is found in the user library. The user cannot upload a second same item.
+            else
+                message.setMessage("conflict");
+        }
 
         // Send the message
         resp.getWriter().write(message.toJson());
