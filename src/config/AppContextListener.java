@@ -17,6 +17,9 @@ public class AppContextListener implements ServletContextListener {
     public void contextInitialized(ServletContextEvent sce) {
         // Create the database
         DBUtil.createTablesIfNotExist();
+        // Create the directory for storing files
+        DBUtil.createFileDirectoryIfNotExists();
+
         // Create sample movies for testing purpose
 //        TestMovieDao.testAddFull();
 //        TestMovieDao.testAddLite();

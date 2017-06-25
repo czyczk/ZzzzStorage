@@ -1,7 +1,9 @@
 package util;
 
+import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.*;
 import java.util.ArrayList;
@@ -33,6 +35,9 @@ public class DBUtil {
     }
     public static String getDbDirectory() {
         return getRootOfProject() + "/database";
+    }
+    public static String getFileDbDirectory() {
+        return getDbDirectory() + "/files";
     }
     private static String getDbInitDirectory() {
         return getRootOfClasses() + "/database_init";
@@ -193,5 +198,13 @@ public class DBUtil {
         } finally {
             close(con);
         }
+    }
+
+    public static void createFileDirectoryIfNotExists() {
+        File file = new File(getFileDbDirectory());
+        if (file.exists() && file.isFile())
+            file.delete();
+        else
+            file.mkdir();
     }
 }

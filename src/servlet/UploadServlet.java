@@ -84,7 +84,7 @@ public class UploadServlet extends HttpServlet {
         InputStream fileContentStream = filePart.getInputStream();
 
         // Target path : [dbPath]/files/[SHA256] + . + [extension]
-        String fileDbPath = DBUtil.getDbDirectory() + "/files/";
+        String fileDbPath = DBUtil.getFileDbDirectory() + "/";
         String targetFilename = SHA256 + "." + extension;
         String targetFullPath = fileDbPath + targetFilename;
 
