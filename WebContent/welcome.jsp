@@ -86,17 +86,17 @@
                     <form id="log-in-form">
                         <div class="form-group">
                             <label for="email" class="control-label">Email: </label>
-                            <input type="email" class="log-in-email-ajax-input form-control" id="email1" name="email">
+                            <input type="email" class="log-in-email-ajax-input form-control border-blue" id="email1" name="email">
                         </div>
                         <div class="form-group">
                             <label for="password" class="control-label">Password: </label>
-                            <input type="password" class="form-control" id="password1" name="password">
+                            <input type="password" class="form-control border-blue" id="password1" name="password">
                         </div>
                         <div class="form-group">
                             <label class="error" style="display: none" id="log-in-error-label"></label>
                         </div>
                         <div>
-                            <button type="button" class="submit-button btn btn-default" id="log-in-button">Log In</button>
+                            <button type="button" class="submit-button btn btn-default border-blue" id="log-in-button">Log In</button>
                             <!-- Redirection is delegated to LogInServlet -->
                             <!-- onclick="window.location.href='main.jsp'" -->
                             <!--<button type="reset" class="btn btn-default">Reset</button>-->
