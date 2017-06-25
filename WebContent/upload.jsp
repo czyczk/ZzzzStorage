@@ -181,15 +181,22 @@
 									<option value="TVShow">TV Show</option>
 								</select>
 							</div>
-							<div class="form-group">
+							<div class="form-group imdb">
 								<label for="imdb" class="control-label" style="color: #909090;">IMDB: </label>
 								<input type="number" class="form-control" name="imdb" id="imdb">
+								<div class="errorIMDB-required error">imdb is required.</div>
+								<div class="error-range error">imdb should range from 1000000 to 9999999.</div>
 							</div>
 	                        <div class="form-group">
 	                            <label for="recipient-name" class="control-label" style="color: #909090;">Title: </label>
 	                            <input type="text" class="form-control" id="recipient-name" name="title">
+								<div class="errorTitle-required error">Title is required</div>
 	                        </div>
-							<div class="form-group">
+							<div class="form-group season">
+								<label for="season" class="control-label" style="color: #909090;">Season: </label>
+								<input type="number" class="form-control" id="season" name="season">
+							</div>
+							<div class="form-group releaseYear">
 								<label for="year" class="control-label" style="color: #909090;">Release year: </label>
 								<select name="releaseYear" id="year" class="form-control">
 									<% for(int year = 2017; year > 1900; year --) {
@@ -197,14 +204,34 @@
 									<%}%>
 								</select>
 							</div>
-							<div class="form-group">
+							<div class="form-group album">
+								<label for="album" class="control-label" style="color: #909090;">Album: </label>
+								<input type="text" class="form-control" id="album" name="album">
+							</div>
+							<div class="form-group plot">
 								<label for="desc" class="control-label" style="color: #909090;">Plot: </label>
 								<textarea class="form-control plot" id="desc" name="plot"></textarea>
 								<div class="msg"></div>
 							</div>
-							<div class="form-group">
+							<div class="form-group tract">
+								<label for="tract" class="control-label" style="color: #909090;">Tract</label>
+								<input type="number" class="form-control" id="tract" name="tract">
+							</div>
+							<div class="form-group duration">
 								<label for="duration" class="control-label" style="color: #909090;">Duration: </label>
 								<input type="time" class="form-control" id="duration" name="duration">
+							</div>
+							<div class="form-group runtime">
+								<label for="runtime" class="control-label" style="color: #909090;">Runtime: </label>
+								<input type="time" class="form-control" id="runtime" name="runtime">
+							</div>
+							<div class="form-group director">
+								<label for="director" class="control-label" style="color: #909090;">Director: </label>
+								<input type="text" class="form-control" id="director" name="director">
+							</div>
+							<div class="form-group artist">
+								<label for="artist" class="control-label" style="color: #909090;">Artist: </label>
+								<input type="text" class="form-control" id="artist" name="artist">
 							</div>
 							<div class="form-group">
 								<label for="thumbUrl" class="control-label" style="color: #909090;">Thumbnail url: </label>
@@ -218,7 +245,7 @@
 	                       <div class="form-group">
 	                       		<label class="control-label" style="color: #909090;">Select genre: </label>
 	                       		<select class="form-control category movie">
-	                       			<option value="Comedy">Comedy</option>
+	                       			<option value="Comedy" selected="selected">Comedy</option>
 	                       			<option value="Action">Action</option>
 	                       			<option value="Fantasy">Fantasy</option>
 	                       			<option value="Thriller">Thriller</option>
@@ -226,7 +253,7 @@
 	                       			<option value="Others">Other</option>
 	                       		</select>
 	                       		<select class="form-control category tvshow">
-	                       			<option value="Criminal">Criminal</option>
+	                       			<option value="Criminal" selected="selected">Criminal</option>
 	                       			<option value="Action">Action</option>
 	                       			<option value="Fantasy">Fantasy</option>
 	                       			<option value="Thriller">Thriller</option>
@@ -234,7 +261,7 @@
 	                       			<option value="Others">Other</option>
 	                       		</select>
 	                       		<select class="form-control category music">
-	                       			<option value="Rock">Rock</option>
+	                       			<option value="Rock" selected="selected">Rock</option>
 	                       			<option value="Action">Action</option>
 	                       			<option value="Fantasy">Fantasy</option>
 	                       			<option value="Thriller">Thriller</option>

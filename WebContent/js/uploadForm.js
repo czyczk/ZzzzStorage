@@ -4,16 +4,53 @@ $('#type').click(function(){
 		$('.movie').hide();
 		$('.music').show();
 		$('.tvshow').hide();
+
+		$('.imdb').hide();
+		$('.releaseYear').hide();
+		$('.plot').hide();
+		$('.director').hide();
+
+		$('.runtime').hide();
+		$('.season').hide();
+
+		$('.artist').show();
+		$('.album').show();
+		$('.tract').show();
+		$('.duration').show();
 	}
 	if(selectType == 'Movie'){
 		$('.movie').show();
 		$('.music').hide();
 		$('.tvshow').hide();
+
+        $('.imdb').show();
+        $('.releaseYear').show();
+        $('.plot').show();
+        $('.director').show();
+        $('.duration').show();
+
+        $('.runtime').hide();
+        $('.season').hide();
+
+        $('.artist').hide();
+        $('.album').hide();
+        $('.tract').hide();
 	}
 	if(selectType == 'TVShow'){
 		$('.movie').hide();
 		$('.music').hide();
 		$('.tvshow').show();
+
+        $('.releaseYear').hide();
+        $('.director').hide();
+        $('.duration').hide();
+
+        $('.runtime').show();
+        $('.season').show();
+
+        $('.artist').hide();
+        $('.album').hide();
+        $('.tract').hide();
 	}
 });
 

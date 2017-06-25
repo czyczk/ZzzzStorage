@@ -56,7 +56,7 @@ function loadItems() {
 
     // Show info only if no movie is found
     if (items == undefined || items.length == 0) {
-        var html = '<div class="info"><h2>No movie.</h2></div>';
+        var html = '<div class="info"><h2 style="top: 100px; left: 500px; position:absolute;">No movie.</h2></div>';
         container.html(html);
         return;
     }
