@@ -42,3 +42,50 @@ ol li.active{
 #uploaded .container .header {
 	margin-top: 20px;
 }
+
+
+.modal-title {
+	font-family: "Neue Haas Unica W1G", Helvetica, "Segoe UI", "Arial Nova", "Arial", sans-serif;
+}
+
+.modal .modal-content .modal-body {
+	color: black;
+	line-height: 150%;
+	font-family: "Neue Haas Unica W1G", Helvetica, "Segoe UI", "Arial Nova", "Arial", sans-serif;
+	font-weight: normal;
+}
+
+div.modal-body h4 {
+	margin-bottom: 4px;
+}
+div.modal-body p {
+	margin-bottom: 8px;
+}
+
+.modal-content {
+	/*background:-webkit-gradient(linear, 0 0, 0 50%, from(rgb(145,163,185)), to(rgb(87,139,199)));*/
+	/*background:-moz-linear-gradient(top, rgb(145,163,185), rgb(87,139,199));*/
+	-webkit-border-radius: 20px;
+	-moz-border-radius: 20px;
+	border-radius: 20px;
+	background: hsla(0, 0%, 100%, .7);
+	position: relative;
+	overflow: hidden;
+}
+.modal-content::before {
+	-webkit-border-radius: 20px;
+	-moz-border-radius: 20px;
+	border-radius: 20px;
+	content: '';
+	position: absolute;
+	top: 0px;
+	right: 0px;
+	bottom: 0px;
+	left: 0px;
+	background: inherit;
+	z-index: -1;
+	-webkit-filter: blur(300px);
+	-ms-filter: blur(300px);
+	filter: blur(300px);
+	margin:-30px;
+}
