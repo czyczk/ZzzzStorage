@@ -24,6 +24,7 @@ public class HashCheckerServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setCharacterEncoding("UTF-8");
         // Collect necessary data
         User user = (User) req.getSession().getAttribute("activeUser");
         int ownerId = user.getId();
