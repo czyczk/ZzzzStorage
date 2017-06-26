@@ -77,23 +77,44 @@ function loadItems() {
 	    <div class="item-info-container">\
 	    ';
 
-        // Append artist (if available) and title
-        var header = "";
-        if (it.artist != undefined && it.artist.length > 0) {
-            for (i = 0; i < it.artist.length; i++) {
-                header += it.artist[i];
-                if (i < genres.length - 1) {
-                    html += ' & ';
+        // Append hidden fields (structural requirement)
+        // : SHA256, size, artist, title
+        html += '<span class="item-sha256" style="display: none;">' + it.SHA256 + '</span>';
+        html += '<span class="item-size" style="display: none;">' + it.size + '</span>';
+        html += '<span class="item-artist" style="display: none;">';
+        var artists = it.artist;
+        if (artists != undefined && artists.length > 0) {
+            var len = artists.length;
+            for (i = 0; i < len; i++) {
+                html += artists[i];
+                if (i < len - 1) {
+                    html += '`';
                 }
             }
         }
+        html += '</span>';
+        html += '<span class="item-title" style="display: none;">' + it.title + '</span>';
+
+        // Append artist (if available) and title
+        var header = "";
+        if (artists != undefined && artists.length > 0) {
+            var len = artists.length;
+            for (i = 0; i < len; i++) {
+                header += artists[i];
+                if (i < len - 1) {
+                    header += ' & ';
+                }
+            }
+            header += ' - ';
+        }
         header += it.title;
-        html += '<div><span class="item-title">' + header + '</span>';
+        html += '<div><span class="item-header">' + header + '</span>';
+        html += '</div>';
+
         // Append duration if available
         if (it.duration == undefined || it.duration != 0) {
             html += '<p>Duration: ' + parseDuration(it.duration) + '</p>';
         }
-        html += '</div>';
 
         // Append album
         html += '<p>Album: ' + it.album + '</p>';
