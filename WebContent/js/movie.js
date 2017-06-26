@@ -18,8 +18,6 @@ var newItem;
 $(function () {
     // Query the servlet for items
     loadItems();
-    // If the item card is tapped, invoke the handler.
-    $("div.tag").click(selectAnItem);
     // Hover on the right sidebar to reveal the labels
     $("#right-sidebar").hover(revealSidebarLabel, hideSidebarLabel);
     // Download button handler
@@ -190,6 +188,12 @@ function loadItems() {
     });
 
     container.html(html);
+
+    // If the item card is tapped, invoke the handler.
+    $("div.tag").click(selectAnItem);
+    // Reset right sidebar
+    numItemsSelected = 0;
+    updateSidebar("-");
 }
 
 function updateNumTotal(data) {
@@ -233,16 +237,18 @@ function updateSidebar(trend) {
                 right: '-18rem'
             }, "fast");
         }
-        // 从 1 加至更多则隐藏 Play 选项
-        // From 1 to more: Hide "Play"
+        // 从 1 加至更多则隐藏 Play 和 Edit 选项
+        // From 1 to more: Hide "Play" and "Edit"
         else {
             sidebar.find("li").first().slideToggle("normal");
+            sidebar.find("li").eq(3).slideToggle("normal");
         }
     } else if (trend == "-") {
-        // 从更多减少至 1 则显示 Play 选项
-        // From more to 1: Show "Play"
+        // 从更多减少至 1 则显示 Play 和 Edit 选项
+        // From more to 1: Show "Play" and "Edit"
         if (numItemsSelected == 1) {
             sidebar.find("li").first().slideToggle("normal");
+            sidebar.find("li").eq(3).slideToggle("normal");
         }
         // 从 1 减小至 0 则隐藏侧边栏
         // From 1 to 0: Hide the sidebar
