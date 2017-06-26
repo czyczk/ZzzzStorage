@@ -15,7 +15,7 @@ $('#type').click(function(){
 
 		$('.artist').show();
 		$('.album').show();
-		$('.tract').show();
+		$('.track').show();
 		$('.duration').show();
 	}
 	if(selectType == 'Movie'){
@@ -34,7 +34,7 @@ $('#type').click(function(){
 
         $('.artist').hide();
         $('.album').hide();
-        $('.tract').hide();
+        $('.track').hide();
 	}
 	if(selectType == 'TVShow'){
 		$('.movie').hide();
@@ -50,7 +50,7 @@ $('#type').click(function(){
 
         $('.artist').hide();
         $('.album').hide();
-        $('.tract').hide();
+        $('.track').hide();
 	}
 });
 

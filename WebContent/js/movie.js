@@ -94,11 +94,16 @@ function loadItems() {
 	    <div class="item-info-container">\
 	    ';
 
+        // Header = title + (release year)
         // Append title and release year (if available)
+
         // Append title
         html += '<div><span class="item-title">' + it.title + '</span>';
+        // Append header
+        html += '<div><span class="item-header">' + it.title + '</span>';
         html += '<span class="item-sha256" style="display: none;">' + it.SHA256 + '</span>';
         html += '<span class="item-size" style="display: none;">' + it.size + '</span>';
+        html += '<span class="item-title" style="display: none;">' + it.title + '</span>';
         // Append year if available
         if (it.releaseYear != 0) {
             html += '<span style="margin-left: 1rem;">(' + it.releaseYear + ')</span>';
@@ -254,11 +259,13 @@ function triggerDownload(it) {
     // var title = it.find("span.item-title").html;
     // var SHA256 = it.findByName("SHA256").val();
     // var size = it.findByName("size").val();
+
     var SHA256 = $('#'+it).find('.item-sha256').text();
     var size = $('#'+it).find('.item-size').text();
     var title = $('#'+it).find('.item-title').text();
+
     console.log(SHA256);
     console.log(size);
-    console.log(title);
-    window.open("DownloadServlet?SHA256=" + SHA256 + "&size=" + size + "&indicatedFilename=" + title);
+    console.log(header);
+    window.open("DownloadServlet?SHA256=" + SHA256 + "&size=" + size + "&indicatedFilename=" + header);
 }
