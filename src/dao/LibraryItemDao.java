@@ -1,9 +1,6 @@
 package dao;
 
-import model.libraryModel.LibraryItem;
-import model.libraryModel.MediaTypeEnum;
-import model.libraryModel.Movie;
-import model.libraryModel.OrderByEnum;
+import model.libraryModel.*;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import util.DBUtil;
 
@@ -23,6 +20,9 @@ public class LibraryItemDao implements ILibraryItemDao<LibraryItem> {
             case MOVIE:
                 DaoFactory.getMovieDao().add((Movie) item);
                 break;
+            case MUSIC:
+                DaoFactory.getMusicDao().add((Music) item);
+                break;
             default: throw new NotImplementedException();
         }
         // TODO
@@ -33,6 +33,9 @@ public class LibraryItemDao implements ILibraryItemDao<LibraryItem> {
         switch (item.getMediaType()) {
             case MOVIE:
                 DaoFactory.getMovieDao().delete((Movie) item);
+                break;
+            case MUSIC:
+                DaoFactory.getMusicDao().delete((Music) item);
                 break;
             default: throw new NotImplementedException();
         }
@@ -47,6 +50,9 @@ public class LibraryItemDao implements ILibraryItemDao<LibraryItem> {
         switch (newItem.getMediaType()) {
             case MOVIE:
                 DaoFactory.getMovieDao().update((Movie) oldItem, (Movie) newItem);
+                break;
+            case MUSIC:
+                DaoFactory.getMusicDao().update((Music) oldItem, (Music) newItem);
                 break;
             default: throw new NotImplementedException();
         }
@@ -111,6 +117,8 @@ public class LibraryItemDao implements ILibraryItemDao<LibraryItem> {
         switch (mediaType) {
             case MOVIE:
                 return DaoFactory.getMovieDao().list(ownerId, orderBy, start, range);
+            case MUSIC:
+                return DaoFactory.getMusicDao().list(ownerId, orderBy, start, range);
             default: throw new NotImplementedException();
         }
     }
