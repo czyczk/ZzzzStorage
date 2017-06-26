@@ -4,6 +4,7 @@ import dao.DaoFactory;
 import model.User;
 import model.libraryModel.FileAssociatedItem;
 import model.libraryModel.MediaTypeEnum;
+import model.libraryModel.Movie;
 import model.servletModel.ServletMessage;
 import util.ServletUtil;
 
@@ -12,6 +13,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
 import java.io.IOException;
 
 /**
@@ -42,15 +44,27 @@ public class DeleteServlet extends HttpServlet{
         FileAssociatedItem item;
         try {
             item = FileAssociatedItem.createItem(mediaType, SHA256, size);
+            switch (mediaType) {
+                case MOVIE:
+                {
+                    int imdb = Integer.parseInt(req.getParameter("imdb"));
+                    Movie movie = (Movie) item;
+                    movie.setImdb(imdb);
+                    item = movie;
+                }
+                break;
+            }
         } catch (IllegalArgumentException e) {
             ServletUtil.sendServletMessage(resp, "error", e.getMessage());
             return;
         }
+        item.setOwnerId(ownerId);
 
         // Delete the item
         DaoFactory.getLibraryItemDao().delete(item);
 
         // Send a success message
+        System.out.println("[SQL delete] An item is deleted.");
         ServletUtil.sendServletMessage(resp, "success", null);
     }
 

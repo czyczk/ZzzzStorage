@@ -1,3 +1,5 @@
+// Media type
+var mediaType = "movie";
 // The default thumb URL for a movie item
 var defaultThumbPath = "img/sample-covers/default-movie-icon-poster-size.png";
 // The default SQL query statement
@@ -22,6 +24,9 @@ $(function () {
     $("#right-sidebar").hover(revealSidebarLabel, hideSidebarLabel);
     // Download button handler
     $("#download-button").click(handleDownloadButton);
+    // Delete button handler
+    $("#delete-button").click(handleDeleteButton);
+    // Edit button handler
     $("#edit-button").click(handleEditButton);
     $('.update-submit').click(editSubmit);
 
@@ -88,6 +93,9 @@ function loadItems() {
     if (items == undefined || items.length == 0) {
         var html = '<div class="info"><h2 style="top: 100px; left: 500px; position:absolute;">No movie.</h2></div>';
         container.html(html);
+        // Reset right sidebar
+        numItemsSelected = 0;
+        updateSidebar("-");
         return;
     }
 
@@ -325,10 +333,6 @@ function triggerEdit(it) {
 
 function triggerDownload(it) {
     console.info(it);
-    // var contextData = it.getParent().getParent();
-    // var title = it.find("span.item-title").html;
-    // var SHA256 = it.findByName("SHA256").val();
-    // var size = it.findByName("size").val();
 
     var SHA256 = $('#'+it).find('.item-sha256').text();
     var size = $('#'+it).find('.item-size').text();
@@ -341,9 +345,6 @@ function triggerDownload(it) {
 }
 
 function editSubmit() {
-    // Collect media type
-    var mediaType = $('#type').text();
-
     // Collect new info
     newItem = {
         "SHA256": oldItem.SHA256,
@@ -377,4 +378,29 @@ function handleUpdateSuccess(data) {
         // Alert error
         alert(data.message);
     }
+}
+
+function handleDeleteButton() {
+    $("input:checkbox[name='selected-items']:checked").each(function () {
+        triggerDelete($(this).val());
+    });
+}
+
+function triggerDelete(imdb) {
+    console.info(imdb);
+
+    var SHA256 = $('#'+imdb).find('.item-sha256').text();
+    var size = $('#'+imdb).find('.item-size').text();
+
+    $.ajax({
+        url: "DeleteServlet",
+        data: "mediaType=" + encodeURIComponent(mediaType) + "&SHA256=" + SHA256 + "&size=" + size + "&imdb=" + imdb,
+        type: "post",
+        success: function() {
+            loadItems();
+        },
+        error: function(data) {
+            alert(data);
+        }
+    });
 }

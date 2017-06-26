@@ -1,6 +1,13 @@
 /**
  * Created by czyczk on 2017-6-26.
  */
+// Media type
+var mediaType = "music";
+// The default thumb URL for a movie item
+var defaultThumbPath = "img/sample-covers/default-music-icon-poster-size.png";
+// The default SQL query statement
+var sqlStatement = "requestType=list&mediaType=music&orderBy=title&start=0&range=10";
+
 // 记录当前页面选中项目个数的整数
 // Holds the number of items selected in this page
 numItemsSelected = 0;
@@ -12,12 +19,13 @@ var formError = false;
 $(function () {
     // Query the servlet for items
     loadItems();
-    // If the item card is tapped, invoke the handler.
-    $("div.tag").click(selectAnItem);
     // Hover on the right sidebar to reveal the labels
     $("#right-sidebar").hover(revealSidebarLabel, hideSidebarLabel);
     // Download button handler
     $("#download-button").click(handleDownloadButton);
+    // Delete button handler
+    $("#delete-button").click(handleDeleteButton);
+    // Edit button handler
     $("#edit-button").click(handleEditButton);
 
 
@@ -47,7 +55,7 @@ $(function () {
 // Query the servlet for items
 function loadItems() {
     var container = $("#contentRight");
-    // First query for the total number of movies
+    // First query for the total number of music
     $.ajax({
         url: "FileListGeneratorServlet",
         data: "requestType=count&mediaType=music",
@@ -58,7 +66,7 @@ function loadItems() {
     // Then, query for items
     $.ajax({
         url: "FileListGeneratorServlet",
-        data: "requestType=list&mediaType=music&orderBy=title&start=0&range=10",
+        data: sqlStatement,
         type: "post",
         async: false,
         success: updateItems
@@ -68,6 +76,9 @@ function loadItems() {
     if (items == undefined || items.length == 0) {
         var html = '<div class="info"><h2 style="top: 100px; left: 500px; position:absolute;">No music.</h2></div>';
         container.html(html);
+        // Reset right sidebar
+        numItemsSelected = 0;
+        updateSidebar("-");
         return;
     }
 
@@ -90,7 +101,7 @@ function loadItems() {
         if (it.thumbUrl != undefined) {
             html += it.thumbUrl;
         } else {
-            html += "img/sample-covers/default-music-icon-poster-size.png";
+            html += defaultThumbPath;
         }
         html += '" class="thumbnail" />';
 
@@ -173,6 +184,12 @@ function loadItems() {
     });
     html += '</div>';
     container.html(html);
+
+    // If the item card is tapped, invoke the handler.
+    $("div.tag").click(selectAnItem);
+    // Reset right sidebar
+    numItemsSelected = 0;
+    updateSidebar("-");
 }
 
 function updateNumTotal(data) {
@@ -220,12 +237,14 @@ function updateSidebar(trend) {
         // From 1 to more: Hide "Play"
         else {
             sidebar.find("li").first().slideToggle("normal");
+            sidebar.find("li").eq(3).slideToggle("normal");
         }
     } else if (trend == "-") {
         // 从更多减少至 1 则显示 Play 选项
         // From more to 1: Show "Play"
         if (numItemsSelected == 1) {
             sidebar.find("li").first().slideToggle("normal");
+            sidebar.find("li").eq(3).slideToggle("normal");
         }
         // 从 1 减小至 0 则隐藏侧边栏
         // From 1 to 0: Hide the sidebar
@@ -306,4 +325,27 @@ function triggerDownload(it) {
     console.log(size);
     console.log(title);
     window.open("DownloadServlet?SHA256=" + SHA256 + "&size=" + size + "&indicatedFilename=" + title);
+}
+
+function handleDeleteButton() {
+    $("input:checkbox[name='selected-items']:checked").each(function () {
+        triggerDelete($(this).val());
+    });
+}
+
+function triggerDelete(SHA256) {
+    console.info(SHA256);
+    var size = $('#'+SHA256).find('.item-size').text();
+
+    $.ajax({
+        url: "DeleteServlet",
+        data: "mediaType=" + encodeURIComponent(mediaType) + "&SHA256=" + SHA256 + "&size=" + size,
+        type: "post",
+        success: function() {
+            loadItems();
+        },
+        error: function(data) {
+            alert(data);
+        }
+    });
 }

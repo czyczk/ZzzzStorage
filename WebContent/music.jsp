@@ -12,7 +12,7 @@
 	<script src="js/prefixfree.min.js"></script>
 
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>Movie</title>
+	<title>Music</title>
 </head>
 
 <body>
@@ -81,10 +81,10 @@
 			<a href="play.jsp"><span class="glyphicon glyphicon-play right-sidebar-icon"></span>Play</a>
 		</li>
 		<li>
-			<a href="#" id="download-button"><span class="glyphicon glyphicon-cloud-download right-sidebar-icon"></span>Download</a>
+			<a id="download-button" href><span class="glyphicon glyphicon-cloud-download right-sidebar-icon"></span>Download</a>
 		</li>
 		<li>
-			<a href="#"><span class="glyphicon glyphicon-trash right-sidebar-icon"></span>Delete</a>
+			<a id="delete-button" href><span class="glyphicon glyphicon-trash right-sidebar-icon"></span>Delete</a>
 		</li>
 		<li>
 			<a id="edit-button" href data-toggle="modal" data-target="#Update"><span class="glyphicon glyphicon-info-sign right-sidebar-icon"></span>Edit properties</a>
