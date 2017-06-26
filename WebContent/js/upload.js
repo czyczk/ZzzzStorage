@@ -48,7 +48,7 @@ function handleUploadedTasks(data) {
     container = $("#list");
 
     if(tasks == undefined || tasks.length == 0) {
-        container.html("<div style='text-align: center; color: rgb(119,119,119); margin: 10% 0;'><h2>No uploading task.</h2></div>");
+        container.html("<div style='text-align: center; color: rgb(119,119,119); margin: 10% 0;'><h2>No uploaded task.</h2></div>");
         return;
     }
 
