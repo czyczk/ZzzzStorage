@@ -12,13 +12,19 @@ import java.util.List;
  * Created by czyczk on 2017-6-24.
  */
 public class MusicDao implements ILibraryItemDao<Music> {
+    // Check if the sample item contains the required properties.
+    private boolean isValid(Music item) {
+        return !(item.getSHA256() == null || item.getOwnerId() == null || item.getSize() == null || item.getTitle() == null || item.getAlbum() == null);
+    }
+
+
     /**
      * Load the music from the database. Null if the item does not exist.
      * @param item A sample item containing the deterministic characteristics of the target item.
      */
     public Music load(Music item) {
         // Check if the sample item contains the deterministic characteristics of the target item
-        boolean isDeterministic = isDeterministic(item);
+        boolean isDeterministic = item.isDeterministic();
         if (!isDeterministic) throw new IllegalArgumentException("The sample item does not contain all " +
                 "the deterministic characteristics to identify a target item.");
         // Check if the music exists in the user's library
@@ -70,8 +76,8 @@ public class MusicDao implements ILibraryItemDao<Music> {
     @Override
     public void add(Music item) {
         // Check if the item contains the deterministic characteristics
-        boolean isDeterministic = isDeterministic(item);
-        if (!isDeterministic) throw new IllegalArgumentException("The item does not contain all " +
+        boolean isValid = isValid(item);
+        if (!isValid) throw new IllegalArgumentException("The item does not contain all " +
                 "the deterministic characteristics to identify an item.");
 
         // Check if the item exists
@@ -134,7 +140,7 @@ public class MusicDao implements ILibraryItemDao<Music> {
     @Override
     public void delete(Music item) {
         // Check if the sample item contains the deterministic characteristics of the target item
-        boolean isDeterministic = isDeterministic(item);
+        boolean isDeterministic = item.isDeterministic();
         if (!isDeterministic) throw new IllegalArgumentException("The sample item does not contain all " +
                 "the deterministic characteristics to identify a target item.");
 
@@ -228,11 +234,6 @@ public class MusicDao implements ILibraryItemDao<Music> {
             throw new IllegalArgumentException("Not supported order for movies.");
         }
         return result;
-    }
-
-    // Check if the sample item contains the deterministic characteristics of the target item.
-    private boolean isDeterministic(Music item) {
-        return !(item.getSHA256() == null || item.getSize() == null || item.getOwnerId() == null);
     }
 
     // Convert the data on the current cursor of the result set into a Music object.
