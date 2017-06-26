@@ -14,6 +14,8 @@ $(function () {
     $("#right-sidebar").hover(revealSidebarLabel, hideSidebarLabel);
     // Download button handler
     $("#download-button").click(handleDownloadButton);
+    // Delete button handler
+    $("#delete-button").click(handleDeleteButton);
 });
 
 // $('#contentRight input:radio').click(function(){
@@ -248,6 +250,12 @@ function handleDownloadButton() {
     //         triggerDownload(checkedCbs[i]);
     //     }
     // }
+}
+
+function handleDeleteButton() {
+    // Fetch all the checkboxes that are checked
+
+    // For each, trigger delete
 }
 
 function triggerDownload(it) {

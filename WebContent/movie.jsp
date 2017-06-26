@@ -81,7 +81,7 @@
 					<a href="#" id="download-button"><span class="glyphicon glyphicon-cloud-download right-sidebar-icon"></span>Download</a>
 				</li>
 				<li>
-					<a href="#"><span class="glyphicon glyphicon-trash right-sidebar-icon"></span>Delete</a>
+					<a href="#" id="delete-button"><span class="glyphicon glyphicon-trash right-sidebar-icon"></span>Delete</a>
 				</li>
 				<li>
 					<a href="#"><span class="glyphicon glyphicon-info-sign right-sidebar-icon"></span>Edit properties</a>
