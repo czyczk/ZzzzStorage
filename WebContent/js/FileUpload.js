@@ -111,10 +111,19 @@ function uploadOrNot() {
 
 function uploadForm() {
     if(!formError){
+        var genre;
+        if(mediaType == 'Movie') {
+            genre = $('.movie option:selected').val();
+        } else if(mediaType == 'TVShow') {
+            genre = $('.tvshow option:selected').val();
+        } else if(mediaType == 'Music') {
+            genre = $('.music option:selected').val();
+        }
         var formData = new FormData($("#upload-form")[0]);
         formData.append("requestType", uploadRange);
         formData.append("SHA256", sha256);
         formData.append("size", fileSize);
+        formData.append("genre", genre);
         $.ajax({
             url: "UploadServlet",
             data: formData,
