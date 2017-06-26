@@ -211,6 +211,18 @@ public class UploadServlet extends HttpServlet {
             movie.setRating(rating);
         } catch (NumberFormatException e) {
         }
+        // Director
+        // TODO: It's now only one director
+        String director = req.getParameter("director");
+        if (!director.trim().isEmpty()) {
+            movie.setDirector(new String[] { director });
+        }
+        // Genre
+        // TODO: It's now only one genre
+        String genre = req.getParameter("genre");
+        if (genre != null && !genre.trim().isEmpty()m) {
+            movie.setGenre(new String[] { genre });
+        }
         return movie;
     }
 
@@ -252,6 +264,18 @@ public class UploadServlet extends HttpServlet {
         String thumbUrl = req.getParameter("thumbUrl");
         if (!thumbUrl.trim().isEmpty()) {
             music.setThumbUrl(thumbUrl);
+        }
+        // Artist
+        // TODO: It's now only one artist
+        String artist = req.getParameter("artist");
+        if (!artist.trim().isEmpty()) {
+            music.setArtist(new String[] { artist });
+        }
+        // Genre
+        // TODO: It's now only one genre
+        String genre = req.getParameter("genre");
+        if (genre != null && !genre.trim().isEmpty()) {
+            music.setGenre(new String[] { genre });
         }
         return music;
     }
