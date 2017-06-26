@@ -13,6 +13,22 @@ $(function() {
     // $(".log-in-email-ajax-input").blur(handleLogInEmailChange());
 });
 
+$(document).ready(function () {
+    $("#myModal1 #sign-up-form input").keydown(function() {
+        if(event.keyCode=='13' || event.which=='13' || event.charCode=='13') {
+            $("#myModal1 #sign-up-form #sign-up-button").trigger('click');
+        }
+    });
+});
+
+$(document).ready(function () {
+    $("#myModal2 #log-in-form input").keydown(function() {
+        if(event.keyCode=='13' || event.which=='13' || event.charCode=='13') {
+            $("#myModal2 #log-in-form #log-in-button").trigger('click');
+        }
+    });
+});
+
 function handleSignUp() {
     $.ajax({
         url: "SignUpServlet",
