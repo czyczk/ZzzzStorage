@@ -12,6 +12,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FilenameFilter;
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.nio.file.Files;
 
 /**
@@ -52,14 +53,19 @@ public class DownloadServlet extends HttpServlet {
                 break;
             }
         }
+        String extension = target.getName().replace(SHA256, "");
+        if (extension.length() > 0) {
+            indicatedFilename += extension;
+        }
         if (target == null) {
             throw new FileNotFoundException("Size conflict. No file with the same size was found.");
         }
 
         // Prepare to transfer the file
-        resp.setHeader("Content-Type", getServletContext().getMimeType(target.getName()));
+        resp.setCharacterEncoding("UTF-8");
+        resp.setContentType(getServletContext().getMimeType(target.getName()));
         resp.setHeader("Content-Length", String.valueOf(target.length()));
-        resp.setHeader("Content-Disposition", indicatedFilename);
+        resp.setHeader("Content-Disposition", "attachment; filename*=UTF-8''" + URLEncoder.encode(indicatedFilename, "UTF-8"));
         Files.copy(target.toPath(), resp.getOutputStream());
     }
 }
