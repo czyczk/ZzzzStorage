@@ -112,7 +112,7 @@ function loadItems() {
         html += '</div>';
 
         // Append duration if available
-        if (it.duration == undefined || it.duration != 0) {
+        if (it.duration != undefined || it.duration != 0) {
             html += '<p>Duration: ' + parseDuration(it.duration) + '</p>';
         }
 

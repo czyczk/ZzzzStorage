@@ -136,8 +136,8 @@
 									<input type="time" id="duration" class="form-control" name="duration">
 								</div>
 								<div class="form-group">
-									<label for="desc" class="control-label" style="color: #909090;">Plot: </label>
-									<textarea class="form-control plot" id="desc" name="plot"></textarea>
+									<label for="plot" class="control-label" style="color: #909090;">Plot: </label>
+									<textarea class="form-control plot" id="plot" name="plot"></textarea>
 									<div class="msg"></div>
 								</div>
 								<div class="form-group">

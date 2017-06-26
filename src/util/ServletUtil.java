@@ -1,9 +1,13 @@
 package util;
 
 import model.libraryModel.MediaTypeEnum;
+import model.servletModel.ServletMessage;
+
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 /**
- * Created by czycz on 2017-6-26.
+ * Created by czyczk on 2017-6-26.
  */
 public class ServletUtil {
     public static MediaTypeEnum parseMediaType(String str) {
@@ -18,5 +22,10 @@ public class ServletUtil {
         } else {
             throw new IllegalArgumentException("Unsupported media type.");
         }
+    }
+
+    public static void sendServletMessage(HttpServletResponse resp, String msgType, String msg) throws IOException {
+        ServletMessage message = new ServletMessage(msgType, msg);
+        resp.getWriter().write(message.toJson());
     }
 }

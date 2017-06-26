@@ -43,7 +43,7 @@ public class DeleteServlet extends HttpServlet{
         try {
             item = FileAssociatedItem.createItem(mediaType, SHA256, size);
         } catch (IllegalArgumentException e) {
-            sendServletMessage(resp, "error", e.getMessage());
+            ServletUtil.sendServletMessage(resp, "error", e.getMessage());
             return;
         }
 
@@ -51,12 +51,7 @@ public class DeleteServlet extends HttpServlet{
         DaoFactory.getLibraryItemDao().delete(item);
 
         // Send a success message
-        sendServletMessage(resp, "success", null);
-    }
-
-    private void sendServletMessage(HttpServletResponse resp, String msgType, String msg) throws IOException {
-        ServletMessage message = new ServletMessage(msgType, msg);
-        resp.getWriter().write(message.toJson());
+        ServletUtil.sendServletMessage(resp, "success", null);
     }
 
 }
