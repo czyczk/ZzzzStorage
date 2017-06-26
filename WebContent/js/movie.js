@@ -70,7 +70,7 @@ function loadItems() {
     items.forEach(function (it) {
         html += '\
 	    <div class="col-lg-6 col-sm-6">\
-	    <div class="tag">\
+	    <div class="tag"  id="'+ it.imdb +'">\
 	    <div class="col-sm-4">\
 	    <div class="thumbnail-container">\
 	    <div class="thumbnail-checkbox-mask thumbnail-checkbox-mask-invisible">\
@@ -98,8 +98,11 @@ function loadItems() {
 
         // Header = title + (release year)
         // Append title and release year (if available)
+
+        // Append title
+        html += '<div><span class="item-title">' + it.title + '</span>';
         // Append header
-        html += '<div id="'+ it.imdb +'"><span class="item-header">' + it.title + '</span>';
+        html += '<div><span class="item-header">' + it.title + '</span>';
         html += '<span class="item-sha256" style="display: none;">' + it.SHA256 + '</span>';
         html += '<span class="item-size" style="display: none;">' + it.size + '</span>';
         html += '<span class="item-title" style="display: none;">' + it.title + '</span>';
@@ -264,9 +267,11 @@ function triggerDownload(it) {
     // var title = it.find("span.item-title").html;
     // var SHA256 = it.findByName("SHA256").val();
     // var size = it.findByName("size").val();
-    var SHA256 = $('#'+it).children('.item-sha256').text();
-    var size = $('#'+it).children('.item-size').text();
-    var header = $('#'+it).children('.item-header').text();
+
+    var SHA256 = $('#'+it).find('.item-sha256').text();
+    var size = $('#'+it).find('.item-size').text();
+    var title = $('#'+it).find('.item-title').text();
+
     console.log(SHA256);
     console.log(size);
     console.log(header);
