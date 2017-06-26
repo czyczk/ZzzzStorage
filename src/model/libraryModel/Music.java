@@ -86,4 +86,9 @@ public class Music extends FileAssociatedItem {
         sb.append("\n}");
         return sb.toString();
     }
+
+    @Override
+    public boolean isDeterministic() {
+        return !(getOwnerId() == null || getSHA256() == null || getSize() == null);
+    }
 }

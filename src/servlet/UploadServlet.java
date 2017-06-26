@@ -6,6 +6,7 @@ import model.libraryModel.*;
 import model.servletModel.ServletMessage;
 import model.transferModel.UploadTask;
 import util.DBUtil;
+import util.ServletUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -64,8 +65,7 @@ public class UploadServlet extends HttpServlet {
         }
 
         // Get basic metadata info
-        MediaTypeEnum mediaType = parseMediaType(req.getParameter("mediaType"));
-        System.out.println(req.getParameter("mediaType"));
+        MediaTypeEnum mediaType = ServletUtil.parseMediaType(req.getParameter("mediaType"));
         FileAssociatedItem transferTaskItem = null;
         try {
             switch (mediaType) {
@@ -147,18 +147,6 @@ public class UploadServlet extends HttpServlet {
         fos.close();
         uploadTask.setRunning(false);
         fileContentStream.close();
-    }
-
-    private MediaTypeEnum parseMediaType(String str) {
-        if (str.equalsIgnoreCase("movie")) {
-            return MediaTypeEnum.MOVIE;
-        } else if (str.equalsIgnoreCase("music")) {
-            return MediaTypeEnum.MUSIC;
-        } else if (str.equalsIgnoreCase("tv show")) {
-            return MediaTypeEnum.TV_SHOW;
-        } else {
-            throw new IllegalArgumentException("Unsupported media type.");
-        }
     }
 
     private void sendErrorMessage(HttpServletResponse resp, String message) throws IOException {

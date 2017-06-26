@@ -95,4 +95,19 @@ public class Movie extends FileAssociatedItem {
         sb.append("\n}");
         return sb.toString();
     }
+
+    @Override
+    // Check if the sample item contains the deterministic characteristics of the target item.
+    public boolean isDeterministic() {
+        if (getOwnerId() == null) {
+            return false;
+        }
+        if (getImdb() == null) {
+            if (getSHA256() == null || getSize() == null) {
+                return false;
+            }
+        }
+        return true;
+    }
+
 }
