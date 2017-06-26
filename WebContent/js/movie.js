@@ -308,7 +308,7 @@ function triggerEdit(it) {
     if (thumbUrl != defaultThumbPath)
         $('#thumbUrl').val(thumbUrl);
     else
-        $('#thumbUrl').val("");
+        $('#thumbUrl').val(defaultThumbPath);
 
     oldItem = {
         "SHA256": $('#'+it).find('.item-sha256').text(),
@@ -365,6 +365,7 @@ function editSubmit() {
 function handleUpdateSuccess(data) {
     if (data.messageType == "success") {
         // Reload the content
+        $('#Update').modal('hide');
         loadItems();
     } else {
         // Alert error
