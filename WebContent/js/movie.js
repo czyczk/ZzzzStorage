@@ -334,7 +334,7 @@ function triggerDownload(it) {
     window.open("DownloadServlet?SHA256=" + SHA256 + "&size=" + size + "&indicatedFilename=" + title);
 }
 
-function editSubmit(){
+function editSubmit() {
     // Collect media type
     var mediaType = $('#type').text();
 
