@@ -88,7 +88,7 @@
 							</div>
 							<div class="form-group">
 								<label for="type" class="control-label" style="color: #909090;">Type: </label>
-								<select class="form-control border-blue" id="type" name="mediaType">
+								<select class="form-control" id="type" name="mediaType">
 									<option value="Movie" select="selected">Movie</option>
 									<option value="Music" >Music</option>
 									<option value="TVShow">TV Show</option>
@@ -111,7 +111,7 @@
 							</div>
 							<div class="form-group releaseYear">
 								<label for="year" class="control-label" style="color: #909090;">Release year: </label>
-								<select name="releaseYear" id="year" class="form-control border-blue">
+								<select name="releaseYear" id="year" class="form-control">
 									<% for(int year = 2017; year > 1900; year --) {
 									 	%><option value="<%=year%>"><%=year%></option>
 									<%}%>
@@ -133,7 +133,7 @@
 							</div>
 							<div class="form-group duration">
 								<label for="duration" class="control-label" style="color: #909090;">Duration: </label>
-								<input type="time" class="form-control border-blue" id="duration" name="duration">
+								<input type="time" class="form-control" id="duration" name="duration">
 							</div>
 							<div class="form-group runtime">
 								<label for="runtime" class="control-label" style="color: #909090;">Runtime: </label>
@@ -149,11 +149,11 @@
 							</div>
 							<div class="form-group">
 								<label for="thumbUrl" class="control-label" style="color: #909090;">Thumbnail URL: </label>
-								<input type="text" class="form-control border-blue" id="thumbUrl" name="thumbUrl">
+								<input type="text" class="form-control" id="thumbUrl" name="thumbUrl">
 							</div>
 							<div class="form-group">
 								<label for="rating" class="control-label" style="color: #909090;">Rating: </label>
-								<input type="number" class="form-control border-blue" id="rating" name="rating">
+								<input type="number" class="form-control" id="rating" name="rating">
 							</div>
 
 	                       <div class="form-group">

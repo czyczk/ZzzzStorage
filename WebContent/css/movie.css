@@ -313,3 +313,11 @@ input:checked ~ input:active {
 	filter: blur(0.5px);
 }
 
+.error{
+	color: red;
+}
+
+.errorTitle-required, .errorIMDB-required, .error-range{
+	display: none;
+}
+

@@ -3,6 +3,7 @@
 numItemsSelected = 0;
 numItemsInTotal = 0;
 var items;
+var formError = false;
 
 // Register handlers on load
 $(function () {
@@ -14,29 +15,47 @@ $(function () {
     $("#right-sidebar").hover(revealSidebarLabel, hideSidebarLabel);
     // Download button handler
     $("#download-button").click(handleDownloadButton);
-    // Delete button handler
-    $("#delete-button").click(handleDeleteButton);
+    $("#edit-button").click(handleEditButton);
+    $('.update-submit').click(editSubmit);
+
+    $(".plot").bind('input propertychange', function () {
+        if ($(this).val().length <= 256) {
+            $('.msg').html($(this).val().length + '/256 words.');
+
+        } else {
+            $(this).val($(this).val().substring(0, 256));
+        }
+    });
+
+    $('#title').bind('input propertychange', function(){
+        var title = $('#title').val();
+        if(title == "") {
+            formError = true;
+            $('.errorTitle-required').show();
+        } else {
+            formError = false;
+            $('.errorTitle-required').hide();
+        }
+    });
+
+    $('#imdb').bind('input propertychange', function () {
+        var imdb = $('#imdb').val();
+        if(imdb == "") {
+            formError = true;
+            $('.errorIMDB-required').show();
+            $('.error-range').hide();
+        } else if(imdb < 1000000 || imdb > 9999999) {
+            formError = true;
+            $('.error-range').show();
+            $('.errorIMDB-required').hide();
+        } else {
+            formError = false;
+            $('.error-range').hide();
+            $('.errorIMDB-required').hide();
+        }
+    });
 });
 
-// $('#contentRight input:radio').click(function(){
-// //   alert('sss');
-// 	var $radio = $(this);
-// 	//if this was previously checked
-// 	if($radio.data('waschecked') == true) {
-// 		$radio.prop('checked', false);
-// 		$radio.data('waschecked', false);
-// 		$(".right-sidebar").animate({
-// 	      	right: '-100px'
-//     	});
-// 	} else {
-// 		$radio.prop('checked', true);
-// 		$radio.data('waschecked', true);
-// 		$(".right-sidebar").animate({
-// 	      	right: '0px'
-//     	});
-// 	}
-//
-// });
 
 // Query the servlet for items
 function loadItems() {
@@ -70,7 +89,7 @@ function loadItems() {
     items.forEach(function (it) {
         html += '\
 	    <div class="col-lg-6 col-sm-6">\
-	    <div class="tag"  id="'+ it.imdb +'">\
+	    <div class="tag" id="'+ it.imdb +'">\
 	    <div class="col-sm-4">\
 	    <div class="thumbnail-container">\
 	    <div class="thumbnail-checkbox-mask thumbnail-checkbox-mask-invisible">\
@@ -98,9 +117,8 @@ function loadItems() {
 
         // Header = title + (release year)
         // Append title and release year (if available)
-
         // Append title
-        html += '<div><span class="item-title">' + it.title + '</span>';
+        html += '<div>';
         // Append header
         html += '<div><span class="item-header">' + it.title + '</span>';
         html += '<span class="item-sha256" style="display: none;">' + it.SHA256 + '</span>';
@@ -108,16 +126,16 @@ function loadItems() {
         html += '<span class="item-title" style="display: none;">' + it.title + '</span>';
         // Append year if available
         if (it.releaseYear != 0) {
-            html += '<span style="margin-left: 1rem;">(' + it.releaseYear + ')</span>';
+            html += '<span class="item-releaseYear" style="margin-left: 1rem;">(' + it.releaseYear + ')</span>';
         }
-        html += '</div>'
+        html += '</div>';
 
         //Append IMDB and duration (if available)
         // Append IMDB
-        html += '<div><span>IMDB: ' + it.imdb + "</span>";
+        html += '<div><span class="item-imdb">IMDB: ' + it.imdb + "</span>";
         // Append duration if available
         if (it.duration == undefined || it.duration != 0) {
-            html += '<span style="margin-left: 2rem;">Duration: ' + it.duration + ' min</span>';
+            html += '<span class="item-duration" style="margin-left: 2rem;">Duration: ' + it.duration + ' min</span>';
         }
         html += '</div>';
 
@@ -146,8 +164,9 @@ function loadItems() {
         html += '<input name="selected-items" type="checkbox" class="item-checkbox" value="' +it.imdb+ '"/> <!-- the hidden checkbox -->';
         // Endings
         html += '</div></div></div></div>';
+        html += '</div>';
     });
-    html += '</div>';
+
     container.html(html);
 }
 
@@ -236,29 +255,30 @@ function hideSidebarLabel() {
 }
 
 function handleDownloadButton() {
-    // Fetch all the checkboxes that are checked
     $("input:checkbox[name='selected-items']:checked").each(function () {
         triggerDownload($(this).val());
     });
-    // console.log(checkedCbs);
-    // for (var i = 0; i < checkedCbs.length; i++) {
-    //     triggerDownload(checkedCbs[i].parentNode);
-    // }
-
-    // For each such checkbox, collect its context data and create a new window to access the download servlet
-    // if (checkedCbs.length == 1) {
-    //     triggerDownload(checkedCbs);
-    // } else {
-    //     for (i in checkedCbs) {
-    //         triggerDownload(checkedCbs[i]);
-    //     }
-    // }
 }
 
-function handleDeleteButton() {
-    // Fetch all the checkboxes that are checked
+function handleEditButton() {
+    $("input:checkbox[name='selected-items']:checked").each(function () {
+        triggerEdit($(this).val());
+    });
+}
 
-    // For each, trigger delete
+function triggerEdit(it) {
+    var size = $('#'+it).find('.item-size').text();
+    var title = $('#'+it).find('.item-title').text();
+    var imdb = $('#'+it).find('.item-imdb').text().substring(5).trim();
+    var releaseYear = $('#'+it).find('.item-releaseYear').text().substring(1,5);
+    var duration = $('#'+it).find('.item-duration').text().split(" ")[1];
+    console.log(duration);
+    $('#size').text((size/1024/1024).toFixed(2)+'MB');
+    $('#title').val(title);
+    $('#imdb').val(imdb);
+    $('#releaseYear').val(releaseYear);
+    if(duration != 'undefined')
+        $('#duration').val(duration);
 }
 
 function triggerDownload(it) {
@@ -274,6 +294,10 @@ function triggerDownload(it) {
 
     console.log(SHA256);
     console.log(size);
-    console.log(header);
-    window.open("DownloadServlet?SHA256=" + SHA256 + "&size=" + size + "&indicatedFilename=" + header);
+    console.log(title);
+    window.open("DownloadServlet?SHA256=" + SHA256 + "&size=" + size + "&indicatedFilename=" + title);
+}
+
+function editSubmit(){
+    
 }

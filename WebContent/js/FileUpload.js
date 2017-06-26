@@ -9,21 +9,12 @@ var uploadRange = 'prohibited';
 var formError = false;
 
 $(function () {
-    // function startRead() {
-    //     //Obtain input element through DOM
-    //     alert("something");
-    //     var file = document.getElementById('input-2').files[0];
-    //     if(file) {
-    //       getAsText(file);
-    //     }
-    // }
     $('#type').click(function () {
         mediaType = $('#type option:selected').val();
 
     });
     mediaType = $('#type option:selected').val();
     document.getElementById('input-2').onchange = function () {
-        alert("something");
         var file = document.getElementById('input-2').files[0];
         if(file) {
             getAsText(file);
@@ -73,6 +64,17 @@ $(function () {
            formError = false;
            $('.errorTitle-required').hide();
        }
+    });
+
+    $('#album').bind('input propertychange', function(){
+        var title = $('#album').val();
+        if(title == "") {
+            formError = true;
+            $('.errorAlbum-required').show();
+        } else {
+            formError = false;
+            $('.errorAlbum-required').hide();
+        }
     });
 
     $('.upload-submit').click(handleSubmit);
