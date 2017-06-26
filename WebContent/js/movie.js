@@ -1,9 +1,18 @@
+// The default thumb URL for a movie item
+var defaultThumbPath = "img/sample-covers/default-movie-icon-poster-size.png";
+// The default SQL query statement
+var sqlStatement = "requestType=list&mediaType=movie&orderBy=title&start=0&range=10";
+
 // 记录当前页面选中项目个数的整数
 // Holds the number of items selected in this page
 numItemsSelected = 0;
 numItemsInTotal = 0;
 var items;
 var formError = false;
+
+// For editing form
+var oldItem;
+var newItem;
 
 // Register handlers on load
 $(function () {
@@ -71,7 +80,7 @@ function loadItems() {
     // Then, query for items
     $.ajax({
         url: "FileListGeneratorServlet",
-        data: "requestType=list&mediaType=movie&orderBy=title&start=0&range=10",
+        data: sqlStatement,
         type: "post",
         async: false,
         success: updateItems
@@ -103,7 +112,7 @@ function loadItems() {
         if (it.thumbUrl != undefined) {
             html += it.thumbUrl;
         } else {
-            html += "img/sample-covers/default-movie-icon-poster-size.png";
+            html += defaultThumbPath;
         }
         html += '" class="thumbnail" />';
 
@@ -134,7 +143,7 @@ function loadItems() {
         // Append IMDB
         html += '<div><span class="item-imdb">IMDB: ' + it.imdb + "</span>";
         // Append duration if available
-        if (it.duration == undefined || it.duration != 0) {
+        if (it.duration != undefined || it.duration != 0) {
             html += '<span class="item-duration" style="margin-left: 2rem;">Duration: ' + it.duration + ' min</span>';
         }
         html += '</div>';
@@ -152,13 +161,26 @@ function loadItems() {
             html += "</p>";
         }
 
+        // Append directors if available
+        var directors = it.director;
+        if (directors != undefined && directors.length > 0) {
+            html += '<p>Director: '
+            for (i = 0; i < directors.length; i++) {
+                html += directors[i];
+                if (i < directors.length - 1) {
+                    html += ', ';
+                }
+            }
+            html += "</p>";
+        }
+
         // Append rating if available
         if (it.rating != undefined) {
-            html += '<p>Rating: ' + it.rating + "</p>";
+            html += '<p class="item-rating">Rating: ' + it.rating + "</p>";
         }
         // Append plot if available
         if (it.plot != undefined) {
-            html += '<p>Plot: ' + it.plot + '</p>';
+            html += '<p class="item-plot">Plot: ' + it.plot + '</p>';
         }
         // Append a hidden checkbox (structural requirement)
         html += '<input name="selected-items" type="checkbox" class="item-checkbox" value="' +it.imdb+ '"/> <!-- the hidden checkbox -->';
@@ -272,13 +294,27 @@ function triggerEdit(it) {
     var imdb = $('#'+it).find('.item-imdb').text().substring(5).trim();
     var releaseYear = $('#'+it).find('.item-releaseYear').text().substring(1,5);
     var duration = $('#'+it).find('.item-duration').text().split(" ")[1];
+    var plot = $('#'+it).find('.item-plot').text().substring(6);
+    var thumbUrl = $('#'+it).find('.thumbnail').attr('src');
     console.log(duration);
-    $('#size').text((size/1024/1024).toFixed(2)+'MB');
+    $('#size').text((size/1024/1024).toFixed(2)+' MB');
     $('#title').val(title);
     $('#imdb').val(imdb);
     $('#releaseYear').val(releaseYear);
-    if(duration != 'undefined')
+    if (duration != 'undefined')
         $('#duration').val(duration);
+    if (plot != undefined)
+        $('#plot').val(plot);
+    if (thumbUrl != defaultThumbPath)
+        $('#thumbUrl').val(thumbUrl);
+    else
+        $('#thumbUrl').val("");
+
+    oldItem = {
+        "SHA256": $('#'+it).find('.item-sha256').text(),
+        "size": size,
+        "imdb": imdb
+    };
 }
 
 function triggerDownload(it) {
@@ -298,6 +334,40 @@ function triggerDownload(it) {
     window.open("DownloadServlet?SHA256=" + SHA256 + "&size=" + size + "&indicatedFilename=" + title);
 }
 
-function editSubmit(){
-    
+function editSubmit() {
+    // Collect media type
+    var mediaType = $('#type').text();
+
+    // Collect new info
+    newItem = {
+        "SHA256": oldItem.SHA256,
+        "size": oldItem.size,
+        "title": $('#title').val(),
+        "imdb": $('#imdb').val(),
+        "releaseYear": $('#releaseYear').val(),
+        "duration": $('#duration').val(),
+        "plot": $('#plot').val(),
+        "thumbUrl": $('#thumbUrl').val()
+    };
+
+    // Send update request
+    $.ajax({
+        url: "UpdateServlet",
+        type: "post",
+        data: "mediaType=" + encodeURIComponent(mediaType) + "&oldItem=" + JSON.stringify(oldItem) + "&newItem=" + JSON.stringify(newItem),
+        success: handleUpdateSuccess,
+        error: function() {
+            alert("Internal error.");
+        }
+    });
+}
+
+function handleUpdateSuccess(data) {
+    if (data.messageType == "success") {
+        // Reload the content
+        loadItems();
+    } else {
+        // Alert error
+        alert(data.message);
+    }
 }

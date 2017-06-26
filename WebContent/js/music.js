@@ -6,6 +6,7 @@
 numItemsSelected = 0;
 numItemsInTotal = 0;
 var items;
+var formError = false;
 
 // Register handlers on load
 $(function () {
@@ -16,7 +17,31 @@ $(function () {
     // Hover on the right sidebar to reveal the labels
     $("#right-sidebar").hover(revealSidebarLabel, hideSidebarLabel);
     // Download button handler
-    // $("#download-button").click(handleDownloadButton);
+    $("#download-button").click(handleDownloadButton);
+    $("#edit-button").click(handleEditButton);
+
+
+    $('#title').bind('input propertychange', function(){
+        var title = $('#title').val();
+        if(title == "") {
+            formError = true;
+            $('.errorTitle-required').show();
+        } else {
+            formError = false;
+            $('.errorTitle-required').hide();
+        }
+    });
+
+    $('#album').bind('input propertychange', function(){
+        var title = $('#album').val();
+        if(title == "") {
+            formError = true;
+            $('.errorAlbum-required').show();
+        } else {
+            formError = false;
+            $('.errorAlbum-required').hide();
+        }
+    });
 });
 
 // Query the servlet for items
@@ -51,7 +76,7 @@ function loadItems() {
     items.forEach(function (it) {
         html += '\
 	    <div class="col-lg-6 col-sm-6">\
-	    <div class="tag">\
+	    <div class="tag" id="'+ it.SHA256 +'">\
 	    <div class="col-sm-4">\
 	    <div class="thumbnail-container">\
 	    <div class="thumbnail-checkbox-mask thumbnail-checkbox-mask-invisible">\
@@ -112,22 +137,22 @@ function loadItems() {
         html += '</div>';
 
         // Append duration if available
-        if (it.duration == undefined || it.duration != 0) {
+        if (it.duration != undefined || it.duration != 0) {
             html += '<p>Duration: ' + parseDuration(it.duration) + '</p>';
         }
 
         // Append album
-        html += '<p>Album: ' + it.album + '</p>';
+        html += '<p class="item-album">Album: ' + it.album + '</p>';
 
         // Append track if available
         if (it.track != undefined && it.track != 0) {
-            html += '<p>Track: ' + it.track + '</p>';
+            html += '<p class="item-track">Track: ' + it.track + '</p>';
         }
 
         // Append genres if available
         var genres = it.genre;
         if (genres != undefined && genres.length > 0) {
-            html += '<p>Genre: '
+            html += '<p class="item-genre">Genre: '
             for (i = 0; i < genres.length; i++) {
                 html += genres[i];
                 if (i < genres.length - 1) {
@@ -142,7 +167,7 @@ function loadItems() {
             html += '<p>Rating: ' + it.rating + "</p>";
         }
         // Append a hidden checkbox (structural requirement)
-        html += '<input name="selected-items" type="checkbox" class="item-checkbox" /> <!-- the hidden checkbox -->';
+        html += '<input name="selected-items" type="checkbox" class="item-checkbox" value="' +it.SHA256+ '" /> <!-- the hidden checkbox -->';
         // Endings
         html += '</div></div></div></div>';
     });
@@ -243,4 +268,42 @@ function parseDuration(duration) {
         secStr = "0" + sec;
     }
     return min + ":" + secStr;
+}
+
+function handleDownloadButton(){
+    $("input:checkbox[name='selected-items']:checked").each(function () {
+        triggerDownload($(this).val());
+    });
+}
+
+function handleEditButton() {
+    $("input:checkbox[name='selected-items']:checked").each(function () {
+        triggerEdit($(this).val());
+    });
+}
+
+function triggerEdit(it) {
+    var size = $('#'+it).find('.item-size').text();
+    var title = $('#'+it).find('.item-title').text();
+    var album = $('#'+it).find('.item-album').text().substring(6).trim();
+    var duration = $('#'+it).find('.item-duration').text().split(" ")[1];
+    var genre = $('#'+it).find('.item-genre').text().substring(6).trim();
+    console.log(genre);
+    $('#size').text((size/1024/1024).toFixed(2)+'MB');
+    $('#title').val(title);
+    $('#album').val(album);
+    $('#genre').val(genre);
+    if(duration != 'undefined')
+        $('#duration').val(duration);
+}
+
+function triggerDownload(it) {
+    var SHA256 = $('#'+it).find('.item-sha256').text();
+    var size = $('#'+it).find('.item-size').text();
+    var title = $('#'+it).find('.item-title').text();
+
+    console.log(SHA256);
+    console.log(size);
+    console.log(title);
+    window.open("DownloadServlet?SHA256=" + SHA256 + "&size=" + size + "&indicatedFilename=" + title);
 }
