@@ -84,7 +84,7 @@
 					<a href="#"><span class="glyphicon glyphicon-trash right-sidebar-icon"></span>Delete</a>
 				</li>
 				<li>
-					<a href="#"><span class="glyphicon glyphicon-info-sign right-sidebar-icon"></span>Edit properties</a>
+					<a href data-toggle="modal" data-target="#Update"><span class="glyphicon glyphicon-info-sign right-sidebar-icon"></span>Edit properties</a>
 				</li>
 			</ul>
 		</div>
