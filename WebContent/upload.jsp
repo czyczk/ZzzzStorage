@@ -98,7 +98,7 @@
 								<label for="imdb" class="control-label" style="color: #909090;">IMDB: </label>
 								<input type="number" class="form-control" name="imdb" id="imdb">
 								<div class="errorIMDB-required error">IMDB is required.</div>
-								<div class="error-range error">imdb should range from 1000000 to 9999999.</div>
+								<div class="error-range error">IMDB should be a 7-digit number.</div>
 							</div>
 	                        <div class="form-group">
 	                            <label for="recipient-name" class="control-label" style="color: #909090;">Title: </label>
