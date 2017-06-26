@@ -1,9 +1,11 @@
+/**
+ * Created by czyczk on 2017-6-26.
+ */
 // 记录当前页面选中项目个数的整数
 // Holds the number of items selected in this page
 numItemsSelected = 0;
 numItemsInTotal = 0;
 var items;
-var formError = false;
 
 // Register handlers on load
 $(function () {
@@ -14,48 +16,8 @@ $(function () {
     // Hover on the right sidebar to reveal the labels
     $("#right-sidebar").hover(revealSidebarLabel, hideSidebarLabel);
     // Download button handler
-    $("#download-button").click(handleDownloadButton);
-    $("#edit-button").click(handleEditButton);
-    $('.update-submit').click(editSubmit);
-
-    $(".plot").bind('input propertychange', function () {
-        if ($(this).val().length <= 256) {
-            $('.msg').html($(this).val().length + '/256 words.');
-
-        } else {
-            $(this).val($(this).val().substring(0, 256));
-        }
-    });
-
-    $('#title').bind('input propertychange', function(){
-        var title = $('#title').val();
-        if(title == "") {
-            formError = true;
-            $('.errorTitle-required').show();
-        } else {
-            formError = false;
-            $('.errorTitle-required').hide();
-        }
-    });
-
-    $('#imdb').bind('input propertychange', function () {
-        var imdb = $('#imdb').val();
-        if(imdb == "") {
-            formError = true;
-            $('.errorIMDB-required').show();
-            $('.error-range').hide();
-        } else if(imdb < 1000000 || imdb > 9999999) {
-            formError = true;
-            $('.error-range').show();
-            $('.errorIMDB-required').hide();
-        } else {
-            formError = false;
-            $('.error-range').hide();
-            $('.errorIMDB-required').hide();
-        }
-    });
+    // $("#download-button").click(handleDownloadButton);
 });
-
 
 // Query the servlet for items
 function loadItems() {
@@ -63,7 +25,7 @@ function loadItems() {
     // First query for the total number of movies
     $.ajax({
         url: "FileListGeneratorServlet",
-        data: "requestType=count&mediaType=movie",
+        data: "requestType=count&mediaType=music",
         type: "post",
         async: false,
         success: updateNumTotal
@@ -71,15 +33,15 @@ function loadItems() {
     // Then, query for items
     $.ajax({
         url: "FileListGeneratorServlet",
-        data: "requestType=list&mediaType=movie&orderBy=title&start=0&range=10",
+        data: "requestType=list&mediaType=music&orderBy=title&start=0&range=10",
         type: "post",
         async: false,
         success: updateItems
     });
 
-    // Show info only if no movie is found
+    // Show info only if no music is found
     if (items == undefined || items.length == 0) {
-        var html = '<div class="info"><h2 style="top: 100px; left: 500px; position:absolute;">No movie.</h2></div>';
+        var html = '<div class="info"><h2 style="top: 100px; left: 500px; position:absolute;">No music.</h2></div>';
         container.html(html);
         return;
     }
@@ -89,7 +51,7 @@ function loadItems() {
     items.forEach(function (it) {
         html += '\
 	    <div class="col-lg-6 col-sm-6">\
-	    <div class="tag" id="'+ it.imdb +'">\
+	    <div class="tag">\
 	    <div class="col-sm-4">\
 	    <div class="thumbnail-container">\
 	    <div class="thumbnail-checkbox-mask thumbnail-checkbox-mask-invisible">\
@@ -103,7 +65,7 @@ function loadItems() {
         if (it.thumbUrl != undefined) {
             html += it.thumbUrl;
         } else {
-            html += "img/sample-covers/default-movie-icon-poster-size.png";
+            html += "img/sample-covers/default-music-icon-poster-size.png";
         }
         html += '" class="thumbnail" />';
 
@@ -115,29 +77,52 @@ function loadItems() {
 	    <div class="item-info-container">\
 	    ';
 
-        // Header = title + (release year)
-        // Append title and release year (if available)
-        // Append title
-        html += '<div>';
-        // Append header
-        html += '<div><span class="item-header">' + it.title + '</span>';
+        // Append hidden fields (structural requirement)
+        // : SHA256, size, artist, title
         html += '<span class="item-sha256" style="display: none;">' + it.SHA256 + '</span>';
         html += '<span class="item-size" style="display: none;">' + it.size + '</span>';
-        html += '<span class="item-title" style="display: none;">' + it.title + '</span>';
-        // Append year if available
-        if (it.releaseYear != 0) {
-            html += '<span class="item-releaseYear" style="margin-left: 1rem;">(' + it.releaseYear + ')</span>';
+        html += '<span class="item-artist" style="display: none;">';
+        var artists = it.artist;
+        if (artists != undefined && artists.length > 0) {
+            var len = artists.length;
+            for (i = 0; i < len; i++) {
+                html += artists[i];
+                if (i < len - 1) {
+                    html += '`';
+                }
+            }
         }
+        html += '</span>';
+        html += '<span class="item-title" style="display: none;">' + it.title + '</span>';
+
+        // Append artist (if available) and title
+        var header = "";
+        if (artists != undefined && artists.length > 0) {
+            var len = artists.length;
+            for (i = 0; i < len; i++) {
+                header += artists[i];
+                if (i < len - 1) {
+                    header += ' & ';
+                }
+            }
+            header += ' - ';
+        }
+        header += it.title;
+        html += '<div><span class="item-header">' + header + '</span>';
         html += '</div>';
 
-        //Append IMDB and duration (if available)
-        // Append IMDB
-        html += '<div><span class="item-imdb">IMDB: ' + it.imdb + "</span>";
         // Append duration if available
         if (it.duration == undefined || it.duration != 0) {
-            html += '<span class="item-duration" style="margin-left: 2rem;">Duration: ' + it.duration + ' min</span>';
+            html += '<p>Duration: ' + parseDuration(it.duration) + '</p>';
         }
-        html += '</div>';
+
+        // Append album
+        html += '<p>Album: ' + it.album + '</p>';
+
+        // Append track if available
+        if (it.track != undefined && it.track != 0) {
+            html += '<p>Track: ' + it.track + '</p>';
+        }
 
         // Append genres if available
         var genres = it.genre;
@@ -149,24 +134,19 @@ function loadItems() {
                     html += ', ';
                 }
             }
-            html += "</p>";
+            html += "</p>"
         }
 
         // Append rating if available
         if (it.rating != undefined) {
             html += '<p>Rating: ' + it.rating + "</p>";
         }
-        // Append plot if available
-        if (it.plot != undefined) {
-            html += '<p>Plot: ' + it.plot + '</p>';
-        }
         // Append a hidden checkbox (structural requirement)
-        html += '<input name="selected-items" type="checkbox" class="item-checkbox" value="' +it.imdb+ '"/> <!-- the hidden checkbox -->';
+        html += '<input name="selected-items" type="checkbox" class="item-checkbox" /> <!-- the hidden checkbox -->';
         // Endings
         html += '</div></div></div></div>';
-        html += '</div>';
     });
-
+    html += '</div>';
     container.html(html);
 }
 
@@ -254,50 +234,13 @@ function hideSidebarLabel() {
     });
 }
 
-function handleDownloadButton() {
-    $("input:checkbox[name='selected-items']:checked").each(function () {
-        triggerDownload($(this).val());
-    });
-}
-
-function handleEditButton() {
-    $("input:checkbox[name='selected-items']:checked").each(function () {
-        triggerEdit($(this).val());
-    });
-}
-
-function triggerEdit(it) {
-    var size = $('#'+it).find('.item-size').text();
-    var title = $('#'+it).find('.item-title').text();
-    var imdb = $('#'+it).find('.item-imdb').text().substring(5).trim();
-    var releaseYear = $('#'+it).find('.item-releaseYear').text().substring(1,5);
-    var duration = $('#'+it).find('.item-duration').text().split(" ")[1];
-    console.log(duration);
-    $('#size').text((size/1024/1024).toFixed(2)+'MB');
-    $('#title').val(title);
-    $('#imdb').val(imdb);
-    $('#releaseYear').val(releaseYear);
-    if(duration != 'undefined')
-        $('#duration').val(duration);
-}
-
-function triggerDownload(it) {
-    console.info(it);
-    // var contextData = it.getParent().getParent();
-    // var title = it.find("span.item-title").html;
-    // var SHA256 = it.findByName("SHA256").val();
-    // var size = it.findByName("size").val();
-
-    var SHA256 = $('#'+it).find('.item-sha256').text();
-    var size = $('#'+it).find('.item-size').text();
-    var title = $('#'+it).find('.item-title').text();
-
-    console.log(SHA256);
-    console.log(size);
-    console.log(title);
-    window.open("DownloadServlet?SHA256=" + SHA256 + "&size=" + size + "&indicatedFilename=" + title);
-}
-
-function editSubmit(){
-    
+function parseDuration(duration) {
+    var str = "";
+    var min = (duration / 60).toFixed(0);
+    var sec = duration % 60;
+    var secStr = sec;
+    if (sec < 10) {
+        secStr = "0" + sec;
+    }
+    return min + ":" + secStr;
 }

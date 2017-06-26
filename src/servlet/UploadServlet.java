@@ -2,13 +2,11 @@ package servlet;
 
 import dao.DaoFactory;
 import model.*;
-import model.libraryModel.FieldMissingException;
-import model.libraryModel.FileAssociatedItem;
-import model.libraryModel.MediaTypeEnum;
-import model.libraryModel.Movie;
+import model.libraryModel.*;
 import model.servletModel.ServletMessage;
 import model.transferModel.UploadTask;
 import util.DBUtil;
+import util.ServletUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -67,8 +65,7 @@ public class UploadServlet extends HttpServlet {
         }
 
         // Get basic metadata info
-        MediaTypeEnum mediaType = parseMediaType(req.getParameter("mediaType"));
-        System.out.println(req.getParameter("mediaType"));
+        MediaTypeEnum mediaType = ServletUtil.parseMediaType(req.getParameter("mediaType"));
         FileAssociatedItem transferTaskItem = null;
         try {
             switch (mediaType) {
@@ -83,7 +80,11 @@ public class UploadServlet extends HttpServlet {
                 break;
                 case MUSIC:
                 {
-                    // TODO
+                    Music music = parseMusic(req, resp);
+                    music.setOwnerId(ownerId);
+                    music.setSHA256(SHA256);
+                    music.setSize(size);
+                    transferTaskItem = music;
                 }
                 break;
                 case TV_SHOW:
@@ -148,18 +149,6 @@ public class UploadServlet extends HttpServlet {
         fileContentStream.close();
     }
 
-    private MediaTypeEnum parseMediaType(String str) {
-        if (str.equalsIgnoreCase("movie")) {
-            return MediaTypeEnum.MOVIE;
-        } else if (str.equalsIgnoreCase("music")) {
-            return MediaTypeEnum.MUSIC;
-        } else if (str.equalsIgnoreCase("tv show")) {
-            return MediaTypeEnum.TV_SHOW;
-        } else {
-            throw new IllegalArgumentException("Unsupported media type.");
-        }
-    }
-
     private void sendErrorMessage(HttpServletResponse resp, String message) throws IOException {
         ServletMessage sm = new ServletMessage("error", message);
         resp.getWriter().write(sm.toJson());
@@ -210,6 +199,72 @@ public class UploadServlet extends HttpServlet {
             movie.setRating(rating);
         } catch (NumberFormatException e) {
         }
+        // Director
+        // TODO: It's now only one director
+        String director = req.getParameter("director");
+        if (!director.trim().isEmpty()) {
+            movie.setDirector(new String[] { director });
+        }
+        // Genre
+        // TODO: It's now only one genre
+        String genre = req.getParameter("genre");
+        if (genre != null && !genre.trim().isEmpty()) {
+            movie.setGenre(new String[] { genre });
+        }
         return movie;
+    }
+
+    private Music parseMusic(HttpServletRequest req, HttpServletResponse resp) throws IOException, FieldMissingException {
+        Music music = new Music();
+        // Not null title
+        String title = req.getParameter("title");
+        if (title.trim().isEmpty()) {
+            sendErrorMessage(resp, "Title cannot be empty.");
+            throw new FieldMissingException();
+        }
+        music.setTitle(title);
+        // Not null album
+        String album = req.getParameter("album");
+        if (title.trim().isEmpty()) {
+            sendErrorMessage(resp, "Album cannot be empty.");
+            throw new FieldMissingException();
+        }
+        music.setAlbum(album);
+        // Track
+        try {
+            int track = Integer.parseInt(req.getParameter("track"));
+            music.setTrack(track);
+        } catch (NumberFormatException e) {
+        }
+        // Duration
+        try {
+            int duration = Integer.parseInt(req.getParameter("duration"));
+            music.setDuration(duration);
+        } catch (NumberFormatException e) {
+        }
+        // Rating
+        try {
+            int rating = Integer.parseInt(req.getParameter("rating"));
+            music.setRating(rating);
+        } catch (NumberFormatException e) {
+        }
+        // Thumb URL
+        String thumbUrl = req.getParameter("thumbUrl");
+        if (!thumbUrl.trim().isEmpty()) {
+            music.setThumbUrl(thumbUrl);
+        }
+        // Artist
+        // TODO: It's now only one artist
+        String artist = req.getParameter("artist");
+        if (!artist.trim().isEmpty()) {
+            music.setArtist(new String[] { artist });
+        }
+        // Genre
+        // TODO: It's now only one genre
+        String genre = req.getParameter("genre");
+        if (genre != null && !genre.trim().isEmpty()) {
+            music.setGenre(new String[] { genre });
+        }
+        return music;
     }
 }

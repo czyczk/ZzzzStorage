@@ -12,16 +12,20 @@ import java.util.List;
  * Created by czyczk on 2017-6-23.
  */
 class MovieDao implements ILibraryItemDao<Movie> {
+    private boolean isValid(Movie movie) {
+        return !(movie.getOwnerId() == null || movie.getSize() == null || movie.getImdb() == null || movie.getSHA256() == null);
+    }
+
     /**
      * Add a movie item to the database
      * @param item The movie item to be added.
      */
     @Override
     public void add(Movie item) {
-        // Check if the item contains the deterministic characteristics
-        boolean isDeterministic = isDeterministic(item);
-        if (!isDeterministic) throw new IllegalArgumentException("The item does not contain all " +
-                "the deterministic characteristics to identify an item.");
+        // Check if the item contains the required properties.
+        boolean isValid = isValid(item);
+        if (!isValid) throw new IllegalArgumentException("The item does not contain all " +
+                "the required properties.");
 
         // Check if the item exists
         Movie existingMovie = load(item);
@@ -87,7 +91,7 @@ class MovieDao implements ILibraryItemDao<Movie> {
     @Override
     public void delete(Movie item) {
         // Check if the sample item contains the deterministic characteristics of the target item
-        boolean isDeterministic = isDeterministic(item);
+        boolean isDeterministic = item.isDeterministic();
         if (!isDeterministic) throw new IllegalArgumentException("The sample item does not contain all " +
                 "the deterministic characteristics to identify a target item.");
 
@@ -122,7 +126,7 @@ class MovieDao implements ILibraryItemDao<Movie> {
      */
     public Movie load(Movie item) {
         // Check if the sample item contains the deterministic characteristics of the target item
-        boolean isDeterministic = isDeterministic(item);
+        boolean isDeterministic = item.isDeterministic();
         if (!isDeterministic) throw new IllegalArgumentException("The sample item does not contain all " +
                 "the deterministic characteristics to identify a target item.");
         // Check if the movie exists in the user's library
@@ -170,65 +174,6 @@ class MovieDao implements ILibraryItemDao<Movie> {
     public void update(Movie oldItem, Movie newItem) {
         delete(oldItem);
         add(newItem);
-    }
-
-//    public int count(int ownerId) {
-//        int count = 0;
-//
-//        Connection con = null;
-//        PreparedStatement ps = null;
-//        ResultSet rs = null;
-//
-//        try {
-//            con = DBUtil.getConnection();
-//            String sql = "SELECT count(*) FROM movie WHERE owner_id = " + ownerId;
-//            ps = con.prepareStatement(sql);
-//            rs = ps.executeQuery();
-//            while (rs.next()) {
-//                count = rs.getInt(1);
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        } finally {
-//            DBUtil.close(rs);
-//            DBUtil.close(ps);
-//            DBUtil.close(con);
-//        }
-//        return count;
-//    }
-
-    public int count(String[] additionalConditions) {
-        int count = 0;
-
-        Connection con = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-
-        try {
-            con = DBUtil.getConnection();
-            String sql = "SELECT count(*) FROM movie";
-            if (additionalConditions != null && additionalConditions.length > 0) {
-                for (int i = 0; i < additionalConditions.length; i++) {
-                    if (i == 0)
-                        sql += " WHERE ";
-                    else
-                        sql += " AND ";
-                    sql += additionalConditions[i];
-                }
-            }
-            ps = con.prepareStatement(sql);
-            rs = ps.executeQuery();
-            while (rs.next()) {
-                count = rs.getInt(1);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            DBUtil.close(rs);
-            DBUtil.close(ps);
-            DBUtil.close(con);
-        }
-        return count;
     }
 
     public List<Movie> list() {
@@ -368,11 +313,6 @@ class MovieDao implements ILibraryItemDao<Movie> {
             result.setRating(tempDouble);
         }
         return result;
-    }
-
-    // Check if the sample item contains the deterministic characteristics of the target item.
-    private boolean isDeterministic(Movie item) {
-        return !(item.getImdb() == null || item.getOwnerId() == null);
     }
 
     // Query additional info of an item (deterministic information must be provided) (null if no additional info returned)

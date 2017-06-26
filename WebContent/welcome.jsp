@@ -135,6 +135,7 @@
                     <p style="text-align: left;">Zenas Chen: 564108186 (QQ)</p>
                     <p style="text-align: left;">Violet Zhou: 2684232910 (QQ)</p>
                     <p style="text-align: left;">Soda Zhang: 601347015 (QQ)</p>
+                    <p style="text-align: left;">Deacon Li: 934088752 (QQ)</p>
                 </div>
             </div>
         </div>

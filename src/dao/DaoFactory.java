@@ -40,4 +40,16 @@ public class DaoFactory {
         }
         return movieDao;
     }
+
+    private volatile static MusicDao musicDao;
+    static MusicDao getMusicDao() {
+        if (musicDao == null) {
+            synchronized (DaoFactory.class) {
+                if (musicDao == null) {
+                    musicDao = new MusicDao();
+                }
+            }
+        }
+        return musicDao;
+    }
 }
