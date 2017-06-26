@@ -199,7 +199,7 @@ div.thumbnail-image {
 .item-info-container {
     margin-top: 2rem;
 }
-.item-title {
+.item-header {
     display: inline-block;
     text-decoration: none;
     font-size: 2.0rem;
