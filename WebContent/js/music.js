@@ -65,7 +65,7 @@ function loadItems() {
         if (it.thumbUrl != undefined) {
             html += it.thumbUrl;
         } else {
-            html += "img/sample-covers/default-movie-icon-poster-size.png";
+            html += "img/sample-covers/default-music-icon-poster-size.png";
         }
         html += '" class="thumbnail" />';
 
