@@ -123,9 +123,8 @@ $('.tvshow').click(function(){
 // });
 
 $(".plot").bind('input propertychange', function () {
-
     if ($(this).val().length <= 256) {
-        $('.msg').html($(this).val().length + '/256 words.');
+        $('.msg').text($(this).val().length + '/256 words.');
 
 	} else {
         $(this).val($(this).val().substring(0, 256));
