@@ -7,7 +7,7 @@
 		<link rel="stylesheet" href="css/bootstrap/bootstrap.min.css">
         <link rel="stylesheet" href="css/nav.css">
 		<link rel="stylesheet" href="css/main-page.css">
-		<link rel="stylesheet" href="css/movie.css" />
+		<link rel="stylesheet" href="css/media-page.css" />
 		<script src="js/bootstrap/bootstrap.min.js"></script>
 		<script src="js/prefixfree.min.js"></script>
 
@@ -84,12 +84,12 @@
 					<a href="#" id="delete-button"><span class="glyphicon glyphicon-trash right-sidebar-icon"></span>Delete</a>
 				</li>
 				<li>
-					<a id="edit-button" href data-toggle="modal" data-target="#Update"><span class="glyphicon glyphicon-info-sign right-sidebar-icon"></span>Edit properties</a>
+					<a id="edit-button" href data-toggle="modal" data-target="#property-form"><span class="glyphicon glyphicon-info-sign right-sidebar-icon"></span>Edit properties</a>
 				</li>
 			</ul>
 		</div>
 
-		<div class="modal fade" id="Update" tabindex="-1" role="dialog" aria-labelledby="UpdateLabel" aria-hidden="true">
+		<div class="modal fade" id="property-form" tabindex="-1" role="dialog" aria-labelledby="UpdateLabel" aria-hidden="true">
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-header">
@@ -124,7 +124,7 @@
 							<div class="optional-info">
 								<h4 style = "color: black">Optional Information</h4>
 								<div class="form-group">
-									<label for="releaseYear" class="control-label" style="color: #909090;">Relase Year: </label>
+									<label for="releaseYear" class="control-label" style="color: #909090;">Release Year: </label>
 									<select name="releaseYear" id="releaseYear" class="form-control">
 										<% for(int year = 2017; year > 1900; year --) {
 										%><option value="<%=year%>"><%=year%></option>
@@ -158,6 +158,9 @@
 			</div>
 		</div>
 		<script src="js/movie.js"></script>
+		<script src="js/mediaPage.js"></script>
+		<script src="js/util.js"></script>
+		<script src="js/mediaPageRightSidebar.js"></script>
 
 	</body>
 	<!--

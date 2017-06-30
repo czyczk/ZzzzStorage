@@ -8,77 +8,14 @@ var defaultThumbPath = "img/sample-covers/default-music-icon-poster-size.png";
 // The default SQL query statement
 var sqlStatement = "requestType=list&mediaType=music&orderBy=title&start=0&range=10";
 
-// 记录当前页面选中项目个数的整数
-// Holds the number of items selected in this page
-numItemsSelected = 0;
-numItemsInTotal = 0;
-var items;
-var formError = false;
-
-// Register handlers on load
-$(function () {
-    // Query the servlet for items
-    loadItems();
-    // Hover on the right sidebar to reveal the labels
-    $("#right-sidebar").hover(revealSidebarLabel, hideSidebarLabel);
-    // Download button handler
-    $("#download-button").click(handleDownloadButton);
-    // Delete button handler
-    $("#delete-button").click(handleDeleteButton);
-    // Edit button handler
-    $("#edit-button").click(handleEditButton);
-
-
-    $('#title').bind('input propertychange', function(){
-        var title = $('#title').val();
-        if(title == "") {
-            formError = true;
-            $('.errorTitle-required').show();
-        } else {
-            formError = false;
-            $('.errorTitle-required').hide();
-        }
-    });
-
-    $('#album').bind('input propertychange', function(){
-        var title = $('#album').val();
-        if(title == "") {
-            formError = true;
-            $('.errorAlbum-required').show();
-        } else {
-            formError = false;
-            $('.errorAlbum-required').hide();
-        }
-    });
-});
-
-// Query the servlet for items
-function loadItems() {
+// Arrange the items onto the page
+function arrangeItems() {
     var container = $("#contentRight");
-    // First query for the total number of music
-    $.ajax({
-        url: "FileListGeneratorServlet",
-        data: "requestType=count&mediaType=music",
-        type: "post",
-        async: false,
-        success: updateNumTotal
-    });
-    // Then, query for items
-    $.ajax({
-        url: "FileListGeneratorServlet",
-        data: sqlStatement,
-        type: "post",
-        async: false,
-        success: updateItems
-    });
 
     // Show info only if no music is found
     if (items == undefined || items.length == 0) {
         var html = '<div class="info"><h2 style="top: 100px; left: 500px; position:absolute;">No music.</h2></div>';
         container.html(html);
-        // Reset right sidebar
-        numItemsSelected = 0;
-        updateSidebar("-");
         return;
     }
 
@@ -87,7 +24,7 @@ function loadItems() {
     items.forEach(function (it) {
         html += '\
 	    <div class="col-lg-6 col-sm-6">\
-	    <div class="tag" id="'+ it.SHA256 +'">\
+	    <div class="item-card" id="'+ it.SHA256 +'">\
 	    <div class="col-sm-4">\
 	    <div class="thumbnail-container">\
 	    <div class="thumbnail-checkbox-mask thumbnail-checkbox-mask-invisible">\
@@ -118,6 +55,9 @@ function loadItems() {
         html += '<span class="item-sha256" style="display: none;">' + it.SHA256 + '</span>';
         html += '<span class="item-size" style="display: none;">' + it.size + '</span>';
         html += '<span class="item-artist" style="display: none;">';
+        if (it.duartion != undefined || it.duration != 0) {
+            html += '<span class="item-duration" style="display: none;">' + it.duration + '</span>';
+        }
         var artists = it.artist;
         if (artists != undefined && artists.length > 0) {
             var len = artists.length;
@@ -149,7 +89,7 @@ function loadItems() {
 
         // Append duration if available
         if (it.duration != undefined || it.duration != 0) {
-            html += '<p>Duration: ' + parseDuration(it.duration) + '</p>';
+            html += '<p>Duration: ' + formatDuration(mediaType, it.duration) + '</p>';
         }
 
         // Append album
@@ -163,7 +103,7 @@ function loadItems() {
         // Append genres if available
         var genres = it.genre;
         if (genres != undefined && genres.length > 0) {
-            html += '<p class="item-genre">Genre: '
+            html += '<p class="item-genre">Genre: ';
             for (i = 0; i < genres.length; i++) {
                 html += genres[i];
                 if (i < genres.length - 1) {
@@ -175,129 +115,40 @@ function loadItems() {
 
         // Append rating if available
         if (it.rating != undefined) {
-            html += '<p>Rating: ' + it.rating + "</p>";
+            html += '<p class="item-rating">Rating: ' + it.rating + "</p>";
         }
         // Append a hidden checkbox (structural requirement)
         html += '<input name="selected-items" type="checkbox" class="item-checkbox" value="' +it.SHA256+ '" /> <!-- the hidden checkbox -->';
         // Endings
         html += '</div></div></div></div>';
     });
+
     html += '</div>';
     container.html(html);
-
-    // If the item card is tapped, invoke the handler.
-    $("div.tag").click(selectAnItem);
-    // Reset right sidebar
-    numItemsSelected = 0;
-    updateSidebar("-");
 }
 
-function updateNumTotal(data) {
-    numItemsInTotal = data;
-    console.info("Total number: " + data);
-}
-
-function updateItems(data) {
-    items = data;
-    console.info(data.length + " item(s) returned.");
-}
-
-// The handler for item cards
-function selectAnItem() {
-    // Find the mask (containing the visible checkbox) and toggle it
-    var mask = $(this).find(".thumbnail-checkbox-mask").first();
-    toggleMask(mask);
-
-    // 找到这个项目的隐藏复选框，改变其勾选状态，维护 numItemsSelected 并更新侧边栏状态
-    // Find the hidden checkbox of the item, toggle the checkbox, update numItemsSelected and the sidear
-    var hiddenCb = $(this).find(".item-checkbox").first();
-    if (hiddenCb.prop("checked")) {
-        hiddenCb.prop("checked", false);
-        numItemsSelected--;
-        updateSidebar("-");
-    } else {
-        hiddenCb.prop("checked", true);
-        numItemsSelected++;
-        updateSidebar("+");
-    }
-}
-
-function updateSidebar(trend) {
-    var sidebar = $(".right-sidebar").first();
-    if (trend == "+") {
-        // 从 0 到 1 则显示侧边栏
-        // From 0 to 1: Show the sidebar
-        if (numItemsSelected == 1) {
-            sidebar.animate({
-                opacity: 1.00,
-                right: '-18rem'
-            }, "fast");
+// Bind properties in the new property form for validation
+function bindProperties() {
+    $('#title').bind('input propertychange', function(){
+        var title = $('#title').val();
+        if(title == "") {
+            formError = true;
+            $('.errorTitle-required').show();
+        } else {
+            formError = false;
+            $('.errorTitle-required').hide();
         }
-        // 从 1 加至更多则隐藏 Play 选项
-        // From 1 to more: Hide "Play"
-        else {
-            sidebar.find("li").first().slideToggle("normal");
-            sidebar.find("li").eq(3).slideToggle("normal");
-        }
-    } else if (trend == "-") {
-        // 从更多减少至 1 则显示 Play 选项
-        // From more to 1: Show "Play"
-        if (numItemsSelected == 1) {
-            sidebar.find("li").first().slideToggle("normal");
-            sidebar.find("li").eq(3).slideToggle("normal");
-        }
-        // 从 1 减小至 0 则隐藏侧边栏
-        // From 1 to 0: Hide the sidebar
-        else if (numItemsSelected == 0) {
-            sidebar.animate({
-                opacity: 0.25,
-                right: '-30rem'
-            });
-        }
-    }
-}
-
-function toggleMask(mask) {
-    if (mask.hasClass("thumbnail-checkbox-mask-visible")) {
-        mask.removeClass("thumbnail-checkbox-mask-visible").addClass("thumbnail-checkbox-mask-invisible");
-    } else {
-        mask.removeClass("thumbnail-checkbox-mask-invisible");
-        mask.addClass("thumbnail-checkbox-mask-visible");
-    }
-}
-
-function revealSidebarLabel() {
-    $(this).animate({
-        right: '0'
-    }, 150);
-}
-
-function hideSidebarLabel() {
-    $(this).animate({
-        right: '-18rem'
     });
-}
 
-function parseDuration(duration) {
-    var str = "";
-    var min = (duration / 60).toFixed(0);
-    var sec = duration % 60;
-    var secStr = sec;
-    if (sec < 10) {
-        secStr = "0" + sec;
-    }
-    return min + ":" + secStr;
-}
-
-function handleDownloadButton(){
-    $("input:checkbox[name='selected-items']:checked").each(function () {
-        triggerDownload($(this).val());
-    });
-}
-
-function handleEditButton() {
-    $("input:checkbox[name='selected-items']:checked").each(function () {
-        triggerEdit($(this).val());
+    $('#album').bind('input propertychange', function(){
+        var title = $('#album').val();
+        if(title == "") {
+            formError = true;
+            $('.errorAlbum-required').show();
+        } else {
+            formError = false;
+            $('.errorAlbum-required').hide();
+        }
     });
 }
 
@@ -316,25 +167,7 @@ function triggerEdit(it) {
         $('#duration').val(duration);
 }
 
-function triggerDownload(it) {
-    var SHA256 = $('#'+it).find('.item-sha256').text();
-    var size = $('#'+it).find('.item-size').text();
-    var title = $('#'+it).find('.item-title').text();
-
-    console.log(SHA256);
-    console.log(size);
-    console.log(title);
-    window.open("DownloadServlet?SHA256=" + SHA256 + "&size=" + size + "&indicatedFilename=" + title);
-}
-
-function handleDeleteButton() {
-    $("input:checkbox[name='selected-items']:checked").each(function () {
-        triggerDelete($(this).val());
-    });
-}
-
 function triggerDelete(SHA256) {
-    console.info(SHA256);
     var size = $('#'+SHA256).find('.item-size').text();
 
     $.ajax({

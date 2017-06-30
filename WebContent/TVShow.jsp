@@ -7,7 +7,7 @@
 	<link rel="stylesheet" href="css/bootstrap/bootstrap.min.css">
 	<link rel="stylesheet" href="css/nav.css">
 	<link rel="stylesheet" href="css/main-page.css">
-	<link rel="stylesheet" href="css/movie.css" />
+	<link rel="stylesheet" href="css/media-page.css" />
 	<script src="js/bootstrap/bootstrap.min.js"></script>
 	<script src="js/prefixfree.min.js"></script>
 
@@ -73,7 +73,7 @@
 		<div>
 
 			<div class="col-lg-6 col-sm-6">
-				<div class="tag">
+				<div class="item-card">
 					<div class="col-sm-4">
 						<div class="thumbnail-container">
 							<div class="thumbnail-checkbox-mask thumbnail-checkbox-mask-invisible">
@@ -97,7 +97,7 @@
 			</div>
 
 			<div class="col-lg-6 col-sm-6">
-				<div class="tag">
+				<div class="item-card">
 					<div class="col-sm-4">
 						<div class="thumbnail-container">
 							<div class="thumbnail-checkbox-mask thumbnail-checkbox-mask-invisible">
@@ -121,7 +121,7 @@
 			</div>
 
 			<div class="col-lg-6 col-sm-6">
-				<div class="tag">
+				<div class="item-card">
 					<div class="col-sm-4">
 						<div class="thumbnail-container">
 							<div class="thumbnail-checkbox-mask thumbnail-checkbox-mask-invisible">
@@ -145,7 +145,7 @@
 			</div>
 
 			<div class="col-lg-6 col-sm-6">
-				<div class="tag">
+				<div class="item-card">
 					<div class="col-sm-4">
 						<div class="thumbnail-container">
 							<div class="thumbnail-checkbox-mask thumbnail-checkbox-mask-invisible">
@@ -169,7 +169,7 @@
 			</div>
 
 			<div class="col-lg-6 col-sm-6">
-				<div class="tag">
+				<div class="item-card">
 					<div class="col-sm-4">
 						<div class="thumbnail-container">
 							<div class="thumbnail-checkbox-mask thumbnail-checkbox-mask-invisible">
@@ -193,7 +193,7 @@
 			</div>
 
 			<div class="col-lg-6 col-sm-6">
-				<div class="tag">
+				<div class="item-card">
 					<div class="col-sm-4">
 						<div class="thumbnail-container">
 							<div class="thumbnail-checkbox-mask thumbnail-checkbox-mask-invisible">
@@ -217,7 +217,7 @@
 			</div>
 
 			<div class="col-lg-6 col-sm-6">
-				<div class="tag">
+				<div class="item-card">
 					<div class="col-sm-4">
 						<div class="thumbnail-container">
 							<div class="thumbnail-checkbox-mask thumbnail-checkbox-mask-invisible">
