@@ -122,7 +122,7 @@
 								<input type="text" class="form-control" id="album" name="album">
 								<div class="errorAlbum-required error">Album is required.</div>
 							</div>
-							<div class="form-group">
+							<div class="form-group plot">
 								<label for="desc" class="control-label" style="color: #909090;">Plot: </label>
 								<textarea class="form-control plot" id="desc" name="plot"></textarea>
 								<div class="msg"></div>
