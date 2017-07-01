@@ -10,10 +10,13 @@
     	<link rel="stylesheet" href="css/upload-page.css" />
     	<link rel="stylesheet" href="css/bootstrap/fileinput.min.css">
     	<link rel="stylesheet" href="css/uploading.css" />
+		<link rel="stylesheet" href="bower_components/bootstrap-tags/dist/css/bootstrap-tags.css">
     	<script src="js/bootstrap/bootstrap.min.js"></script>
     	<script src="node_modules/bootstrap-fileinput/js/fileinput.js"></script>
     	<script src="node_modules/crypto-js/crypto-js.js"></script>
 		<script src="node_modules/jquery.form.min.js"></script>
+		<script src="bower_components/bootstrap-tags/dist/js/bootstrap-tags.js"></script>
+
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Upload</title>
     </head>
@@ -157,31 +160,32 @@
 							</div>
 
 	                       <div class="form-group">
-	                       		<label class="control-label" style="color: #909090;">Select genre: </label>
-	                       		<select class="form-control category movie">
-	                       			<option value="Comedy" selected="selected">Comedy</option>
-	                       			<option value="Action">Action</option>
-	                       			<option value="Fantasy">Fantasy</option>
-	                       			<option value="Thriller">Thriller</option>
-	                       			<option value="Adventure">Adventure</option>
-	                       			<option value="Others">Other</option>
-	                       		</select>
-	                       		<select class="form-control category tvshow">
-	                       			<option value="Criminal" selected="selected">Criminal</option>
-	                       			<option value="Action">Action</option>
-	                       			<option value="Fantasy">Fantasy</option>
-	                       			<option value="Thriller">Thriller</option>
-	                       			<option value="Adventure">Adventure</option>
-	                       			<option value="Others">Other</option>
-	                       		</select>
-	                       		<select class="form-control category music">
-	                       			<option value="Rock" selected="selected">Rock</option>
-	                       			<option value="Action">Action</option>
-	                       			<option value="Fantasy">Fantasy</option>
-	                       			<option value="Thriller">Thriller</option>
-	                       			<option value="Adventure">Adventure</option>
-	                       			<option value="Others">Other</option>
-	                       		</select>
+	                       		<label class="control-label" style="color: #909090;">Enter genre: </label>
+	                       		<%--<select class="form-control category movie">--%>
+	                       			<%--<option value="Comedy" selected="selected">Comedy</option>--%>
+	                       			<%--<option value="Action">Action</option>--%>
+	                       			<%--<option value="Fantasy">Fantasy</option>--%>
+	                       			<%--<option value="Thriller">Thriller</option>--%>
+	                       			<%--<option value="Adventure">Adventure</option>--%>
+	                       			<%--<option value="Others">Other</option>--%>
+	                       		<%--</select>--%>
+	                       		<%--<select class="form-control category tvshow">--%>
+	                       			<%--<option value="Criminal" selected="selected">Criminal</option>--%>
+	                       			<%--<option value="Action">Action</option>--%>
+	                       			<%--<option value="Fantasy">Fantasy</option>--%>
+	                       			<%--<option value="Thriller">Thriller</option>--%>
+	                       			<%--<option value="Adventure">Adventure</option>--%>
+	                       			<%--<option value="Others">Other</option>--%>
+	                       		<%--</select>--%>
+	                       		<%--<select class="form-control category music">--%>
+	                       			<%--<option value="Rock" selected="selected">Rock</option>--%>
+	                       			<%--<option value="Action">Action</option>--%>
+	                       			<%--<option value="Fantasy">Fantasy</option>--%>
+	                       			<%--<option value="Thriller">Thriller</option>--%>
+	                       			<%--<option value="Adventure">Adventure</option>--%>
+	                       			<%--<option value="Others">Other</option>--%>
+	                       		<%--</select>--%>
+							   <div class="tag-list" id="genre"></div>
 	                       </div>
 	                       <div class="form-group">
 	                       		<input type="text" class="form-control category-input col-sm-10" placeholder="others...">
@@ -200,7 +204,7 @@
     		</div>
     	</div>
     	
-    	<script src="js/upload.js"></script>
+		<script src="js/upload.js"></script>
     	<script src="js/uploadForm.js"></script>
     	<script src="js/FileUpload.js"></script>
  	</body>
