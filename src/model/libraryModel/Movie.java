@@ -30,49 +30,70 @@ public class Movie extends FileAssociatedItem {
         return releaseYear;
     }
     public void setReleaseYear(int releaseYear) {
-        this.releaseYear = releaseYear;
+        if (releaseYear == 0)
+            this.releaseYear = null;
+        else
+            this.releaseYear = releaseYear;
     }
 
     public Integer getDuration() {
         return duration;
     }
     public void setDuration(int duration) {
-        this.duration = duration;
+        if (duration == 0)
+            this.duration = duration;
+        else
+            this.duration = duration;
     }
 
     public String getPlot() {
         return plot;
     }
     public void setPlot(String plot) {
-        this.plot = plot;
+        if (plot == null || plot.trim().isEmpty())
+            this.plot = null;
+        else
+            this.plot = plot;
     }
 
     public String getThumbUrl() {
         return thumbUrl;
     }
     public void setThumbUrl(String thumbUrl) {
-        this.thumbUrl = thumbUrl;
+        if (thumbUrl == null || thumbUrl.trim().isEmpty())
+            this.thumbUrl = null;
+        else
+            this.thumbUrl = thumbUrl;
     }
 
     public Double getRating() {
         return rating;
     }
     public void setRating(double rating) {
-        this.rating = rating;
+        if (rating == 0.0)
+            this.rating = 0.0;
+        else
+            this.rating = rating;
     }
 
     public String[] getGenre() {
         return genre;
     }
     public void setGenre(String[] genre) {
-        this.genre = genre;
+        if (genre == null || genre.length == 0)
+            this.genre = null;
+        else
+            this.genre = genre;
     }
 
     public String[] getDirector() {
         return director;
     }
     public void setDirector(String[] director) {
-        this.director = director;
+        if (director == null || director.length == 0)
+            this.director = null;
+        else
+            this.director = director;
     }
 
     @Override

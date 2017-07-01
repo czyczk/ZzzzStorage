@@ -36,35 +36,50 @@ public class Music extends FileAssociatedItem {
         return track;
     }
     public void setTrack(int track) {
-        this.track = track;
+        if (track == 0)
+            this.track = null;
+        else
+            this.track = track;
     }
 
     public Integer getRating() {
         return rating;
     }
     public void setRating(int rating) {
-        this.rating = rating;
+        if (rating == 0)
+            this.rating = null;
+        else
+            this.rating = rating;
     }
 
     public String getThumbUrl() {
         return thumbUrl;
     }
     public void setThumbUrl(String thumbUrl) {
-        this.thumbUrl = thumbUrl;
+        if (thumbUrl == null || thumbUrl.trim().isEmpty())
+            this.thumbUrl = null;
+        else
+            this.thumbUrl = thumbUrl;
     }
 
     public String[] getArtist() {
         return artist;
     }
     public void setArtist(String[] artist) {
-        this.artist = artist;
+        if (artist == null || artist.length == 0)
+            this.artist = null;
+        else
+            this.artist = artist;
     }
 
     public String[] getGenre() {
         return genre;
     }
     public void setGenre(String[] genre) {
-        this.genre = genre;
+        if (genre == null || genre.length == 0)
+            this.genre = null;
+        else
+            this.genre = genre;
     }
 
     @Override
