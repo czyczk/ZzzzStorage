@@ -5,6 +5,7 @@ import dao.DaoFactory;
 import model.User;
 import model.libraryModel.MediaTypeEnum;
 import model.libraryModel.Movie;
+import model.libraryModel.Music;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import util.JsonUtil;
 import util.ServletUtil;
@@ -56,7 +57,12 @@ public class UpdateServlet extends HttpServlet {
                 }
                 break;
                 case MUSIC:
-                    throw new NotImplementedException();
+                    System.out.println("[SQL update] Updating a music item.");
+                    Music oldMusic = JsonUtil.getGson().fromJson(oldItemJson, Music.class);
+                    Music newMusic = JsonUtil.getGson().fromJson(newItemJson, Music.class);
+                    oldMusic.setOwnerId(ownerId);
+                    newMusic.setOwnerId(ownerId);
+                    DaoFactory.getLibraryItemDao().update(oldMusic, newMusic);
                 case TV_SHOW:
                     throw new NotImplementedException();
                 default: throw new IllegalArgumentException("Not supported media type.");
