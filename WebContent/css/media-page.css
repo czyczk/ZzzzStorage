@@ -1,5 +1,5 @@
 body {
-	font-family: "Neue Haas Unica W1G", "Segoe UI", Helvetica, "Arial Nova", "Arial", sans-serif;
+	font-family: "Neue Haas Unica W1G", "Segoe UI", Helvetica, "Arial Nova", "Arial", "Inziu Roboto SC", "Microsoft YaHei", sans-serif;
 }
 
 #contentWrapper {
@@ -132,7 +132,7 @@ body {
 	margin: 1.2rem -0.2rem;
 }
 
-.tag {
+.item-card {
 	background-color: rgba(248, 248, 248, 0.9);
 	border: 1px solid #f8f8f8;
 	-moz-box-shadow: 0px 1px 5px #555555; /*Firefox*/
@@ -143,14 +143,14 @@ body {
 	/*margin-bottom: 30px;*/
     margin: 1.2rem -0.2rem;
 }
-.tag:hover {
+.item-card:hover {
 	background-color: rgba(248, 248, 248, 1.0);
 	-moz-box-shadow: 0px 1px 16px #707070; /*Firefox*/
 	-webkit-box-shadow: 0px 1px 16px #707070; /*Safari or Chrome*/
 	box-shadow: 0px 1px 16px #707070; /*Opera or IE9*/
 	transition: all 0.15s ease-out;
 }
-.tag:active {
+.item-card:active {
 	background-color: rgba(248, 248, 248, 0.8);
 	-moz-box-shadow: 0px 0px 2px 1px #404040; /*Firefox*/
 	-webkit-box-shadow: 0px 0px 2px 1px #404040; /*Safari or Chrome*/
