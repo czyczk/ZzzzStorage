@@ -70,7 +70,7 @@ function arrangeItems() {
         // Append IMDB
         html += '<div><span class="item-imdb">IMDB: ' + it.imdb + "</span>";
         // Append duration if available
-        if (it.duration != undefined || it.duration != 0) {
+        if (it.duration != undefined && it.duration != 0) {
             html += '<span style="margin-left: 2rem;">Duration: ' + formatDuration(mediaType, it.duration) + '</span>';
         }
         html += '</div>';
