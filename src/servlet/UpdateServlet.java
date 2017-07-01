@@ -63,6 +63,7 @@ public class UpdateServlet extends HttpServlet {
                     oldMusic.setOwnerId(ownerId);
                     newMusic.setOwnerId(ownerId);
                     DaoFactory.getLibraryItemDao().update(oldMusic, newMusic);
+                    break;
                 case TV_SHOW:
                     throw new NotImplementedException();
                 default: throw new IllegalArgumentException("Not supported media type.");

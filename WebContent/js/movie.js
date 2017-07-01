@@ -112,10 +112,9 @@ function arrangeItems() {
         // Append a hidden checkbox (structural requirement)
         html += '<input name="selected-items" type="checkbox" class="item-checkbox" value="' +it.imdb+ '"/> <!-- the hidden checkbox -->';
         // Endings
-        html += '</div></div></div></div>';
+        html += '</div></div></div></div></div>';
     });
 
-    html += '</div>';
     container.html(html);
 }
 
@@ -218,11 +217,12 @@ function submitUpdate() {
         "title": $('#title').val(),
         "imdb": $('#imdb').val(),
         "releaseYear": $('#releaseYear').val(),
-        "duration": $('#duration').val(),
         "plot": $('#plot').val(),
         "thumbUrl": $('#thumbUrl').val()
     };
-
+    if($('#duration').val() != "") {
+        newItem.duration = $('#duration').val();
+    }
     // Send update request
     $.ajax({
         url: "UpdateServlet",

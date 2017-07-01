@@ -87,7 +87,7 @@
 			<a id="delete-button" href><span class="glyphicon glyphicon-trash right-sidebar-icon"></span>Delete</a>
 		</li>
 		<li>
-			<a id="edit-button" href data-toggle="modal" data-target="#property"><span class="glyphicon glyphicon-info-sign right-sidebar-icon"></span>Edit properties</a>
+			<a id="edit-button" href data-toggle="modal" data-target="#property-form"><span class="glyphicon glyphicon-info-sign right-sidebar-icon"></span>Edit properties</a>
 		</li>
 	</ul>
 </div>

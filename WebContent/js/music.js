@@ -165,6 +165,12 @@ function triggerEdit(it) {
     $('#genre').val(genre);
     if(duration != 'undefined')
         $('#duration').val(duration);
+
+
+    oldItem = {
+        "SHA256": $('#'+it).find('.item-sha256').text(),
+        "size": size
+    };
 }
 
 function triggerDelete(SHA256) {
@@ -179,6 +185,32 @@ function triggerDelete(SHA256) {
         },
         error: function(data) {
             alert(data);
+        }
+    });
+}
+
+// Submit the new property form. Invoked by the "update-submit" button.
+function submitUpdate() {
+    // TODO: Incomplete properties
+    // Collect new info
+    newItem = {
+        "SHA256": oldItem.SHA256,
+        "size": oldItem.size,
+        "title": $('#title').val(),
+        "album": $('#album').val(),
+        "thumbUrl": $('#thumbUrl').val()
+    };
+    if($('#duration').val() != "") {
+        newItem.duration = $('#duration').val();
+    }
+    // Send update request
+    $.ajax({
+        url: "UpdateServlet",
+        type: "post",
+        data: "mediaType=" + encodeURIComponent(mediaType) + "&oldItem=" + JSON.stringify(oldItem) + "&newItem=" + JSON.stringify(newItem),
+        success: handleUpdateSuccess,
+        error: function() {
+            alert("Internal error.");
         }
     });
 }
