@@ -11,7 +11,7 @@ function arrangeItems() {
 
     // Show info only if no movie is found
     if (items == undefined || items.length == 0) {
-        var html = '<div class="info"><h2 style="top: 100px; left: 500px; position:absolute;">No movie.</h2></div>';
+        var html = '<div class="info"><div style="text-align: center; margin: 10.5rem 0;"><h2>No movie.</h2></div></div>';
         container.html(html);
         return;
     }
