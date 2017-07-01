@@ -14,16 +14,19 @@ $(function() {
 });
 
 $(document).ready(function () {
-    $("#myModal1 #sign-up-form input").keydown(function() {
-        if(event.keyCode=='13' || event.which=='13' || event.charCode=='13') {
+    $("#myModal1 #sign-up-form input").keydown(function(e) {
+        e=e||event;
+        if(e.keyCode=='13' || e.which=='13' || e.charCode=='13') {
             $("#myModal1 #sign-up-form #sign-up-button").trigger('click');
         }
+        // alert('sss');
     });
 });
 
 $(document).ready(function () {
-    $("#myModal2 #log-in-form input").keydown(function() {
-        if(event.keyCode=='13' || event.which=='13' || event.charCode=='13') {
+    $("#myModal2 #log-in-form input").keydown(function(e) {
+        e=e||event;
+        if(e.keyCode=='13' || e.which=='13' || e.charCode=='13') {
             $("#myModal2 #log-in-form #log-in-button").trigger('click');
         }
     });
