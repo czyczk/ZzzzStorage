@@ -57,12 +57,15 @@ public class UpdateServlet extends HttpServlet {
                 }
                 break;
                 case MUSIC:
+                {
                     System.out.println("[SQL update] Updating a music item.");
                     Music oldMusic = JsonUtil.getGson().fromJson(oldItemJson, Music.class);
                     Music newMusic = JsonUtil.getGson().fromJson(newItemJson, Music.class);
                     oldMusic.setOwnerId(ownerId);
                     newMusic.setOwnerId(ownerId);
                     DaoFactory.getLibraryItemDao().update(oldMusic, newMusic);
+                }
+                break;
                 case TV_SHOW:
                     throw new NotImplementedException();
                 default: throw new IllegalArgumentException("Not supported media type.");
