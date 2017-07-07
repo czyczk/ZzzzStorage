@@ -42,7 +42,6 @@ public class Episode extends FileAssociatedItem {
     public String getStoryline() {
         return storyline;
     }
-
     public void setStoryline(String storyline) {
         if (storyline == null || storyline.length() == 0)
             this.storyline = null;
@@ -53,7 +52,6 @@ public class Episode extends FileAssociatedItem {
     public String getThumbUrl() {
         return thumbUrl;
     }
-
     public void setThumbUrl(String thumbUrl) {
         if (thumbUrl == null || thumbUrl.length() == 0)
             this.thumbUrl = null;
@@ -64,7 +62,6 @@ public class Episode extends FileAssociatedItem {
     public Double getRating() {
         return rating;
     }
-
     public void setRating(double rating) {
         if (rating == 0.0)
             this.rating = null;
@@ -74,11 +71,25 @@ public class Episode extends FileAssociatedItem {
 
     @Override
     public boolean isDeterministic() {
-        if (tvShow == null || getOwnerId() == null || episodeNo == null) {
-            if (getSHA256() == null || getOwnerId() == null) {
+        if (tvShow == null || !tvShow.isDeterministic()) return false;
+        if (episodeNo == null) {
+            if (getSHA256() == null || getSize() == null) {
                 return false;
             }
         }
         return true;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("Episode {\n");
+        sb.append("tvShow=").append(tvShow);
+        sb.append("\nepisodeNo=").append(episodeNo);
+        sb.append(", runtime=").append(runtime);
+        sb.append(", storyline='").append(storyline).append('\'');
+        sb.append(", thumbUrl='").append(thumbUrl).append('\'');
+        sb.append(", rating=").append(rating);
+        sb.append("\n}");
+        return sb.toString();
     }
 }

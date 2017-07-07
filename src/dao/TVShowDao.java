@@ -1,7 +1,9 @@
 package dao;
 
-import model.libraryModel.Music;
+import model.libraryModel.Episode;
+import model.libraryModel.MediaTypeEnum;
 import model.libraryModel.OrderByEnum;
+import model.libraryModel.TVShow;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import util.DBUtil;
 
@@ -10,44 +12,44 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by czyczk on 2017-6-24.
+ * Created by czyczk on 2017-7-4.
  */
-public class MusicDao implements ILibraryItemDao<Music> {
+class TVShowDao implements ILibraryItemDao<TVShow> {
     // Check if the sample item contains the required properties.
-    private boolean isValid(Music item) {
-        return !(item.getSHA256() == null || item.getOwnerId() == null || item.getSize() == null || item.getTitle() == null || item.getAlbum() == null);
+    private boolean isValid(TVShow item) {
+        return item.isDeterministic() && item.getTitle() != null;
     }
 
-
     /**
-     * Load the music from the database. Null if the item does not exist.
+     * Load the TV show from the database. Null if the item does not exist.
      * @param item A sample item containing the deterministic characteristics of the target item.
+     * @param full true to retrieve all attributes and false to retrieve only the deterministic attributes.
      */
-    public Music load(Music item) {
+    public TVShow load(TVShow item, boolean full) {
         // Check if the sample item contains the deterministic characteristics of the target item
         boolean isDeterministic = item.isDeterministic();
         if (!isDeterministic) throw new IllegalArgumentException("The sample item does not contain all " +
                 "the deterministic characteristics to identify a target item.");
-        // Check if the music exists in the user's library
+        // Check if the TV show exists in the user's library
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
-        Music result = null;
+        TVShow result = null;
         try {
             con = DBUtil.getConnection();
             // Append basic information
             String sql =
                     "SELECT * " +
-                            "FROM music " +
-                            "WHERE SHA256 = ? AND size = ? AND owner_id = ?";
+                            "FROM tv_show " +
+                            "WHERE imdb = ? AND season = ? AND owner_id = ?";
             ps = con.prepareStatement(sql);
-            ps.setString(1, item.getSHA256());
-            ps.setLong(2, item.getSize());
+            ps.setInt(1, item.getImdb());
+            ps.setInt(2, item.getSeason());
             ps.setInt(3, item.getOwnerId());
             rs = ps.executeQuery();
             // If there is a match, extract its basic info
             while (rs.next()) {
-                result = toMusic(rs);
+                result = toTVShow(rs, full);
             }
             DBUtil.close(rs);
             DBUtil.close(ps);
@@ -56,8 +58,6 @@ public class MusicDao implements ILibraryItemDao<Music> {
                 return null;
             }
 
-            // Append artist information
-            result.setArtist(queryAdditionalInfo(result, "artist"));
             // Append genre information
             result.setGenre(queryAdditionalInfo(result, "genre"));
         } catch (SQLException e) {
@@ -71,18 +71,18 @@ public class MusicDao implements ILibraryItemDao<Music> {
     }
 
     /**
-     * Add a music item to the database.
-     * @param item The music item to be added.
+     * Add a TV show item to the database
+     * @param item The TV show item to be added.
      */
     @Override
-    public void add(Music item) {
+    public void add(TVShow item) {
         // Check if the item contains the deterministic characteristics
         boolean isValid = isValid(item);
         if (!isValid) throw new IllegalArgumentException("The item does not contain all " +
                 "the deterministic characteristics to identify an item.");
 
         // Check if the item exists
-        Music existingItem = load(item);
+        TVShow existingItem = load(item, false);
         if (existingItem != null) throw new LibraryItemDaoException("The item exists already.");
 
         Connection con = null;
@@ -90,40 +90,40 @@ public class MusicDao implements ILibraryItemDao<Music> {
         try {
             con = DBUtil.getConnection();
             // Insert basic info
-            String sql =
-                    "INSERT INTO music(" +
-                            "SHA256, " +
-                            "size, " +
-                            "owner_id, " +
-                            "title, " +
-                            "album, " +
-                            "duration, " +
-                            "track, " +
-                            "thumb_url, " +
-                            "rating) " +
-                            "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO tv_show(" +
+                    "imdb, " +
+                    "season, " +
+                    "owner_id, " +
+                    "title, " +
+                    "runtime, " +
+                    "release_year, " +
+                    "plot, " +
+                    "thumb_url, " +
+                    "rating) " +
+                    "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
             ps = con.prepareStatement(sql);
-            ps.setString(1, item.getSHA256());
-            ps.setLong(2, item.getSize());
+            ps.setInt(1, item.getImdb());
+            ps.setInt(2, item.getSeason());
             ps.setInt(3, item.getOwnerId());
             ps.setString(4, item.getTitle());
-            ps.setString(5, item.getAlbum());
 
-            if (item.getDuration() != null) ps.setInt(6, item.getDuration());
+            if (item.getRuntime() != null) ps.setInt(5, item.getRuntime());
+            else ps.setNull(5, Types.INTEGER);
+
+            if (item.getReleaseYear() != null) ps.setInt(6, item.getReleaseYear());
             else ps.setNull(6, Types.INTEGER);
 
-            if (item.getTrack() != null) ps.setInt(7, item.getTrack());
-            else ps.setNull(7, Types.INTEGER);
+            if (item.getPlot() != null) ps.setString(7, item.getPlot());
+            else ps.setNull(7, Types.VARCHAR);
 
             if (item.getThumbUrl() != null) ps.setString(8, item.getThumbUrl());
             else ps.setNull(8, Types.VARCHAR);
 
-            if (item.getRating() != null) ps.setDouble(9, item.getRating());
+            if (item.getRating() != null) ps.setDouble(8, item.getRating());
             else ps.setNull(9, Types.DOUBLE);
+
             ps.executeUpdate();
 
-            // Insert artist info
-            updateAdditionalInfo(item, "artist");
             // Insert genre info
             updateAdditionalInfo(item, "genre");
         } catch (SQLException e) {
@@ -135,32 +135,32 @@ public class MusicDao implements ILibraryItemDao<Music> {
     }
 
     /**
-     * Delete a music item from the database (including the additional info).
+     * Delete a TV show item from the database (including the additional info).
      * @param item The sample item containing the deterministic characteristics of the target item.
      */
     @Override
-    public void delete(Music item) {
+    public void delete(TVShow item) {
         // Check if the sample item contains the deterministic characteristics of the target item
         boolean isDeterministic = item.isDeterministic();
         if (!isDeterministic) throw new IllegalArgumentException("The sample item does not contain all " +
                 "the deterministic characteristics to identify a target item.");
 
         // Check if the item exists
-        Music existingItem = load(item);
+        TVShow existingItem = load(item, false);
         if (existingItem == null) throw new LibraryItemDaoException("The item does not exist.");
 
-        // Remove the item from "music".
-        // ON DELETE CASCADE will manage to delete the additional information in other two tables.
+        // Remove the item from "tv_show".
+        // ON DELETE CASCADE will manage to delete the additional information in other tables.
         Connection con = null;
         PreparedStatement ps = null;
 
         try {
             con = DBUtil.getConnection();
-            String sql = "DELETE FROM music " +
-                    "WHERE SHA256 = ? AND size = ? AND owner_id = ?";
+            String sql = "DELETE FROM tv_show " +
+                    "WHERE imdb = ? AND season = ? AND owner_id = ?";
             ps = con.prepareStatement(sql);
-            ps.setString(1, item.getSHA256());
-            ps.setLong(2, item.getSize());
+            ps.setInt(1, item.getImdb());
+            ps.setInt(2, item.getSeason());
             ps.setInt(3, item.getOwnerId());
             ps.executeUpdate();
         } catch (SQLException e) {
@@ -172,32 +172,58 @@ public class MusicDao implements ILibraryItemDao<Music> {
     }
 
     @Override
-    public void update(Music oldItem, Music newItem) {
+    public void update(TVShow oldItem, TVShow newItem) {
+        EpisodeDao episodeDao = DaoFactory.getEpisodeDao();
+        int ownerId = oldItem.getOwnerId();
+        // Retrieve all the episodes containing the information of the old item if there's any
+        int countEpisodes = DaoFactory.getLibraryItemDao().count(MediaTypeEnum.EPISODE, new String[] {
+                "owner_id=" + ownerId, "imdb=" + oldItem.getImdb(), "season=" + oldItem.getSeason()
+        });
+        List<Episode> episodes = null;
+        if (countEpisodes > 0) {
+            episodes = episodeDao.list(
+                    ownerId, oldItem.getImdb(), oldItem.getSeason(),
+                    OrderByEnum.EPISODE_NO, 0, countEpisodes);
+        }
+        // Delete the old TV show (along with the episodes in the database with the old information)
         delete(oldItem);
+        // If there are episodes with old information, update them
+        if (episodes != null) {
+            for (Episode episode : episodes) {
+                episode.setTvShow(newItem);
+            }
+        }
+
+        // Add the new TV show and restore the items
         add(newItem);
+        if (episodes != null) {
+            for (Episode episode : episodes) {
+                episodeDao.add(episode);
+            }
+        }
     }
 
-    public List<Music> list(int ownerId, OrderByEnum orderBy, int start, int range) {
-        if (orderBy != OrderByEnum.ARTIST && orderBy != OrderByEnum.GENRE && orderBy != OrderByEnum.TITLE)
-            throw new IllegalArgumentException("Not supported order for music.");
+    public List<TVShow> list(int ownerId, OrderByEnum orderBy, int start, int range) {
+        if (orderBy != OrderByEnum.IMDB && orderBy != OrderByEnum.GENRE && orderBy != OrderByEnum.TITLE)
+            throw new IllegalArgumentException("Not supported order for TV shows.");
 
-        List<Music> result = new ArrayList<>();
+        List<TVShow> result = new ArrayList<>();
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
 
-        if (orderBy == OrderByEnum.TITLE) {
+        if (orderBy == OrderByEnum.TITLE || orderBy == OrderByEnum.IMDB) {
             try {
                 con = DBUtil.getConnection();
-                String sql = "SELECT * FROM music WHERE owner_id=" + ownerId + " ORDER BY " + orderBy.toString() +
+                String sql = "SELECT * FROM tv_show WHERE owner_id=" + ownerId +
+                        " ORDER BY " + orderBy.toString() + ", season " +
                         " OFFSET " + start + " ROWS FETCH NEXT " + range + " ROWS ONLY";
                 ps = con.prepareStatement(sql);
                 rs = ps.executeQuery();
                 while (rs.next()) {
-                    Music music = toMusic(rs);
-                    music.setArtist(queryAdditionalInfo(music, "artist"));
-                    music.setGenre(queryAdditionalInfo(music, "genre"));
-                    result.add(music);
+                    TVShow item = toTVShow(rs, true);
+                    item.setGenre(queryAdditionalInfo(item, "genre"));
+                    result.add(item);
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -206,23 +232,22 @@ public class MusicDao implements ILibraryItemDao<Music> {
                 DBUtil.close(ps);
                 DBUtil.close(con);
             }
-        } else if (orderBy == OrderByEnum.ARTIST || orderBy == OrderByEnum.GENRE) {
+        } else if (orderBy == OrderByEnum.GENRE) {
             try {
                 con = DBUtil.getConnection();
-                String sql = "SELECT DISTINCT SHA256, size, owner_id FROM music_" + orderBy.toString().toLowerCase() +
+                String sql = "SELECT DISTINCT imdb, season, owner_id FROM tv_show_" + orderBy.toString().toLowerCase() +
                         " WHERE owner_id = " + ownerId + " ORDER BY " + orderBy.toString().toLowerCase() +
                         " OFFSET " + start + " ROWS FETCH NEXT " + range + " ROWS ONLY";
                 ps = con.prepareStatement(sql);
                 rs = ps.executeQuery();
                 while (rs.next()) {
-                    Music music = new Music();
-                    music.setOwnerId(ownerId);
-                    music.setSHA256(rs.getString("SHA256"));
-                    music.setSize(rs.getLong("size"));
-                    music = load(music);
-                    music.setArtist(queryAdditionalInfo(music, "artist"));
-                    music.setGenre(queryAdditionalInfo(music, "genre"));
-                    result.add(music);
+                    TVShow item = new TVShow();
+                    item.setOwnerId(ownerId);
+                    item.setImdb(rs.getInt("imdb"));
+                    item.setSeason(rs.getInt("season"));
+                    item = load(item, true);
+                    item.setGenre(queryAdditionalInfo(item, "genre"));
+                    result.add(item);
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -237,35 +262,37 @@ public class MusicDao implements ILibraryItemDao<Music> {
         return result;
     }
 
-    // Convert the data on the current cursor of the result set into a Music object.
-    private Music toMusic(ResultSet rs) throws SQLException {
-        Music result = new Music();
+    // Convert the data on the current cursor of the result set into a TVShow object.
+    private TVShow toTVShow(ResultSet rs, boolean full) throws SQLException {
+        TVShow result = new TVShow();
         result.setOwnerId(rs.getInt("owner_id"));
-        result.setSHA256(rs.getString("SHA256"));
-        result.setSize(rs.getLong("size"));
-        result.setTitle(rs.getString("title"));
-        result.setAlbum(rs.getString("album"));
-        int tempInt = 0;
-        tempInt = rs.getInt("duration");
-        if (!rs.wasNull()) {
-            result.setDuration(tempInt);
+        result.setImdb(rs.getInt("imdb"));
+        result.setSeason(rs.getInt("season"));
+        if (full) {
+            result.setTitle(rs.getString("title"));
+            int tempInt;
+            tempInt = rs.getInt("release_year");
+            if (!rs.wasNull())
+                result.setReleaseYear(tempInt);
+            tempInt = rs.getInt("runtime");
+            if (!rs.wasNull()) {
+                result.setRuntime(tempInt);
+            }
+            double tempDouble;
+            tempDouble = rs.getDouble("rating");
+            if (!rs.wasNull()) {
+                result.setRating(tempDouble);
+            }
+            result.setPlot(rs.getString("plot"));
+            result.setThumbUrl(rs.getString("thumb_url"));
         }
-        tempInt = rs.getInt("rating");
-        if (!rs.wasNull()) {
-            result.setRating(tempInt);
-        }
-        tempInt = rs.getInt("track");
-        if (!rs.wasNull()) {
-            result.setTrack(tempInt);
-        }
-        result.setThumbUrl(rs.getString("thumb_url"));
         return result;
     }
 
     // Query additional info of an item
-    private String[] queryAdditionalInfo(Music item, String infoType) {
-        if (!infoType.equals("artist") && !infoType.equals("genre"))
-            throw new IllegalArgumentException("Info type should be either \"artist\" or \"genre\".");
+    private String[] queryAdditionalInfo(TVShow item, String infoType) {
+        if (!infoType.equals("genre"))
+            throw new IllegalArgumentException("Info type should be \"genre\".");
 
         Connection con = null;
         PreparedStatement ps = null;
@@ -275,28 +302,18 @@ public class MusicDao implements ILibraryItemDao<Music> {
             con = DBUtil.getConnection();
             // Prepare the sql statement according to the info type
             String sql = null;
-            if (infoType.equals("artist")) {
-                sql = "SELECT * " +
-                        "FROM music_artist " +
-                        "WHERE SHA256 = ? AND size = ? AND owner_id = ?";
-            } else {
-                sql = "SELECT * " +
-                        "FROM music_genre " +
-                        "WHERE SHA256 = ? AND size = ? AND owner_id = ?";
-            }
+            sql = "SELECT * " +
+                    "FROM tv_show_genre " +
+                    "WHERE imdb = ? AND season = ? AND owner_id = ?";
             ps = con.prepareStatement(sql);
-            ps.setString(1, item.getSHA256());
-            ps.setLong(2, item.getSize());
+            ps.setInt(1, item.getImdb());
+            ps.setInt(2, item.getSeason());
             ps.setInt(3, item.getOwnerId());
             rs = ps.executeQuery();
             // Append the attributes to a string, with each attribute separated by `
             StringBuilder sb = new StringBuilder();
             while (rs.next()) {
-                if (infoType.equals("artist")) {
-                    sb.append(rs.getString("artist"));
-                } else {
-                    sb.append(rs.getString("genre"));
-                }
+                sb.append(rs.getString("genre"));
                 sb.append('`');
             }
             if (sb.length() > 0) {
@@ -313,37 +330,21 @@ public class MusicDao implements ILibraryItemDao<Music> {
         return null;
     }
 
-    private void updateAdditionalInfo(Music item, String infoType) {
+    private void updateAdditionalInfo(TVShow item, String infoType) {
         Connection con = null;
         PreparedStatement ps = null;
 
         try {
             switch (infoType) {
-                case "artist":
-                    if (item.getArtist() != null) {
-                        con = DBUtil.getConnection();
-                        String sql = "INSERT INTO music_artist(SHA256, size, owner_id, artist)" +
-                                "VALUES(?, ?, ?, ?)";
-                        for (String artist : item.getArtist()) {
-                            ps = con.prepareStatement(sql);
-                            ps.setString(1, item.getSHA256());
-                            ps.setLong(2, item.getSize());
-                            ps.setInt(3, item.getOwnerId());
-                            ps.setString(4, artist);
-                            ps.executeUpdate();
-                            DBUtil.close(ps);
-                        }
-                    }
-                    break;
                 case "genre":
                     if (item.getGenre() != null) {
                         con = DBUtil.getConnection();
-                        String sql = "INSERT INTO music_genre(SHA256, size, owner_id, genre)" +
+                        String sql = "INSERT INTO tv_show_genre(imdb, season, owner_id, genre)" +
                                 "VALUES(?, ?, ?, ?)";
                         for (String genre : item.getGenre()) {
                             ps = con.prepareStatement(sql);
-                            ps.setString(1, item.getSHA256());
-                            ps.setLong(2, item.getSize());
+                            ps.setInt(1, item.getImdb());
+                            ps.setInt(2, item.getSeason());
                             ps.setInt(3, item.getOwnerId());
                             ps.setString(4, genre);
                             ps.executeUpdate();
@@ -351,7 +352,7 @@ public class MusicDao implements ILibraryItemDao<Music> {
                         }
                     }
                     break;
-                default: throw new IllegalArgumentException("Info type should be either \"artist\" or \"genre\".");
+                default: throw new IllegalArgumentException("Info type should be \"genre\".");
             }
         } catch (SQLException e) {
             e.printStackTrace();

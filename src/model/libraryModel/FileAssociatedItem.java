@@ -38,7 +38,7 @@ public abstract class FileAssociatedItem extends LibraryItem {
                 item = new Music();
                 break;
             case EPISODE:
-                throw new NotImplementedException();
+                item = new Episode();
             default:
                 throw new IllegalArgumentException("Not supported media type.");
         }

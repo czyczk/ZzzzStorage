@@ -1,5 +1,7 @@
 package dao;
 
+import model.libraryModel.Episode;
+
 /**
  * Created by czyczk on 2017-6-18.
  */
@@ -51,5 +53,29 @@ public class DaoFactory {
             }
         }
         return musicDao;
+    }
+
+    private volatile static TVShowDao tvShowDao;
+    static TVShowDao getTvShowDao() {
+        if (tvShowDao == null) {
+            synchronized (DaoFactory.class) {
+                if (tvShowDao == null) {
+                    tvShowDao = new TVShowDao();
+                }
+            }
+        }
+        return tvShowDao;
+    }
+
+    private volatile static EpisodeDao episodeDao;
+    static EpisodeDao getEpisodeDao() {
+        if (episodeDao == null) {
+            synchronized (DaoFactory.class) {
+                if (episodeDao == null) {
+                    episodeDao = new EpisodeDao();
+                }
+            }
+        }
+        return episodeDao;
     }
 }

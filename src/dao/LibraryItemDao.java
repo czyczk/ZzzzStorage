@@ -23,9 +23,14 @@ public class LibraryItemDao implements ILibraryItemDao<LibraryItem> {
             case MUSIC:
                 DaoFactory.getMusicDao().add((Music) item);
                 break;
+            case TV_SHOW:
+                DaoFactory.getTvShowDao().add((TVShow) item);
+                break;
+            case EPISODE:
+                DaoFactory.getEpisodeDao().add((Episode) item);
+                break;
             default: throw new NotImplementedException();
         }
-        // TODO
     }
 
     @Override
@@ -37,9 +42,14 @@ public class LibraryItemDao implements ILibraryItemDao<LibraryItem> {
             case MUSIC:
                 DaoFactory.getMusicDao().delete((Music) item);
                 break;
+            case TV_SHOW:
+                DaoFactory.getTvShowDao().delete((TVShow) item);
+                break;
+            case EPISODE:
+                DaoFactory.getEpisodeDao().delete((Episode) item);
+                break;
             default: throw new NotImplementedException();
         }
-        // TODO
     }
 
     @Override
@@ -54,18 +64,15 @@ public class LibraryItemDao implements ILibraryItemDao<LibraryItem> {
             case MUSIC:
                 DaoFactory.getMusicDao().update((Music) oldItem, (Music) newItem);
                 break;
+            case TV_SHOW:
+                DaoFactory.getTvShowDao().update((TVShow) oldItem, (TVShow) newItem);
+                break;
+            case EPISODE:
+                DaoFactory.getEpisodeDao().update((Episode) oldItem, (Episode) newItem);
+                break;
             default: throw new NotImplementedException();
         }
-        // TODO
     }
-
-//    public List<? extends LibraryItem> list(MediaTypeEnum mediaType) {
-//        switch (mediaType) {
-//            case MOVIE:
-//                return DaoFactory.getMovieDao().list();
-//            default: throw new IllegalArgumentException("Media type not recognized.");
-//        }
-//    }
 
     public int count(MediaTypeEnum mediaType) {
         return count(mediaType, null);
@@ -119,7 +126,14 @@ public class LibraryItemDao implements ILibraryItemDao<LibraryItem> {
                 return DaoFactory.getMovieDao().list(ownerId, orderBy, start, range);
             case MUSIC:
                 return DaoFactory.getMusicDao().list(ownerId, orderBy, start, range);
+            case TV_SHOW:
+                return DaoFactory.getTvShowDao().list(ownerId, orderBy, start, range);
+            case EPISODE:
+                throw new IllegalArgumentException("Try listEpisodes(ownerId, imdb, season, orderBy, start, range) instead.");
             default: throw new NotImplementedException();
         }
+    }
+    public List<Episode> listEpisodes(int ownerId, int imdb, int season, OrderByEnum orderBy, int start, int range) {
+        return DaoFactory.getEpisodeDao().list(ownerId, imdb, season, orderBy, start, range);
     }
 }

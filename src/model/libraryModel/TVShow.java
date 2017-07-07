@@ -2,6 +2,8 @@ package model.libraryModel;
 
 import model.libraryModel.LibraryItem;
 
+import java.util.Arrays;
+
 /**
  * Created by czyczk on 2017-7-1.
  */
@@ -17,6 +19,7 @@ public class TVShow extends LibraryItem {
     private String plot;
     private String thumbUrl;
     private Double rating;
+    private String[] genre;
 
     public Integer getImdb() {
         return imdb;
@@ -77,8 +80,39 @@ public class TVShow extends LibraryItem {
     }
     public void setRating(double rating) {
         if (rating == 0.0)
-            this.rating = rating;
+            this.rating = null;
         else
             this.rating = rating;
+    }
+
+    public String[] getGenre() {
+        return genre;
+    }
+    public void setGenre(String[] genre) {
+        if (genre == null || genre.length == 0)
+            this.genre = null;
+        else
+            this.genre = genre;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("TVShow {\n");
+        sb.append("imdb=").append(imdb);
+        sb.append(", title=").append(getTitle());
+        sb.append(", season=").append(season);
+        sb.append(", ownerId=").append(getOwnerId());
+        sb.append("\nreleaseYear=").append(releaseYear);
+        sb.append(", runtime=").append(runtime);
+        sb.append(", plot='").append(plot).append('\'');
+        sb.append(", thumbUrl='").append(thumbUrl).append('\'');
+        sb.append(", rating=").append(rating);
+        sb.append("\ngenre=").append(Arrays.toString(genre));
+        sb.append("\n}");
+        return sb.toString();
+    }
+
+    public boolean isDeterministic() {
+        return !(getOwnerId() == null || imdb == null || season == null);
     }
 }
