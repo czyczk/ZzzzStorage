@@ -55,7 +55,7 @@ function arrangeItems() {
         html += '<span class="item-sha256" style="display: none;">' + it.SHA256 + '</span>';
         html += '<span class="item-size" style="display: none;">' + it.size + '</span>';
         html += '<span class="item-artist" style="display: none;">';
-        if (it.duartion != undefined || it.duration != 0) {
+        if (it.duartion != undefined && it.duration != 0) {
             html += '<span class="item-duration" style="display: none;">' + it.duration + '</span>';
         }
         var artists = it.artist;
