@@ -44,7 +44,7 @@ function updateItems(data) {
 
 // Query the servlet for items
 function loadItems() {
-    // First query for the total number of movies
+    // First query for the total number of items of that type
     $.ajax({
         url: "FileListGeneratorServlet",
         data: "requestType=count&mediaType=" + encodeURIComponent(mediaType),
