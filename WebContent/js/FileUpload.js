@@ -77,6 +77,46 @@ $(function () {
         }
     });
 
+    $('#rating').bind('input propertychange', function () {
+        var rating = $('#rating').val();
+        if(rating < 0 || rating > 10) {
+            formError = true;
+            $('.error-rating').show();
+        } else {
+            formError = false;
+            $('.error-rating').hide();
+        }
+    });
+
+    $('#season').bind('input propertychange', function () {
+        var season = $('#season').val();
+        if(season == "") {
+            formError = true;
+            $('.errorSeason-required').show();
+            $('.error-season').hide();
+        } else if(season < 1 || season > 20) {
+            formError = true;
+            $('.error-season').show();
+            $('.errorSeason-required').hide();
+        } else {
+            formError = false;
+            $('.error-season').hide();
+            $('.errorSeason-required').hide();
+        }
+    });
+
+    $('#episode').bind('input propertychange', function () {
+        var episode = $('#episode').val();
+        if(episode < 1) {
+            formError = true;
+            $('.error-episode').show();
+        } else {
+            formError = false;
+            $('.error-episode').hide();
+        }
+    });
+
+
     $('.upload-submit').click(handleSubmit);
     
 

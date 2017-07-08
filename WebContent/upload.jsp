@@ -16,7 +16,7 @@
     	<script src="node_modules/crypto-js/crypto-js.js"></script>
 		<script src="node_modules/jquery.form.min.js"></script>
 		<script src="js/bootstrap/bootstrap-tagsinput.js"></script>
-		<script src="js/bootstrap/typehead.js"></script>
+		<script src="bower_components/typeahead.js/dist/typeahead.bundle.js"></script>
 
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Upload</title>
@@ -96,6 +96,7 @@
 									<option value="Movie" select="selected">Movie</option>
 									<option value="Music" >Music</option>
 									<option value="TVShow">TV Show</option>
+									<option value="Episode">Episode</option>
 								</select>
 							</div>
 							<div class="form-group imdb">
@@ -104,14 +105,17 @@
 								<div class="errorIMDB-required error">IMDB is required.</div>
 								<div class="error-range error">IMDB should be a 7-digit number.</div>
 							</div>
-	                        <div class="form-group">
+	                        <div class="form-group recipient-name">
 	                            <label for="recipient-name" class="control-label" style="color: #909090;">Title: </label>
 	                            <input type="text" class="form-control" id="recipient-name" name="title">
+								<div class="title" style="color: #909090"></div>
 								<div class="errorTitle-required error">Title is required.</div>
 							</div>
 							<div class="form-group season">
 								<label for="season" class="control-label" style="color: #909090;">Season: </label>
 								<input type="number" class="form-control" id="season" name="season">
+								<div class="error-season error">Season is from 1 to 20.</div>
+								<div class="errorSeason-required error">Season is required.</div>
 							</div>
 							<div class="form-group releaseYear">
 								<label for="year" class="control-label" style="color: #909090;">Release year: </label>
@@ -140,7 +144,7 @@
 								<input type="time" class="form-control" id="duration" name="duration">
 							</div>
 							<div class="form-group runtime">
-								<label for="runtime" class="control-label" style="color: #909090;">Runtime: </label>
+								<label for="runtime" class="control-label" style="color: #909090;">Runtime (in minutes): </label>
 								<input type="time" class="form-control" id="runtime" name="runtime">
 							</div>
 							<div class="form-group director">
@@ -151,16 +155,53 @@
 								<label for="artist" class="control-label" style="color: #909090;">Artist: </label>
 								<input type="text" class="form-control" id="artist" name="artist">
 							</div>
-							<div class="form-group">
+							<div class="form-group thumbUrl">
 								<label for="thumbUrl" class="control-label" style="color: #909090;">Thumbnail URL: </label>
 								<input type="text" class="form-control" id="thumbUrl" name="thumbUrl">
+								<div class="thumburl" style="color: #909090"></div>
 							</div>
-							<div class="form-group">
+							<div class="form-group rating">
 								<label for="rating" class="control-label" style="color: #909090;">Rating: </label>
 								<input type="number" class="form-control" id="rating" name="rating">
+								<div class="error-rating error">Rating is from 1 to 10.</div>
 							</div>
 
-	                       <div class="form-group">
+
+							<div class="form-group episode">
+								<label for="episode" class="control-label" style="color: #909090">Episode Number: </label>
+								<input type="number" class="form-control" id="episode" name="episode">
+								<div class="error-episode error">Episode is begin from 1.</div>
+							</div>
+
+							<div class="form-group titleOfEpisode">
+								<label for="titleOfEpisode" class="control-label" style="color: #909090">Title of This Episode: </label>
+								<input type="text" class="form-control" id="titleOfEpisode" name="titleOfEpisode">
+								<div class="msgEpisodeTitle" style="color:#909090;"></div>
+							</div>
+
+							<div class="form-group episodeRuntime">
+								<label for="episodeRuntime" class="control-label" style="color: #909090">Runtime (in minutes): </label>
+								<input type="number" class="form-control" id="episodeRuntime" name="episodeRuntime">
+							</div>
+
+							<div class="form-group episodeThumbnail">
+								<label for="episodeThumbnail" class="control-label" style="color:#909090;">Thumb URL: </label>
+								<input type="text" class="form-control" id="episodeThumbnail" name="episodeThumbnail">
+								<div class="msgEpisodeThumb" style="color:#909090;"></div>
+							</div>
+
+							<div class="form-group episodeRating">
+								<label for="episodeRating" class="control-label" style="color:#909090;">Rating: </label>
+								<input type="text" class="form-control" id="episodeRating" name="episodeRating">
+							</div>
+
+							<div class="form-group storyLine">
+								<label for="storyLine" class="control-label" style="color: #909090;">Story Line:</label>
+								<textarea class="form-control" id="storyLine" name="storyLine"></textarea>
+								<div class="msgStoryLine" style="color: #909090"></div>
+							</div>
+
+	                       <div class="form-group genre">
 	                       		<label for="genre" class="control-label" style="color: #909090;">Enter genre: </label>
 	                       		<%--<select class="form-control category movie">--%>
 	                       			<%--<option value="Comedy" selected="selected">Comedy</option>--%>
@@ -186,7 +227,7 @@
 	                       			<%--<option value="Adventure">Adventure</option>--%>
 	                       			<%--<option value="Others">Other</option>--%>
 	                       		<%--</select>--%>
-							    <input type="text" name="genre" id="genre" multiple data-role="tagsinput"/>
+							    <input type="text" name="genre" id="genre" data-role="tagsinput"/>
 	                       </div>
 	                       <br />
 	                       <br />

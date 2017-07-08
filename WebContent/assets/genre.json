@@ -1,4 +1,18 @@
-{
-  "genre": ["Comedy", "Thriller", "Tragedy", "Action", "Love"]
-
-}
+[
+  {
+    "ID": 1,
+    "value": "Comedy"
+  },
+  {
+    "ID": 2,
+    "value": "Thriller"
+  },
+  {
+    "ID": 3,
+    "value": "Action"
+  },
+  {
+    "ID": 4,
+    "value": "Love"
+  }
+]
