@@ -50,22 +50,27 @@ public class UploadServlet extends HttpServlet {
         resp.setContentType("text/json");
         resp.setCharacterEncoding("UTF-8");
 
+        // Get media type
+        MediaTypeEnum mediaType = ServletUtil.parseMediaType(req.getParameter("mediaType"));
+
         // Get basic file characteristics
-        String SHA256 = req.getParameter("SHA256").toUpperCase();
-        if (SHA256.trim().isEmpty()) {
-            sendErrorMessage(resp, "SHA256 should not be empty.");
-            return;
-        }
+        String SHA256 = null;
         long size = 0L;
-        try {
-            size = Long.parseLong(req.getParameter("size"));
-        } catch (NumberFormatException e) {
-            sendErrorMessage(resp, "Size should not be empty.");
-            return;
+        if (mediaType != MediaTypeEnum.TV_SHOW) {
+            SHA256 = req.getParameter("SHA256").toUpperCase();
+            if (SHA256.trim().isEmpty()) {
+                sendErrorMessage(resp, "SHA256 should not be empty.");
+                return;
+            }
+            try {
+                size = Long.parseLong(req.getParameter("size"));
+            } catch (NumberFormatException e) {
+                sendErrorMessage(resp, "Size should not be empty.");
+                return;
+            }
         }
 
         // Get basic metadata info
-        MediaTypeEnum mediaType = ServletUtil.parseMediaType(req.getParameter("mediaType"));
         FileAssociatedItem transferTaskItem = null;
         try {
             switch (mediaType) {
@@ -89,7 +94,19 @@ public class UploadServlet extends HttpServlet {
                 break;
                 case TV_SHOW:
                 {
-                    // TODO
+                    TVShow tvShow = parseTVShow(req, resp);
+                    tvShow.setOwnerId(ownerId);
+                    DaoFactory.getLibraryItemDao().add(tvShow);
+                    return;
+                }
+                case EPISODE:
+                {
+                    Episode episode = parseEpisode(req, resp);
+                    episode.getTvShow().setOwnerId(ownerId);
+                    episode.setOwnerId(ownerId);
+                    episode.setSHA256(SHA256);
+                    episode.setSize(size);
+                    transferTaskItem = episode;
                 }
                 break;
                 default: throw new IllegalArgumentException("Not supported media type.");
@@ -266,5 +283,106 @@ public class UploadServlet extends HttpServlet {
             music.setGenre(new String[] { genre });
         }
         return music;
+    }
+
+    private TVShow parseTVShow(HttpServletRequest req, HttpServletResponse resp) throws FieldMissingException, IOException {
+        TVShow tvShow = new TVShow();
+        // Not null IMDB
+        try {
+            int imdb = Integer.parseInt(req.getParameter("imdb"));
+            tvShow.setImdb(imdb);
+        } catch (NumberFormatException e) {
+            sendErrorMessage(resp, "Invalid value of IMDB.");
+            throw new FieldMissingException();
+        }
+        // Not null season
+        try {
+            int season = Integer.parseInt(req.getParameter("season"));
+            tvShow.setSeason(season);
+        } catch (NumberFormatException e) {
+            sendErrorMessage(resp, "Invalid value of season.");
+            throw new FieldMissingException();
+        }
+        // Not null title
+        String title = req.getParameter("title");
+        if (title.trim().isEmpty()) {
+            sendErrorMessage(resp, "Title cannot be empty.");
+            throw new FieldMissingException();
+        }
+        tvShow.setTitle(title);
+        try {
+            int releaseYear = Integer.parseInt(req.getParameter("releaseYear"));
+            tvShow.setReleaseYear(releaseYear);
+        } catch (NumberFormatException e) {
+        }
+        String plot = req.getParameter("plot");
+        if (!plot.trim().isEmpty()) {
+            tvShow.setPlot(plot);
+        }
+        try {
+            int runtime = Integer.parseInt(req.getParameter("runtime"));
+            tvShow.setRuntime(runtime);
+        } catch (NumberFormatException e) {
+        }
+        String thumbUrl = req.getParameter("thumbUrl");
+        if (!thumbUrl.trim().isEmpty()) {
+            tvShow.setThumbUrl(thumbUrl);
+        }
+        try {
+            double rating = Double.parseDouble(req.getParameter("rating"));
+            tvShow.setRating(rating);
+        } catch (NumberFormatException e) {
+        }
+        // Genre
+        // TODO: It's now only one genre
+        String genre = req.getParameter("genre");
+        if (genre != null && !genre.trim().isEmpty()) {
+            tvShow.setGenre(new String[] { genre });
+        }
+        return tvShow;
+    }
+
+    private Episode parseEpisode(HttpServletRequest req, HttpServletResponse resp) throws FieldMissingException, IOException {
+        TVShow tvShow = new TVShow();
+        Episode episode = new Episode();
+        // Not null IMDB
+        try {
+            int imdb = Integer.parseInt(req.getParameter("imdb"));
+            tvShow.setImdb(imdb);
+        } catch (NumberFormatException e) {
+            sendErrorMessage(resp, "Invalid value of IMDB.");
+            throw new FieldMissingException();
+        }
+        // Not null season
+        try {
+            int season = Integer.parseInt(req.getParameter("season"));
+            tvShow.setSeason(season);
+        } catch (NumberFormatException e) {
+            sendErrorMessage(resp, "Invalid value of season.");
+            throw new FieldMissingException();
+        }
+        episode.setTvShow(tvShow);
+        // Not null episodeNo
+        try {
+            int episodeNo = Integer.parseInt(req.getParameter("episodeNo"));
+            episode.setEpisodeNo(episodeNo);
+        } catch (NumberFormatException e) {
+            sendErrorMessage(resp, "Invalid value of episodeNo.");
+            throw new FieldMissingException();
+        }
+        episode.setTitle(req.getParameter("title"));
+        try {
+            int runtime = Integer.parseInt(req.getParameter("runtime"));
+            episode.setRuntime(runtime);
+        } catch (NumberFormatException e) {
+        }
+        episode.setStoryline(req.getParameter("storyline"));
+        episode.setThumbUrl(req.getParameter("thumbUrl"));
+        try {
+            double rating = Double.parseDouble(req.getParameter("rating"));
+            episode.setRating(rating);
+        } catch (NumberFormatException e) {
+        }
+        return episode;
     }
 }
