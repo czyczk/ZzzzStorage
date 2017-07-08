@@ -189,7 +189,7 @@ function triggerEdit(it) {
     var thumbUrl = $('#'+it).find('.thumbnail').attr('src');
     $('#size').text(formatSize(size));
     $('#title').val(title);
-    $('#imdb').val(imdb);
+    $('#imdb').val(fillWithZeroes(imdb));
     $('#releaseYear').val(releaseYear);
     if (duration != 'undefined')
         $('#duration').val(duration);
