@@ -3,7 +3,7 @@
  */
 // Media type
 var mediaType = "music";
-// The default thumb URL for a movie item
+// The default thumb URL for a music item
 var defaultThumbPath = "img/sample-covers/default-music-icon-poster-size.png";
 // The default SQL query statement
 var sqlStatement = "requestType=list&mediaType=music&orderBy=title&start=0&range=10";
