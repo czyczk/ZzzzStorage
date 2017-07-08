@@ -1,99 +1,129 @@
-$('#type').click(function(){
-	var selectType = $('#type option:selected').val();
-	if(selectType == 'Music'){
-		$('.movie').hide();
-		$('.music').show();
-		$('.tvshow').hide();
+$(function(){
+	var selectType;
+	$('.bootstrap-tagsinput').addClass("form-control");
+    $('#type').click(function(){
+        selectType = $('#type option:selected').val();
+        if(selectType == 'Music'){
+            $('.imdb').hide();
+            $('.releaseYear').hide();
+            $('.plot').hide();
+            $('.director').hide();
 
-		$('.imdb').hide();
-		$('.releaseYear').hide();
-		$('.plot').hide();
-		$('.director').hide();
+            $('.runtime').hide();
+            $('.season').hide();
 
-		$('.runtime').hide();
-		$('.season').hide();
+            $('.artist').show();
+            $('.album').show();
+            $('.track').show();
+            $('.duration').show();
+            $('#genre').tags({
+                tagData: ["boilerplate", "tags"],
+				suggestions: ["Rock", "Jazz", "Popular", "Folk"]
+            });
+        }
+        if(selectType == 'Movie'){
+            $('.imdb').show();
+            $('.releaseYear').show();
+            $('.plot').show();
+            $('.director').show();
+            $('.duration').show();
 
-		$('.artist').show();
-		$('.album').show();
-		$('.track').show();
-		$('.duration').show();
-	}
-	if(selectType == 'Movie'){
-		$('.movie').show();
-		$('.music').hide();
-		$('.tvshow').hide();
+            $('.runtime').hide();
+            $('.season').hide();
 
-        $('.imdb').show();
-        $('.releaseYear').show();
-        $('.plot').show();
-        $('.director').show();
-        $('.duration').show();
+            $('.artist').hide();
+            $('.album').hide();
+            $('.track').hide();
+            $('#genre').tags({
+                tagData: ["boilerplate", "tags"],
+                suggestions: ["Adventure", "Thriller", "Criminal", "Love"]
+            });
+        }
+        if(selectType == 'TVShow'){
+            $('.releaseYear').hide();
+            $('.director').hide();
+            $('.duration').hide();
 
-        $('.runtime').hide();
-        $('.season').hide();
+            $('.runtime').show();
+            $('.season').show();
 
-        $('.artist').hide();
-        $('.album').hide();
-        $('.track').hide();
-	}
-	if(selectType == 'TVShow'){
-		$('.movie').hide();
-		$('.music').hide();
-		$('.tvshow').show();
+            $('.artist').hide();
+            $('.album').hide();
+            $('.track').hide();
+            $('#genre').tags({
+                tagData: ["boilerplate", "tags"],
+                suggestions: ["Criminal", "Love", "Thriller", "Adventure"]
+            });
+        }
+    })
+    ;
 
-        $('.releaseYear').hide();
-        $('.director').hide();
-        $('.duration').hide();
+    $('.movie').click(function(){
+        var selectType = $('.movie option:selected').val();
 
-        $('.runtime').show();
-        $('.season').show();
+        if(selectType == 'Others'){
+            $('.category-input').show();
+            selectOther = true;
+        } else {
+            $('.category-input').hide();
+            selectOther = false;
+        }
+    });
 
-        $('.artist').hide();
-        $('.album').hide();
-        $('.track').hide();
-	}
-})
-;
+// $('.music').click(function(){
+// 	var selectType = $('.music option:selected').val();
+//
+// 	if(selectType == 'Others'){
+// 		$('.category-input').show();
+// 	} else {
+// 		$('.category-input').hide();
+// 	}
+// });
+//
+// $('.tvshow').click(function(){
+// 	var selectType = $('.tvshow option:selected').val();
+//
+// 	if(selectType == 'Others'){
+// 		$('.category-input').show();
+// 	} else {
+// 		$('.category-input').hide();
+// 	}
+// });
 
-$('.movie').click(function(){
-	var selectType = $('.movie option:selected').val();
-	
-	if(selectType == 'Others'){
-		$('.category-input').show();
-		selectOther = true;
-	} else {
-		$('.category-input').hide();
-		selectOther = false;
-	}
-});
+    $("#desc").bind('input propertychange', function () {
+        if ($(this).val().length <= 256) {
+            $('.msg').text($(this).val().length + '/256 words.');
 
-$('.music').click(function(){
-	var selectType = $('.music option:selected').val();
-	
-	if(selectType == 'Others'){
-		$('.category-input').show();
-	} else {
-		$('.category-input').hide();
-	}
-});
+        } else {
+            $(this).val($(this).val().substring(0, 256));
+        }
+    });
 
-$('.tvshow').click(function(){
-	var selectType = $('.tvshow option:selected').val();
-	
-	if(selectType == 'Others'){
-		$('.category-input').show();
-	} else {
-		$('.category-input').hide();
-	}
-});
+    var genre = new Bloodhound({
+        datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
+        queryTokenizer: Bloodhound.tokenizers.whitespace,
+        prefetch: {
+            url: 'assets/genre.json',
+            filter: function(list) {
+                return $.map(list, function(genre){
+                    return {name: genre};
+                });
+            }
+        }
+    });
+    genre.initialize();
 
-$("#desc").bind('input propertychange', function () {
-    if ($(this).val().length <= 256) {
-        $('.msg').text($(this).val().length + '/256 words.');
+    $("#genre").tagsinput({
+        typeheadjs: {
+            name: "genre",
+            displayKey: "name",
+            valueKey: "name",
+            source: genre.ttAdapter()
+        }
+    });
 
-	} else {
-        $(this).val($(this).val().substring(0, 256));
-	}
+
+
 });
 
 

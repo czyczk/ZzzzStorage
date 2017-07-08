@@ -10,12 +10,13 @@
     	<link rel="stylesheet" href="css/upload-page.css" />
     	<link rel="stylesheet" href="css/bootstrap/fileinput.min.css">
     	<link rel="stylesheet" href="css/uploading.css" />
-		<link rel="stylesheet" href="bower_components/bootstrap-tags/dist/css/bootstrap-tags.css">
+		<link rel="stylesheet" href="css/bootstrap/bootstrap-tagsinput.css">
     	<script src="js/bootstrap/bootstrap.min.js"></script>
     	<script src="node_modules/bootstrap-fileinput/js/fileinput.js"></script>
     	<script src="node_modules/crypto-js/crypto-js.js"></script>
 		<script src="node_modules/jquery.form.min.js"></script>
-		<script src="bower_components/bootstrap-tags/dist/js/bootstrap-tags.js"></script>
+		<script src="js/bootstrap/bootstrap-tagsinput.js"></script>
+		<script src="js/bootstrap/typehead.js"></script>
 
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Upload</title>
@@ -128,7 +129,7 @@
 							<div class="form-group plot">
 								<label for="desc" class="control-label" style="color: #909090;">Plot: </label>
 								<textarea class="form-control plot" id="desc" name="plot"></textarea>
-								<div class="msg"></div>
+								<div class="msg" style="color: #909090"></div>
 							</div>
 							<div class="form-group track">
 								<label for="track" class="control-label" style="color: #909090;">Track: </label>
@@ -160,7 +161,7 @@
 							</div>
 
 	                       <div class="form-group">
-	                       		<label class="control-label" style="color: #909090;">Enter genre: </label>
+	                       		<label for="genre" class="control-label" style="color: #909090;">Enter genre: </label>
 	                       		<%--<select class="form-control category movie">--%>
 	                       			<%--<option value="Comedy" selected="selected">Comedy</option>--%>
 	                       			<%--<option value="Action">Action</option>--%>
@@ -185,10 +186,7 @@
 	                       			<%--<option value="Adventure">Adventure</option>--%>
 	                       			<%--<option value="Others">Other</option>--%>
 	                       		<%--</select>--%>
-							   <div class="tag-list" id="genre"></div>
-	                       </div>
-	                       <div class="form-group">
-	                       		<input type="text" class="form-control category-input col-sm-10" placeholder="others...">
+							    <input type="text" name="genre" id="genre" multiple data-role="tagsinput"/>
 	                       </div>
 	                       <br />
 	                       <br />
