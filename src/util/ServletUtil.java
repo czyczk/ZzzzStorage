@@ -15,7 +15,7 @@ public class ServletUtil {
             return MediaTypeEnum.MOVIE;
         } else if (str.equalsIgnoreCase("music")) {
             return MediaTypeEnum.MUSIC;
-        } else if (str.equalsIgnoreCase("tv show")) {
+        } else if (str.equalsIgnoreCase("tv_show")) {
             return MediaTypeEnum.TV_SHOW;
         } else if (str.equalsIgnoreCase("episode")) {
             return MediaTypeEnum.EPISODE;

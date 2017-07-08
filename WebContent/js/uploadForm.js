@@ -48,7 +48,7 @@ $(function(){
             $(".episodeRating").hide();
             $(".storyLine").hide();
         }
-        if(selectType == 'TVShow'){
+        if(selectType == 'TV_Show'){
             $('.releaseYear').hide();
             $('.director').hide();
             $('.duration').hide();
@@ -56,6 +56,7 @@ $(function(){
             $('.runtime').show();
             $('.season').show();
             $(".recipient-name").show();
+            $(".imdb").show();
 
             $('.artist').hide();
             $('.album').hide();

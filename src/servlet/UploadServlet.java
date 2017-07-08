@@ -97,8 +97,9 @@ public class UploadServlet extends HttpServlet {
                     TVShow tvShow = parseTVShow(req, resp);
                     tvShow.setOwnerId(ownerId);
                     DaoFactory.getLibraryItemDao().add(tvShow);
-                    return;
+                    requestType = "metadata";
                 }
+                break;
                 case EPISODE:
                 {
                     Episode episode = parseEpisode(req, resp);
@@ -113,18 +114,23 @@ public class UploadServlet extends HttpServlet {
             }
 
             // Add to database
-            DaoFactory.getLibraryItemDao().add(transferTaskItem);
+            if (mediaType != MediaTypeEnum.TV_SHOW) {
+                DaoFactory.getLibraryItemDao().add(transferTaskItem);
+            }
         } catch (FieldMissingException e) {
             // If any key field is missing, stop processing
             return;
         }
 
         // Create an upload task
-        UploadTask uploadTask = new UploadTask((transferTaskItem), false);
+        UploadTask uploadTask = null;
+        if (mediaType != MediaTypeEnum.TV_SHOW)
+            uploadTask = new UploadTask((transferTaskItem), false);
 
         // If requestType == "metadata", add the task to the completed queue and stop here
         if (requestType.equalsIgnoreCase("metadata")) {
-            uploadTasks.add(uploadTask);
+            if (mediaType != MediaTypeEnum.TV_SHOW)
+                uploadTasks.add(uploadTask);
             // Refresh the page
             sendSuccessRedirection(resp, "upload.jsp");
             return;

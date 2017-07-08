@@ -95,7 +95,7 @@
 								<select class="form-control" id="type" name="mediaType">
 									<option value="Movie" select="selected">Movie</option>
 									<option value="Music" >Music</option>
-									<option value="TVShow">TV Show</option>
+									<option value="TV_Show">TV Show</option>
 									<option value="Episode">Episode</option>
 								</select>
 							</div>
