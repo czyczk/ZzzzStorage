@@ -103,6 +103,7 @@ public class EpisodeDao implements ILibraryItemDao<Episode> {
                     "imdb, " +
                     "season, " +
                     "owner_id, " +
+                    "episode_no, " +
                     "SHA256, " +
                     "size, " +
                     "title, " +
@@ -110,28 +111,29 @@ public class EpisodeDao implements ILibraryItemDao<Episode> {
                     "storyline, " +
                     "thumb_url, " +
                     "rating) " +
-                    "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                    "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             ps = con.prepareStatement(sql);
             ps.setInt(1, item.getTvShow().getImdb());
             ps.setInt(2, item.getTvShow().getSeason());
             ps.setInt(3, item.getOwnerId());
-            ps.setString(4, item.getSHA256());
-            ps.setLong(5, item.getSize());
+            ps.setInt(4, item.getEpisodeNo());
+            ps.setString(5, item.getSHA256());
+            ps.setLong(6, item.getSize());
 
-            if (item.getTitle() != null) ps.setString(6, item.getTitle());
-            else ps.setNull(6, Types.VARCHAR);
+            if (item.getTitle() != null) ps.setString(7, item.getTitle());
+            else ps.setNull(7, Types.VARCHAR);
 
-            if (item.getRuntime() != null) ps.setInt(7, item.getRuntime());
-            else ps.setNull(7, Types.INTEGER);
+            if (item.getRuntime() != null) ps.setInt(8, item.getRuntime());
+            else ps.setNull(8, Types.INTEGER);
 
-            if (item.getStoryline() != null) ps.setString(8, item.getStoryline());
-            else ps.setNull(8, Types.VARCHAR);
-
-            if (item.getThumbUrl() != null) ps.setString(9, item.getThumbUrl());
+            if (item.getStoryline() != null) ps.setString(9, item.getStoryline());
             else ps.setNull(9, Types.VARCHAR);
 
-            if (item.getRating() != null) ps.setDouble(10, item.getRating());
-            else ps.setNull(10, Types.DOUBLE);
+            if (item.getThumbUrl() != null) ps.setString(10, item.getThumbUrl());
+            else ps.setNull(10, Types.VARCHAR);
+
+            if (item.getRating() != null) ps.setDouble(11, item.getRating());
+            else ps.setNull(11, Types.DOUBLE);
 
             ps.executeUpdate();
         } catch (SQLException e) {

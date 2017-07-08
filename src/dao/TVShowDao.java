@@ -119,7 +119,7 @@ class TVShowDao implements ILibraryItemDao<TVShow> {
             if (item.getThumbUrl() != null) ps.setString(8, item.getThumbUrl());
             else ps.setNull(8, Types.VARCHAR);
 
-            if (item.getRating() != null) ps.setDouble(8, item.getRating());
+            if (item.getRating() != null) ps.setDouble(9, item.getRating());
             else ps.setNull(9, Types.DOUBLE);
 
             ps.executeUpdate();
