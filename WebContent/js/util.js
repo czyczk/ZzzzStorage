@@ -26,10 +26,7 @@ function formatDuration(mediaType, duration) {
         {
             var min = (duration / 60).toFixed(0);
             var sec = duration % 60;
-            var secStr = sec;
-            if (sec < 10) {
-                secStr = "0" + sec;
-            }
+            var secStr = fillWithZeroes(sec, 2);
             return min + ":" + secStr;
         }
         break;
@@ -39,4 +36,13 @@ function formatDuration(mediaType, duration) {
         }
         break;
     }
+}
+
+function fillWithZeroes(number, width) {
+    var oriLen = number.toString().length;
+    var str = "";
+    for ( ; oriLen < width; oriLen++) {
+        str += "0";
+    }
+    return str + number;
 }
