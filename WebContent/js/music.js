@@ -3,7 +3,7 @@
  */
 // Media type
 var mediaType = "music";
-// The default thumb URL for a movie item
+// The default thumb URL for a music item
 var defaultThumbPath = "img/sample-covers/default-music-icon-poster-size.png";
 // The default SQL query statement
 var sqlStatement = "requestType=list&mediaType=music&orderBy=title&start=0&range=10";
@@ -55,7 +55,7 @@ function arrangeItems() {
         html += '<span class="item-sha256" style="display: none;">' + it.SHA256 + '</span>';
         html += '<span class="item-size" style="display: none;">' + it.size + '</span>';
         html += '<span class="item-artist" style="display: none;">';
-        if (it.duartion != undefined || it.duration != 0) {
+        if (it.duartion != undefined && it.duration != 0) {
             html += '<span class="item-duration" style="display: none;">' + it.duration + '</span>';
         }
         var artists = it.artist;

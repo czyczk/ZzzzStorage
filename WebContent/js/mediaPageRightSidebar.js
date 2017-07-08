@@ -9,6 +9,8 @@ function updateSidebar(trend) {
         // 从 0 到 1 则显示侧边栏
         // From 0 to 1: Show the sidebar
         if (numItemsSelected == 1) {
+            // Hover on the right sidebar to reveal the labels
+            $("#right-sidebar").hover(revealSidebarLabel, hideSidebarLabel);
             sidebar.animate({
                 opacity: 1.00,
                 right: '-18rem'
@@ -30,6 +32,8 @@ function updateSidebar(trend) {
         // 从 1 减小至 0 则隐藏侧边栏
         // From 1 to 0: Hide the sidebar
         else if (numItemsSelected == 0) {
+            // Unbind the hover handlers
+            $('#right-sidebar').unbind('mouseenter mouseleave');
             sidebar.animate({
                 opacity: 0.25,
                 right: '-30rem'

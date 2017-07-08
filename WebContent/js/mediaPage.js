@@ -17,8 +17,6 @@ var newItem;
 $(function() {
     // Query the servlet for items
     loadItems();
-    // Hover on the right sidebar to reveal the labels
-    $("#right-sidebar").hover(revealSidebarLabel, hideSidebarLabel);
     // Download button handler
     $("#download-button").click(handleDownloadButton);
     // Delete button handler
@@ -44,10 +42,10 @@ function updateItems(data) {
 
 // Query the servlet for items
 function loadItems() {
-    // First query for the total number of movies
+    // First query for the total number of items of that type
     $.ajax({
         url: "FileListGeneratorServlet",
-        data: "requestType=count&mediaType=movie",
+        data: "requestType=count&mediaType=" + encodeURIComponent(mediaType),
         type: "post",
         async: false,
         success: updateNumItemsInTotal
@@ -64,11 +62,12 @@ function loadItems() {
     // Arrange the items onto the page
     arrangeItems();
 
-    // Register a handler for items. If one item card is tapped, invoke the handler.
     if (items != undefined && items.length > 0)
+    // Register a handler for items. If one item card is tapped, invoke the handler.
         $("div.item-card").click(selectAnItem);
-    // Reset right sidebar
-    resetRightSidebar();
+    else
+        // Reset right sidebar
+        resetRightSidebar();
 }
 
 // The handler for item cards. In charge for toggle the tick mask and update the status of the right sidebar.
