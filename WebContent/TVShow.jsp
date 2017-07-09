@@ -33,10 +33,10 @@
                 <li>
                     <a class="glyphicon glyphicon-home" href="main.jsp">&nbsp;Home</a>
                 </li>
-                <li class="active">
+                <li>
                     <a href="movie.jsp" class="glyphicon glyphicon-film">&nbsp;Movie</a>
                 </li>
-                <li>
+                <li class="active">
                     <a href="TVShow.jsp" class="glyphicon glyphicon-facetime-video">&nbsp;TV<span
                             style="color: rgb(248,248,248);">-</span>Show</a>
                 </li>

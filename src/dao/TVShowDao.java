@@ -268,8 +268,8 @@ class TVShowDao implements ILibraryItemDao<TVShow> {
         result.setOwnerId(rs.getInt("owner_id"));
         result.setImdb(rs.getInt("imdb"));
         result.setSeason(rs.getInt("season"));
+        result.setTitle(rs.getString("title"));
         if (full) {
-            result.setTitle(rs.getString("title"));
             int tempInt;
             tempInt = rs.getInt("release_year");
             if (!rs.wasNull())

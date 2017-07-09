@@ -5,6 +5,10 @@
 // Fully/Partially show/hide the right sidebar. Invoked by selectAnItem() and resetRightSidebar().
 function updateSidebar(trend) {
     var sidebar = $(".right-sidebar").first();
+    if (mediaType == "tv_show")
+        sidebar.find("li").first().hide("slow");
+    else
+        sidebar.find("li").first().show("slow");
     if (trend == "+") {
         // 从 0 到 1 则显示侧边栏
         // From 0 to 1: Show the sidebar
@@ -19,14 +23,16 @@ function updateSidebar(trend) {
         // 从 1 加至更多则隐藏 Play 和 Edit 选项
         // From 1 to more: Hide "Play" and "Edit"
         else {
-            sidebar.find("li").first().slideToggle("normal");
+            if (mediaType != "tv_show")
+                sidebar.find("li").first().slideToggle("normal");
             sidebar.find("li").eq(3).slideToggle("normal");
         }
     } else if (trend == "-") {
         // 从更多减少至 1 则显示 Play 和 Edit 选项
         // From more to 1: Show "Play" and "Edit"
         if (numItemsSelected == 1) {
-            sidebar.find("li").first().slideToggle("normal");
+            if (mediaType != "tv_show")
+                sidebar.find("li").first().slideToggle("normal");
             sidebar.find("li").eq(3).slideToggle("normal");
         }
         // 从 1 减小至 0 则隐藏侧边栏

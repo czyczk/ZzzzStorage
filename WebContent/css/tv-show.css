@@ -1,6 +1,53 @@
 .enter-tv-show-mask {
     position: absolute;
-	width: 100%;
-    height: 100%;
-    background: white;
+    left: 2.8%;
+	width: 32.7%;
+    height: 91%;
+    background: linear-gradient(to right, rgba(248, 248, 248, 0), rgba(248, 248, 248, 0.6),
+                rgba(248, 248, 248, 0.6), rgba(248, 248, 248, 0.6), rgba(248, 248, 248, 0.6),
+                rgba(248, 248, 248, 0.6), rgba(248, 248, 248, 0.6), rgba(248, 248, 248, 0.6),
+                rgba(248, 248, 248, 0.6), rgba(248, 248, 248, 0.6), rgba(248, 248, 248, 0.6),
+                rgba(248, 248, 248, 0));
+    z-index: 49;
+    display: none;
+}
+
+.enter-tv-show-button {
+    display: block;
+    font-size: 5rem;
+    font-family: "Segoe MDL2 Assets";
+    color: rgba(85, 121, 151, 0.9);
+    line-height: 26rem;
+    padding-left: 7rem;
+    text-decoration: none;
+    transition: all 0.1s ease-out;
+}
+.enter-tv-show-button:hover {
+    color: rgba(51, 122, 183, 1.0);
+    text-decoration: none;
+    transition: all 0.1s ease-out;
+}
+
+.tv-show-info-bar {
+    background-color: rgba(248, 248, 248, 0.9);
+    border: 1px solid #f8f8f8;
+    -moz-box-shadow: 0px 1px 5px #555555; /*Firefox*/
+    -webkit-box-shadow: 0px 1px 5px #555555; /*Safari or Chrome*/
+    box-shadow: 0px 1px 5px #555555; /*Opera or IE9*/
+    margin: 0 13px;
+}
+.tv-show-info-bar > div {
+    margin: 1rem 0;
+    color: rgb(51, 122, 183);
+    font-size: 2rem;
+}
+.tv-show-info-bar a {
+    font-family: "Segoe MDL2 Assets";
+    font-size: 1.6rem;
+    margin-left: 2rem;
+    margin-right: 1.5rem;
+    text-decoration: none;
+}
+.tv-show-info-bar a:hover {
+    text-decoration: none;
 }

@@ -15,26 +15,13 @@ function formatSize(size) {
 
 // Return duration in an easy-to-read format according to the media type.
 function formatDuration(mediaType, duration) {
-    // TODO: Adapt to other media types
-    switch (mediaType) {
-        case "movie":
-        {
-            return duration + " min";
-        }
-        break;
-        case "music":
-        {
-            var min = (duration / 60).toFixed(0);
-            var sec = duration % 60;
-            var secStr = fillWithZeroes(sec, 2);
-            return min + ":" + secStr;
-        }
-        break;
-        case "tv show":
-        {
-
-        }
-        break;
+    if (mediaType == "music") {
+        var min = (duration / 60).toFixed(0);
+        var sec = duration % 60;
+        var secStr = fillWithZeroes(sec, 2);
+        return min + ":" + secStr;
+    } else {
+        return duration + " min";
     }
 }
 
