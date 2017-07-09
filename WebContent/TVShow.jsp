@@ -111,11 +111,17 @@
                         </div>
                         <div class="form-group">
                             <label for="type" class="control-label" style="color:#909090;">Type: </label>
-                            <span id="type" name="type" class="text-primary">Movie</span>
+                            <span id="type" name="type" class="text-primary">TV Show</span>
                         </div>
+                        <%--<div class="form-group">--%>
+                            <%--<label for="size" class="control-label" style="color: #909090;">Size: </label>--%>
+                            <%--<span class="text-primary" id="size" name="size"></span>--%>
+                        <%--</div>--%>
                         <div class="form-group">
-                            <label for="size" class="control-label" style="color: #909090;">Size: </label>
-                            <span class="text-primary" id="size" name="size"></span>
+                            <label for="season" class="control-label" style="color: #909090;">Season: </label>
+                            <input type="number" class="form-control" id="season" name="season">
+                            <div class="errorSeason-required error">Season is required.</div>
+                            <div class="error-season error">Season is from 1 to 20.</div>
                         </div>
                         <div class="form-group">
                             <label for="imdb" class="control-label" style="color: #909090;">IMDB: </label>
@@ -139,8 +145,8 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="duration" class="control-label" style="color: #909090;">Duration: </label>
-                            <input type="time" id="duration" class="form-control" name="duration">
+                            <label for="runtime" class="control-label" style="color: #909090;">Runtime (in minutes): </label>
+                            <input type="time" id="runtime" class="form-control" name="runtime">
                         </div>
                         <div class="form-group">
                             <label for="plot" class="control-label" style="color: #909090;">Plot: </label>

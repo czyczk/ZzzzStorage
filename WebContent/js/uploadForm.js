@@ -18,6 +18,7 @@ $(function(){
             $('.track').show();
             $('.duration').show();
             $(".recipient-name").show();
+            $('.file').show();
 
             $(".episode").hide();
             $(".titleOfEpisode").hide();
@@ -33,6 +34,7 @@ $(function(){
             $('.director').show();
             $('.duration').show();
             $(".recipient-name").show();
+            $('.file').show();
 
             $('.runtime').hide();
             $('.season').hide();
@@ -52,6 +54,7 @@ $(function(){
             $('.releaseYear').hide();
             $('.director').hide();
             $('.duration').hide();
+            $('.file').hide();
 
             $('.runtime').show();
             $('.season').show();
@@ -78,6 +81,7 @@ $(function(){
             $(".storyLine").show();
             $(".season").show();
             $(".imdb").show();
+            $('.file').show();
 
             $(".rating").hide();
             $(".thumbUrl").hide();

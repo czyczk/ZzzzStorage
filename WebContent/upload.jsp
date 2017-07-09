@@ -86,10 +86,7 @@
     				</div>
     				<div class="modal-body">
     					<form id="upload-form" enctype="multipart/form-data">
-							<div class="form-group">
-								<label class="control-label" for="input-2" style="color: #909090;">Select file...</label>
-								<input id="input-2" name="inputFile" type="file" class="file" multiple data-show-upload="false" data-show-caption="true" style="background-color: transparent; border: rgb(192, 211, 226) 1px solid; color: black;">
-							</div>
+
 							<div class="form-group">
 								<label for="type" class="control-label" style="color: #909090;">Type: </label>
 								<select class="form-control" id="type" name="mediaType">
@@ -99,6 +96,12 @@
 									<option value="Episode">Episode</option>
 								</select>
 							</div>
+
+							<div class="form-group file">
+								<label class="control-label" for="input-2" style="color: #909090;">Select file...</label>
+								<input id="input-2" name="inputFile" type="file" class="file" multiple data-show-upload="false" data-show-caption="true" style="background-color: transparent; border: rgb(192, 211, 226) 1px solid; color: black;">
+							</div>
+
 							<div class="form-group imdb">
 								<label for="imdb" class="control-label" style="color: #909090;">IMDB: </label>
 								<input type="number" class="form-control" name="imdb" id="imdb">
@@ -169,8 +172,9 @@
 
 							<div class="form-group episode">
 								<label for="episode" class="control-label" style="color: #909090">Episode Number: </label>
-								<input type="number" class="form-control" id="episode" name="episode">
+								<input type="number" class="form-control" id="episode" name="episodeNo">
 								<div class="error-episode error">Episode is begin from 1.</div>
+								<div class="errorEpisode-required error">Episode number is required.</div>
 							</div>
 
 							<div class="form-group titleOfEpisode">
@@ -196,8 +200,8 @@
 							</div>
 
 							<div class="form-group storyLine">
-								<label for="storyLine" class="control-label" style="color: #909090;">Story Line:</label>
-								<textarea class="form-control" id="storyLine" name="storyLine"></textarea>
+								<label for="storyLine" class="control-label" style="color: #909090;">Storyline:</label>
+								<textarea class="form-control" id="storyLine" name="storyline"></textarea>
 								<div class="msgStoryLine" style="color: #909090"></div>
 							</div>
 
