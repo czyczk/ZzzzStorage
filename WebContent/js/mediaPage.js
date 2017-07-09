@@ -65,16 +65,16 @@ function loadItems() {
     if (items != undefined && items.length > 0)
     // Register a handler for items. If one item card is tapped, invoke the handler.
         $("div.item-card").click(selectAnItem);
-    else
-        // Reset right sidebar
-        resetRightSidebar();
+
+    // Reset right sidebar
+    resetRightSidebar();
 }
 
 // The handler for item cards. In charge for toggle the tick mask and update the status of the right sidebar.
 function selectAnItem() {
     // Find the mask (containing the visible checkbox) and toggle it
-    var mask = $(this).find(".thumbnail-checkbox-mask").first();
-    toggleMask(mask);
+    var checkboxMask = $(this).find(".thumbnail-checkbox-mask").first();
+    toggleMask(checkboxMask);
 
     // 找到这个项目的隐藏复选框，改变其勾选状态，维护 numItemsSelected 并更新侧边栏状态
     // Find the hidden checkbox of the item, toggle the checkbox, update numItemsSelected and the sidebar.

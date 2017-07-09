@@ -37,8 +37,21 @@ public class FileListGeneratorServlet extends HttpServlet {
         String requestType = req.getParameter("requestType");
         switch (requestType) {
             case "count": {
+                // Get media type (and additional parameters for EPISODE)
                 MediaTypeEnum mediaType = MediaTypeEnum.valueOf(req.getParameter("mediaType").toUpperCase());
-                Integer total = DaoFactory.getLibraryItemDao().count(mediaType, new String[] { ("owner_id = " + ownerId) });
+                Integer total;
+                Integer imdb;
+                Integer season;
+                if (mediaType == MediaTypeEnum.EPISODE) {
+                    // Get additional parameters for EPISODE
+                    imdb = Integer.parseInt(req.getParameter("imdb"));
+                    season = Integer.parseInt(req.getParameter("season"));
+                    // Get the total number of items of that TV show
+                    total = DaoFactory.getLibraryItemDao().count(mediaType, new String[] { "owner_id=" + ownerId, "imdb=" + imdb, "season=" + season });
+                } else {
+                    // Get the total number of items of that type of media
+                    total = DaoFactory.getLibraryItemDao().count(mediaType, new String[] { ("owner_id = " + ownerId) });
+                }
                 System.out.println("[SQL query] There are " + total + " item(s) of type " + mediaType.toString() + " in user " + ownerId + ".");
                 resp.setContentType("text/plain");
                 resp.setCharacterEncoding("UTF-8");
@@ -51,9 +64,20 @@ public class FileListGeneratorServlet extends HttpServlet {
                 OrderByEnum orderBy = OrderByEnum.valueOf(req.getParameter("orderBy").toUpperCase());
                 int start = Integer.parseInt(req.getParameter("start"));
                 int range = Integer.parseInt(req.getParameter("range"));
+                Integer imdb;
+                Integer season;
 
-                // Query the database and generate a list
-                List<? extends LibraryItem> itemList = DaoFactory.getLibraryItemDao().list(ownerId, mediaType, orderBy, start, range);
+                List<? extends LibraryItem> itemList;
+                if (mediaType == MediaTypeEnum.EPISODE) {
+                    // Get additional parameters for EPISODE
+                    imdb = Integer.parseInt(req.getParameter("imdb"));
+                    season = Integer.parseInt(req.getParameter("season"));
+                    // Query the database and generate a list
+                    itemList = DaoFactory.getLibraryItemDao().listEpisodes(ownerId, imdb, season, orderBy, start, range);
+                } else {
+                    // Query the database and generate a list
+                    itemList = DaoFactory.getLibraryItemDao().list(ownerId, mediaType, orderBy, start, range);
+                }
                 String itemListJson = JsonUtil.getGson().toJson(itemList);
 
                 // Send the list
@@ -65,7 +89,7 @@ public class FileListGeneratorServlet extends HttpServlet {
             }
             break;
             default:
-                throw new NotImplementedException();
+                throw new IllegalArgumentException("Illegal value for requestType.");
         }
     }
 }
