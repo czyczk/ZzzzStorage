@@ -133,7 +133,7 @@ function arrangeItems() {
             ';
 
             // Ending for col-6
-            html += "</div>";
+            html += "</div></div>";
         });
     } else if (items[0].mediaType == "EPISODE") {
         // Append a bar to show TV show info and the back button
