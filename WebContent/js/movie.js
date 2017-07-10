@@ -4,6 +4,7 @@ var mediaType = "movie";
 var defaultThumbPath = "img/sample-covers/default-movie-icon-poster-size.png";
 // The default SQL query statement
 var sqlStatement = "requestType=list&mediaType=movie&orderBy=title&start=0&range=10";
+var pageNumber = 0;
 
 // Arrange the items onto the page
 function arrangeItems() {
@@ -15,13 +16,18 @@ function arrangeItems() {
         container.html(html);
         return;
     }
+    pageNumber = items.length / 8;
 
     // Arrange the items
     var html = '<div>';
-    items.forEach(function (it) {
+    // items.forEach(function (it) {
+    //     console.log(items[0]);
+    for(var j = 0; j < items.length; j++){
+        console.log(j);
+        console.log(items);
         html += '\
 	    <div class="col-lg-6 col-sm-6">\
-	    <div class="item-card" id="'+ it.imdb +'">\
+	    <div class="item-card" id="'+ items[j].imdb +'">\
 	    <div class="col-sm-4">\
 	    <div class="thumbnail-container">\
 	    <div class="thumbnail-checkbox-mask thumbnail-checkbox-mask-invisible">\
@@ -32,8 +38,8 @@ function arrangeItems() {
 
         // Append cover image (if available) or the default icon (if not available)
         html += '<img src="';
-        if (it.thumbUrl != undefined) {
-            html += it.thumbUrl;
+        if (items[j].thumbUrl != undefined) {
+            html += items[j].thumbUrl;
         } else {
             html += defaultThumbPath;
         }
@@ -52,31 +58,31 @@ function arrangeItems() {
         // Append title
         html += '<div>';
         // Append header
-        html += '<div><span class="item-header">' + it.title + '</span>';
+        html += '<div><span class="item-header">' + items[j].title + '</span>';
         // Append hidden properties
-        html += '<span class="item-sha256" style="display: none;">' + it.SHA256 + '</span>';
-        html += '<span class="item-size" style="display: none;">' + it.size + '</span>';
-        html += '<span class="item-title" style="display: none;">' + it.title + '</span>';
-        if (it.duartion != undefined || it.duration != 0) {
-            html += '<span class="item-duration" style="display: none;">' + it.duration + '</span>';
+        html += '<span class="item-sha256" style="display: none;">' + items[j].SHA256 + '</span>';
+        html += '<span class="item-size" style="display: none;">' + items[j].size + '</span>';
+        html += '<span class="item-title" style="display: none;">' + items[j].title + '</span>';
+        if (items[j].duartion != undefined || items[j].duration != 0) {
+            html += '<span class="item-duration" style="display: none;">' + items[j].duration + '</span>';
         }
         // Append year if available
-        if (it.releaseYear != 0) {
-            html += '<span class="item-releaseYear" style="margin-left: 1rem;">(' + it.releaseYear + ')</span>';
+        if (items[j].releaseYear != 0) {
+            html += '<span class="item-releaseYear" style="margin-left: 1rem;">(' + items[j].releaseYear + ')</span>';
         }
         html += '</div>';
 
         // Append IMDB and duration (if available)
         // Append IMDB
-        html += '<div><span class="item-imdb">IMDB: ' + it.imdb + "</span>";
+        html += '<div><span class="item-imdb">IMDB: ' + items[j].imdb + "</span>";
         // Append duration if available
-        if (it.duration != undefined && it.duration != 0) {
-            html += '<span style="margin-left: 2rem;">Duration: ' + formatDuration(mediaType, it.duration) + '</span>';
+        if (items[j].duration != undefined && items[j].duration != 0) {
+            html += '<span style="margin-left: 2rem;">Duration: ' + formatDuration(mediaType, items[j].duration) + '</span>';
         }
         html += '</div>';
 
         // Append genres if available
-        var genres = it.genre;
+        var genres = items[j].genre;
         if (genres != undefined && genres.length > 0) {
             html += '<p>Genre: '
             for (i = 0; i < genres.length; i++) {
@@ -89,7 +95,7 @@ function arrangeItems() {
         }
 
         // Append directors if available
-        var directors = it.director;
+        var directors = items[j].director;
         if (directors != undefined && directors.length > 0) {
             html += '<p>Director: ';
             for (i = 0; i < directors.length; i++) {
@@ -102,18 +108,24 @@ function arrangeItems() {
         }
 
         // Append rating if available
-        if (it.rating != undefined) {
-            html += '<p class="item-rating">Rating: ' + it.rating + "</p>";
+        if (items[j].rating != undefined) {
+            html += '<p class="item-rating">Rating: ' + items[j].rating + "</p>";
         }
         // Append plot if available
-        if (it.plot != undefined) {
-            html += '<p class="item-plot">Plot: ' + it.plot + '</p>';
+        if (items[j].plot != undefined) {
+            html += '<p class="item-plot">Plot: ' + items[j].plot + '</p>';
         }
         // Append a hidden checkbox (structural requirement)
-        html += '<input name="selected-items" type="checkbox" class="item-checkbox" value="' +it.imdb+ '"/> <!-- the hidden checkbox -->';
+        html += '<input name="selected-items" type="checkbox" class="item-checkbox" value="' +items[j].imdb+ '"/> <!-- the hidden checkbox -->';
         // Endings
         html += '</div></div></div></div></div>';
-    });
+    };
+    html += '<ul class ="pagination" style="position: absolute;top: 1150px; left: 1100px;">';
+    for(pageNumber = 0; pageNumber <= items.length / 8;pageNumber++){
+        pageNumber+=1;
+        html += '<li><a href="#">'+pageNumber+'</a></li>'
+    }
+    html += '</ul>';
 
     container.html(html);
 }
