@@ -88,6 +88,24 @@ public class FileListGeneratorServlet extends HttpServlet {
                 System.out.println("[SQL query] " + itemList.size() + " item(s) returned for user " + ownerId + ".");
             }
             break;
+            case "exists": {
+                // Get media type
+                MediaTypeEnum mediaType = MediaTypeEnum.valueOf(req.getParameter("mediaType").toUpperCase());
+                if (mediaType == MediaTypeEnum.EPISODE) {
+                    int imdb = Integer.parseInt(req.getParameter("imdb"));
+                    int season = Integer.parseInt(req.getParameter("season"));
+                    int count = DaoFactory.getLibraryItemDao().count(MediaTypeEnum.TV_SHOW, new String[] { "owner_id="+ownerId, "imdb="+imdb, "season="+season });
+
+                    // Send the list
+                    resp.setContentType("text/plain");
+                    resp.setCharacterEncoding("UTF-8");
+                    resp.getWriter().write(((Boolean) (count != 0)).toString());
+
+                    System.out.println("[SQL query] The TV show with IMDB=" + imdb + ", season=" + season + " exists: " + (count != 0) + ".");
+                } else
+                    throw new IllegalArgumentException("Illegal value for mediaType.");
+            }
+            break;
             default:
                 throw new IllegalArgumentException("Illegal value for requestType.");
         }

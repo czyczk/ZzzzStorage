@@ -8,6 +8,8 @@ var defaultThumbPath = "img/sample-covers/default-tv-show-icon-poster-size.png";
 // The default SQL query statement
 var sqlStatement = "requestType=list&mediaType=tv_show&orderBy=title&start=0&range=10";
 var lastSqlStatement;
+// The actively entered TV show
+var activeTVShow;
 
 // Arrange the items onto the page
 function arrangeItems() {
@@ -19,9 +21,24 @@ function arrangeItems() {
         if (mediaType == "tv_show") {
             html = '<div class="info"><div style="text-align: center; margin: 10.5rem 0;"><h2>No TV show.</h2></div></div>';
         } else if (mediaType == "episode") {
-            html = '<div class="info"><div style="text-align: center; margin: 10.5rem 0;"><h2>No episode.</h2></div></div>';
+            // Append a bar to show TV show info and the back button
+            html = '<div class="tv-show-info-bar">\
+                    <div class="item-title" style="display: none;">' + activeTVShow.title + '</div>\
+                    <div class="item-imdb" style="display: none;">' + activeTVShow.imdb + '</div>\
+                    <div class="item-season" style="display: none;">' + activeTVShow.season + '</div>\
+                    <div>\
+                        <a href="#">&#xE96F;</a>\
+                        <span>' + activeTVShow.title + '</span>\
+                        <span style="font-size: 1.4rem; color: rgb(51, 51, 51); margin-left: 0.6rem;">(Season ' + activeTVShow.season + ')</span>\
+                    </div>\
+                 </div>\
+            ';
+            // Hint of "No episode."
+            html += '<div class="info"><div style="text-align: center; margin: 10.5rem 0;"><h2>No episode.</h2></div></div>';
         }
         container.html(html);
+        // Bind click handler for back button
+        $(".tv-show-info-bar").find("a").click(backToTVShow);
         return;
     }
 
@@ -242,6 +259,12 @@ function arrangeItems() {
                 var det = $(this).parent().parent().attr("id");
                 var imdb = det.substr(0, 7);
                 var season = det.substr(7);
+                var title = $("#"+det).find(".item-title").text();
+                activeTVShow = {
+                    "imdb": imdb,
+                    "season": season,
+                    "title": title
+                };
                 enterTVShow(imdb, season);
             }
         );
