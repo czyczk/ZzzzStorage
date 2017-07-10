@@ -7,20 +7,20 @@ var sha256;
 var mediaType;
 var uploadRange = 'prohibited';
 var formError = false;
-var isExists = false;
+var isExisting = false;
 
 $(function () {
     $('#type').click(function () {
         // Set mediaType to the type selected
         mediaType = $('#type option:selected').val();
-        // Enable real-time checker for IMDB and season when "Episode" is selected or disable when not selected
-        if (mediaType == "Episode") {
-            $("#imdb").bind("input propertychange", handleImdbAndSeasonChangedForEpisode);
-            $("#season").bind("input propertychange", handleImdbAndSeasonChangedForEpisode);
-        } else {
-            $("#imdb").unbind("input propertychange");
-            $("#season").unbind("input propertychange");
-        }
+        // // Enable real-time checker for IMDB and season when "Episode" is selected or disable when not selected
+        // if (mediaType == "Episode") {
+        //     $("#imdb").bind("input propertychange", handleImdbAndSeasonChangedForEpisode);
+        //     $("#season").bind("input propertychange", handleImdbAndSeasonChangedForEpisode);
+        // } else {
+        //     $("#imdb").unbind("input propertychange");
+        //     $("#season").unbind("input propertychange");
+        // }
     });
     mediaType = $('#type option:selected').val();
     if(mediaType !== 'TV_Show'){
@@ -182,15 +182,16 @@ function uploadForm() {
             var imdb = $('#imdb').val();
             var season = $('#season').val();
             $.ajax({
-                url: 'TVShowCheckerServlet',
-                data: 'IMDB=' + imdb + "&season=" + season,
+                url: 'FileListGeneratorServlet',
+                data: 'requestType=exists&mediaType=episode&imdb=' + imdb + "&season=" + season,
                 type: 'post',
                 dataType: 'json',
                 async: false,
                 success: function (data) {
-                    isExists = data.message;
-                    if(!isExists){
+                    isExisting = data;
+                    if(!isExisting){
                         alert("Please create a correspond TV Show.");
+                        // TODO: false 则显示 TV Show 的 title input，并提示没有这样的 TV show。true 则隐藏 input 和提示。
                     }
                 },
                 error: function () {
@@ -198,7 +199,7 @@ function uploadForm() {
                 }
             });
         }
-        if(mediaType !== 'Episode' || isExists){
+        if(mediaType !== 'Episode' || isExisting) {
             var genre;
             // if(mediaType == 'Movie') {
             //     genre = $('.movie option:selected').val();
@@ -256,19 +257,19 @@ function tvshowSubmit() {
         }
     });
 }
-
-function handleImdbAndSeasonChangedForEpisode() {
-    var imdb = $("#imdb").val();
-    var season = $("#season").val();
-    if (imdb == "" || season == "") return;
-
-    $.ajax({
-        url: "FileListGeneratorServlet",
-        data: "requestType=exists&mediaType=episode&imdb=" + imdb + "&season=" + season,
-        type: "post",
-        success: function(data) {
-            console.info("The TV show with IMDB=" + imdb + ", season=" + season + " exists: " + data);
-            // TODO: false 则显示 TV Show 的 title input，并提示没有这样的 TV show。true 则隐藏 input 和提示。
-        }
-    })
-}
+//
+// function handleImdbAndSeasonChangedForEpisode() {
+//     var imdb = $("#imdb").val();
+//     var season = $("#season").val();
+//     if (imdb == "" || season == "") return;
+//
+//     $.ajax({
+//         url: "FileListGeneratorServlet",
+//         data: "requestType=exists&mediaType=episode&imdb=" + imdb + "&season=" + season,
+//         type: "post",
+//         success: function(data) {
+//             console.info("The TV show with IMDB=" + imdb + ", season=" + season + " exists: " + data);
+//             // TODO: false 则显示 TV Show 的 title input，并提示没有这样的 TV show。true 则隐藏 input 和提示。
+//         }
+//     })
+// }

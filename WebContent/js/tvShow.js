@@ -155,13 +155,13 @@ function arrangeItems() {
     } else if (items[0].mediaType == "EPISODE") {
         // Append a bar to show TV show info and the back button
         html += '<div class="tv-show-info-bar">\
-                    <div class="item-title" style="display: none;">' + items[0].tvShow.title + '</div>\
-                    <div class="item-imdb" style="display: none;">' + items[0].tvShow.imdb + '</div>\
-                    <div class="item-season" style="display: none;">' + items[0].tvShow.season + '</div>\
+                    <div class="item-title" style="display: none;">' + activeTVShow.title + '</div>\
+                    <div class="item-imdb" style="display: none;">' + activeTVShow.imdb + '</div>\
+                    <div class="item-season" style="display: none;">' + activeTVShow.season + '</div>\
                     <div>\
                         <a href="#">&#xE96F;</a>\
-                        <span>' + items[0].tvShow.title + '</span>\
-                        <span style="font-size: 1.4rem; color: rgb(51, 51, 51); margin-left: 0.6rem;">(Season ' + items[0].tvShow.season + ')</span>\
+                        <span>' + activeTVShow.title + '</span>\
+                        <span style="font-size: 1.4rem; color: rgb(51, 51, 51); margin-left: 0.6rem;">(Season ' + activeTVShow.season + ')</span>\
                     </div>\
                  </div>\
             ';
@@ -197,7 +197,7 @@ function arrangeItems() {
 
             // Append hidden fields (structural requirement)
             // : SHA256, size, episodeNo, title, runtime, imdb (of TV show), season (of TV show)
-            html += '<span class="item-sha256" style="display: none;">' + it.SHA256 + '</span>';
+            html += '<span class="item-SHA256" style="display: none;">' + it.SHA256 + '</span>';
             html += '<span class="item-size" style="display: none;">' + it.size + '</span>';
             html += '<span class="item-episodeNo" style="display: none;">' + it.episodeNo + '</span>';
             if (it.title != undefined) {
@@ -265,7 +265,7 @@ function arrangeItems() {
                     "season": season,
                     "title": title
                 };
-                enterTVShow(imdb, season);
+                enterTVShow();
             }
         );
     } else if (mediaType == "episode") {
@@ -275,9 +275,12 @@ function arrangeItems() {
 }
 
 // An override of loadItems() in mediaPage.js. Click handler for entering masks of TV shows.
-function enterTVShow(imdb, season) {
+function enterTVShow() {
     // Change media type to "episode"
     mediaType = "episode";
+    // Collect info from the active TV show
+    var imdb = activeTVShow.imdb;
+    var season = activeTVShow.season;
     // First query for the total number of episodes of that TV show
     $.ajax({
         url: "FileListGeneratorServlet",
@@ -443,18 +446,31 @@ function submitUpdate() {
 }
 
 function triggerDelete(det) {
-    var SHA256 = $("#"+det).find(".item-SHA256").text();
-    var size = $('#'+det).find('.item-size').text();
+    if (mediaType == "tv_show") {
+        var imdb = $("#"+det).find(".item-imdb").text();
+        var season = $("#"+det).find(".item-season").text();
 
-    $.ajax({
-        url: "DeleteServlet",
-        data: "mediaType=" + encodeURIComponent(mediaType) + "&SHA256=" + SHA256 + "&size=" + size,
-        type: "post",
-        success: function() {
-            loadItems();
-        },
-        error: function(data) {
-            alert(data);
-        }
-    });
+        $.ajax({
+            url: "DeleteServlet",
+            data: "mediaType=" + encodeURIComponent(mediaType) + "&imdb=" + imdb + "&season=" + season,
+            type: "post",
+            success: loadItmes,
+            error: function(data) {
+                alert(data);
+            }
+        });
+    } else if (mediaType == "episode") {
+        var SHA256 = $("#"+det).find(".item-SHA256").text();
+        var size = $('#'+det).find('.item-size').text();
+
+        $.ajax({
+            url: "DeleteServlet",
+            data: "mediaType=" + encodeURIComponent(mediaType) + "&SHA256=" + SHA256 + "&size=" + size,
+            type: "post",
+            success: enterTVShow(),
+            error: function(data) {
+                alert(data);
+            }
+        });
+    }
 }
