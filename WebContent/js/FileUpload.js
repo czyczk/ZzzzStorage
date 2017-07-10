@@ -180,13 +180,16 @@ function uploadForm() {
                 async: false,
                 success: function (data) {
                     isExists = data.message;
+                    if(!isExists){
+                        alert("Please create a correspond TV Show.");
+                    }
                 },
                 error: function () {
                     alert("Internal Error");
                 }
             });
         }
-        if(mediaType !== 'Episode' || !isExists){
+        if(mediaType !== 'Episode' || isExists){
             var genre;
             // if(mediaType == 'Movie') {
             //     genre = $('.movie option:selected').val();
