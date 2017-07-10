@@ -7,10 +7,11 @@ var sha256;
 var mediaType;
 var uploadRange = 'prohibited';
 var formError = false;
-var isExists = false;
+var isExisting = false;
 
 $(function () {
     $('#type').click(function () {
+        // Set mediaType to the type selected
         mediaType = $('#type option:selected').val();
     });
     mediaType = $('#type option:selected').val();
@@ -173,15 +174,15 @@ function uploadForm() {
             var imdb = $('#imdb').val();
             var season = $('#season').val();
             $.ajax({
-                url: 'TVShowCheckerServlet',
-                data: 'IMDB=' + imdb + "&season=" + season,
+                url: 'FileListGeneratorServlet',
+                data: 'requestType=exists&mediaType=episode&imdb=' + imdb + "&season=" + season,
                 type: 'post',
                 dataType: 'json',
                 async: false,
                 success: function (data) {
-                    isExists = data.message;
-                    if(!isExists){
-                        alert("Please create a correspond TV Show.");
+                    isExisting = data;
+                    if(!isExisting){
+                        alert("Please create a corresponding TV show first.");
                     }
                 },
                 error: function () {
@@ -189,7 +190,7 @@ function uploadForm() {
                 }
             });
         }
-        if(mediaType !== 'Episode' || isExists){
+        if(mediaType !== 'Episode' || isExisting) {
             var genre;
             // if(mediaType == 'Movie') {
             //     genre = $('.movie option:selected').val();

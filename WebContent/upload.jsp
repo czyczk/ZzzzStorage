@@ -171,14 +171,14 @@
 
 
 							<div class="form-group episode">
-								<label for="episode" class="control-label" style="color: #909090">Episode Number: </label>
+								<label for="episode" class="control-label" style="color: #909090">Episode number: </label>
 								<input type="number" class="form-control" id="episode" name="episodeNo">
 								<div class="error-episode error">Episode is begin from 1.</div>
 								<div class="errorEpisode-required error">Episode number is required.</div>
 							</div>
 
 							<div class="form-group titleOfEpisode">
-								<label for="titleOfEpisode" class="control-label" style="color: #909090">Title of This Episode: </label>
+								<label for="titleOfEpisode" class="control-label" style="color: #909090">Title of this episode: </label>
 								<input type="text" class="form-control" id="titleOfEpisode" name="titleOfEpisode">
 								<div class="msgEpisodeTitle" style="color:#909090;"></div>
 							</div>
@@ -206,7 +206,7 @@
 							</div>
 
 	                       <div class="form-group genre">
-	                       		<label for="genre" class="control-label" style="color: #909090;">Enter genre: </label>
+	                       		<label for="genre" class="control-label" style="color: #909090;">Genres: </label>
 	                       		<%--<select class="form-control category movie">--%>
 	                       			<%--<option value="Comedy" selected="selected">Comedy</option>--%>
 	                       			<%--<option value="Action">Action</option>--%>

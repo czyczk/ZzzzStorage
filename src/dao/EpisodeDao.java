@@ -238,7 +238,7 @@ public class EpisodeDao implements ILibraryItemDao<Episode> {
         tvShow.setImdb(rs.getInt("imdb"));
         tvShow.setSeason(rs.getInt("season"));
         tvShow.setOwnerId(rs.getInt("owner_id"));
-        tvShow = DaoFactory.getTvShowDao().load(tvShow, false); // Load title
+        //tvShow = DaoFactory.getTvShowDao().load(tvShow, false); // Load title
 
         Episode result = new Episode();
         result.setTvShow(tvShow);
