@@ -265,7 +265,7 @@ function arrangeItems() {
                     "season": season,
                     "title": title
                 };
-                enterTVShow();
+                enterTVShow(true);
             }
         );
     } else if (mediaType == "episode") {
@@ -275,7 +275,7 @@ function arrangeItems() {
 }
 
 // An override of loadItems() in mediaPage.js. Click handler for entering masks of TV shows.
-function enterTVShow() {
+function enterTVShow(firstTime) {
     // Change media type to "episode"
     mediaType = "episode";
     // Collect info from the active TV show
@@ -289,8 +289,12 @@ function enterTVShow() {
         async: false,
         success: updateNumItemsInTotal
     });
+
+    // If it's a query for the first time, backup the last query
+    if (firstTime)
+        lastSqlStatement = sqlStatement;
+
     // Then, query for items
-    lastSqlStatement = sqlStatement;
     sqlStatement = "requestType=list&mediaType=episode&orderBy=episode_no&imdb=" + imdb + "&season=" + season + "&start=0&range=10";
     $.ajax({
         url: "FileListGeneratorServlet",
@@ -454,22 +458,30 @@ function triggerDelete(det) {
             url: "DeleteServlet",
             data: "mediaType=" + encodeURIComponent(mediaType) + "&imdb=" + imdb + "&season=" + season,
             type: "post",
-            success: loadItmes,
+            success: function() {
+                loadItems();
+            },
             error: function(data) {
-                alert(data);
+                alert(data.message);
             }
         });
     } else if (mediaType == "episode") {
         var SHA256 = $("#"+det).find(".item-SHA256").text();
-        var size = $('#'+det).find('.item-size').text();
+        var size = $("#"+det).find(".item-size").text();
+        var imdb = activeTVShow.imdb;
+        var season = activeTVShow.season;
+        var episodeNo = $("#"+det).find(".item-episodeNo").text();
 
         $.ajax({
             url: "DeleteServlet",
-            data: "mediaType=" + encodeURIComponent(mediaType) + "&SHA256=" + SHA256 + "&size=" + size,
+            data: "mediaType=" + encodeURIComponent(mediaType) + "&SHA256=" + SHA256 + "&size=" + size + "&imdb=" + imdb + "&season=" + season + "&episodeNo=" + episodeNo,
             type: "post",
-            success: enterTVShow(),
+            async: false,
+            success: function() {
+                enterTVShow(false);
+            },
             error: function(data) {
-                alert(data);
+                alert(data.message);
             }
         });
     }
