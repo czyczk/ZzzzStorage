@@ -96,7 +96,7 @@ function arrangeItems() {
             html += '<div><span class="item-imdb">IMDB: ' + fillWithZeroes(it.imdb, 7) + "</span>";
             // Append runtime if available
             if (it.runtime != undefined && it.runtime != 0) {
-                html += '<span style="margin-left: 2rem;">Runtime: ' + formatDuration(mediaType, it.runtime) + '</span>';
+                html += '<span class="item-runtime" style="margin-left: 2rem;">Runtime: ' + formatDuration(mediaType, it.runtime) + '</span>';
             }
             html += '</div>';
 
@@ -189,7 +189,7 @@ function arrangeItems() {
             if (it.runtime != undefined && it.runtime != 0) {
                 html += '<span class="item-runtime" style="display: none;">' + it.runtime + '</span>';
             }
-            html += '</span>';
+            // html += '</span>';
             html += '<span class="item-imdb" style="display: none;">' + it.tvShow.imdb + '</span>';
             html += '<span class="item-season" style="display: none;">' + it.tvShow.season + '</span>';
 
@@ -223,8 +223,7 @@ function arrangeItems() {
             html += '</div></div></div></div>';
         });
     }
-
-    html += "</div>";
+    html += '</div>';
     container.html(html);
 
     if (mediaType == "tv_show") {
@@ -311,11 +310,113 @@ function backToTVShow() {
 
 // Bind properties in the new property form for validation
 function bindProperties() {
-    // TODO
+    $(".plot").bind('input propertychange', function() {
+        if ($(this).val().length <= 256) {
+            $('.msg').html($(this).val().length + '/256 words.');
+
+        } else {
+            $(this).val($(this).val().substring(0, 256));
+        }
+    });
+
+    $('#title').bind('input propertychange', function() {
+        var title = $('#title').val();
+        if(title == "") {
+            formError = true;
+            $('.errorTitle-required').show();
+        } else {
+            formError = false;
+            $('.errorTitle-required').hide();
+        }
+    });
+
+    $('#imdb').bind('input propertychange', function() {
+        var imdb = $('#imdb').val();
+        if(imdb == "") {
+            formError = true;
+            $('.errorIMDB-required').show();
+            $('.error-range').hide();
+        } else if(imdb < 0 || imdb > 9999999) {
+            formError = true;
+            $('.error-range').show();
+            $('.errorIMDB-required').hide();
+        } else {
+            formError = false;
+            $('.error-range').hide();
+            $('.errorIMDB-required').hide();
+        }
+    });
+
+    $("#season").bind('input propertychange', function () {
+        var season = $('#season').val();
+        if(season == ""){
+            formError = true;
+            $('.errorSeason-required').show();
+            $('.error-season').hide();
+        } else if(season<1||season>20){
+            formError = true;
+            $('.error-season').show();
+            $('.errorSeason-required').hide();
+        } else {
+            formError = false;
+            $('.errorSeason-required').hide();
+            $('.error-season').hide();
+        }
+    })
 }
 
 function triggerEdit(it) {
     // TODO
+    var title = $('#'+it).find('.item-title').text();
+    var imdb = $('#'+it).find('.item-imdb').text().substring(5).trim();
+    var releaseYear = $('#'+it).find('.item-releaseYear').text().substring(1,5);
+    var duration = $('#'+it).find('.item-runtime').text();
+    var plot = $('#'+it).find('.item-plot').text().substring(6);
+    var thumbUrl = $('#'+it).find('.thumbnail').attr('src');
+    var season = $('#'+it).find('.item-season').text();
+    $('#title').val(title);
+    $('#imdb').val(fillWithZeroes(imdb));
+    $('#releaseYear').val(releaseYear);
+    $('#season').val(season);
+    if (duration != 'undefined')
+        $('#duration').val(duration);
+    if (plot != undefined)
+        $('#plot').val(plot);
+    if (thumbUrl != defaultThumbPath)
+        $('#thumbUrl').val(thumbUrl);
+    else
+        $('#thumbUrl').val("");
+
+    oldItem = {
+        "imdb": imdb,
+        "season": season
+    };
+}
+
+// Submit the new property form. Invoked by the "update-submit" button.
+function submitUpdate() {
+    // TODO: Incomplete properties
+    // Collect new info
+    newItem = {
+        "title": $('#title').val(),
+        "imdb": $('#imdb').val(),
+        "releaseYear": $('#releaseYear').val(),
+        "plot": $('#plot').val(),
+        "thumbUrl": $('#thumbUrl').val()
+    };
+    if($('#runtime').val() != "") {
+        newItem.duration = $('#runtime').val();
+    }
+    // Send update request
+    $.ajax({
+        url: "UpdateServlet",
+        type: "post",
+        data: "mediaType=" + encodeURIComponent(mediaType) + "&oldItem=" + JSON.stringify(oldItem) + "&newItem=" + JSON.stringify(newItem),
+        success: handleUpdateSuccess,
+        error: function() {
+            alert("Internal error.");
+        }
+    });
 }
 
 function triggerDelete(det) {

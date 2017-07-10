@@ -7,19 +7,22 @@ var sha256;
 var mediaType;
 var uploadRange = 'prohibited';
 var formError = false;
+var isExists = false;
 
 $(function () {
     $('#type').click(function () {
         mediaType = $('#type option:selected').val();
-
     });
     mediaType = $('#type option:selected').val();
-    document.getElementById('input-2').onchange = function () {
-        var file = document.getElementById('input-2').files[0];
-        if(file) {
-            getAsText(file);
-        }
+    if(mediaType !== 'TV_Show'){
+        document.getElementById('input-2').onchange = function () {
+            var file = document.getElementById('input-2').files[0];
+            if(file) {
+                getAsText(file);
+            }
+        };
     }
+
     
     function getAsText(readFile) {
         var reader = new FileReader();
@@ -110,34 +113,47 @@ $(function () {
         if(episode < 1) {
             formError = true;
             $('.error-episode').show();
+            $('.errorEpisode-required').hide();
+        } else if(episode == "") {
+            formError = true;
+            $('.errorEpisode-required').show();
+            $(".error-episode").hide();
         } else {
             formError = false;
             $('.error-episode').hide();
+            $('.errorEpisode-required').hide();
         }
     });
 
 
     $('.upload-submit').click(handleSubmit);
+
+
     
 
 });
 
 function handleSubmit() {
-    $.ajax({
-        url: 'HashCheckerServlet',
-        data: "SHA256=" + sha256 + "&size=" + fileSize + "&mediaType=" + mediaType,
-        type: "post",
-        dataType: "json",
-        async: false,
-        success: uploadOrNot(),
-        error: function () {
-            alert("No file selected!");
-        }
-    });
+    if(mediaType !== 'TV_Show'){
+        $.ajax({
+            url: 'HashCheckerServlet',
+            data: "SHA256=" + sha256 + "&size=" + fileSize + "&mediaType=" + mediaType,
+            type: "post",
+            dataType: "json",
+            async: false,
+            success: uploadOrNot(),
+            error: function () {
+                alert("No file selected!");
+            }
+        });
 
-    if (uploadRange == 'prohibited') return;
+        if (uploadRange == 'prohibited') return;
 
-    uploadForm();
+        uploadForm();
+    } else {
+        tvshowSubmit();
+    }
+
 };
 
 function uploadOrNot() {
@@ -153,37 +169,81 @@ function uploadOrNot() {
 
 function uploadForm() {
     if(!formError){
-        var genre;
-        if(mediaType == 'Movie') {
-            genre = $('.movie option:selected').val();
-        } else if(mediaType == 'TVShow') {
-            genre = $('.tvshow option:selected').val();
-        } else if(mediaType == 'Music') {
-            genre = $('.music option:selected').val();
-        }
-        var formData = new FormData($("#upload-form")[0]);
-        formData.append("requestType", uploadRange);
-        formData.append("SHA256", sha256);
-        formData.append("size", fileSize);
-        formData.append("genre", genre);
-        $.ajax({
-            url: "UploadServlet",
-            data: formData,
-            type: "post",
-            cache: false,
-            contentType: false,
-            processData: false,
-            error: function() {
-                alert("Internal error.");
-            },
-            success: function(data) {
-                if (data.messageType == "success") {
-                    // data.redirect contains the string URL to redirect to
-                    window.location.href = data.message;
+        if(mediaType == 'Episode') {
+            var imdb = $('#imdb').val();
+            var season = $('#season').val();
+            $.ajax({
+                url: 'TVShowCheckerServlet',
+                data: 'IMDB=' + imdb + "&season=" + season,
+                type: 'post',
+                dataType: 'json',
+                async: false,
+                success: function (data) {
+                    isExists = data.message;
+                    if(!isExists){
+                        alert("Please create a correspond TV Show.");
+                    }
+                },
+                error: function () {
+                    alert("Internal Error");
                 }
-            }
-        });
+            });
+        }
+        if(mediaType !== 'Episode' || isExists){
+            var genre;
+            // if(mediaType == 'Movie') {
+            //     genre = $('.movie option:selected').val();
+            // } else if(mediaType == 'TVShow') {
+            //     genre = $('.tvshow option:selected').val();
+            // } else if(mediaType == 'Music') {
+            //     genre = $('.music option:selected').val();
+            // } else if(mediaType == 'Episode')
+            var formData = new FormData($("#upload-form")[0]);
+            formData.append("requestType", uploadRange);
+            formData.append("SHA256", sha256);
+            formData.append("size", fileSize);
+            formData.append("genre", genre);
+            $.ajax({
+                url: "UploadServlet",
+                data: formData,
+                type: "post",
+                cache: false,
+                contentType: false,
+                processData: false,
+                error: function() {
+                    alert("Internal error.");
+                },
+                success: function(data) {
+                    if (data.messageType == "success") {
+                        // data.redirect contains the string URL to redirect to
+                        window.location.href = data.message;
+                    }
+                }
+            });
+        }
+
     }
 
 }
 
+function tvshowSubmit() {
+    var formData = new FormData($("#upload-form")[0]);
+    formData.append("mediaType", mediaType);
+    $.ajax({
+        url: 'UploadServlet',
+        data: formData,
+        type: 'post',
+        cache: false,
+        contentType: false,
+        processData: false,
+        error: function() {
+            alert("Internal error.");
+        },
+        success: function(data) {
+            if (data.messageType === "success") {
+                // data.redirect contains the string URL to redirect to
+                window.location.href = data.message;
+            }
+        }
+    });
+}

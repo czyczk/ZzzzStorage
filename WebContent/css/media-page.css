@@ -317,7 +317,7 @@ input:checked ~ input:active {
 	color: red;
 }
 
-.errorTitle-required, .errorIMDB-required, .error-range, .errorAlbum-required{
+.errorTitle-required, .errorIMDB-required, .error-range, .errorAlbum-required, .errorSeason-required, .error-season{
 	display: none;
 }
 
