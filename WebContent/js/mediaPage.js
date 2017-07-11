@@ -13,6 +13,7 @@ var formError = false;
 var oldItem;
 var newItem;
 
+
 // Register handlers on load
 $(function() {
     // Query the servlet for items
@@ -25,7 +26,9 @@ $(function() {
     $("#edit-button").click(handleEditButton);
     $('.update-submit').click(submitUpdate);
     // Bind
+    $("#orderby").click(handleOrderBy);
     bindProperties();
+
 });
 
 // Update numItemsInTotal. Invoked after querying for the total number of items (in loadItems()).

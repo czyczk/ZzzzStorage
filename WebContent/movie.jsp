@@ -68,12 +68,17 @@
 						<%--<dt><a href="#">Adventure</a></dt>--%>
 						<%--<dt><a href="#">Other</a></dt>--%>
 					<%--</dl>--%>
-						<select class="selectpicker" data-live-search="true">
-							<option data-tokens="imdb">IMDB</option>
-							<option data-tokens="title">Title</option>
-							<option data-tokens="director">Director</option>
-							<option data-tokens="genre">Genre</option>
-						</select>
+						<div class="orderWrapper">
+							<div class="styled-select">
+								<select class="orderby" title="Order by..." id="orderby">
+									<option value="">Order By...</option>
+									<option value="imdb">IMDB</option>
+									<option value="title">Title</option>
+								</select>
+							</div>
+						</div>
+
+
 				</div>
 			</div>
 

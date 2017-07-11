@@ -314,6 +314,7 @@ function enterTVShow(firstTime) {
 
     // Reset right sidebar
     resetRightSidebar();
+    $('.orderWrapper').hide();
 }
 
 // An override of loadItems() in mediaPage.js. Click handler for back button on the top bar of the Episode page.
@@ -339,6 +340,7 @@ function backToTVShow() {
 
     // Reset right sidebar
     resetRightSidebar();
+    $('.orderWrapper').show();
 }
 
 // Bind properties in the new property form for validation
@@ -488,4 +490,11 @@ function triggerDelete(det) {
             }
         });
     }
+}
+
+function handleOrderBy() {
+    orderBy = $('.orderby option:selected').val();
+    console.log(orderBy);
+    sqlStatement = "requestType=list&mediaType=tv_show&orderBy="+orderBy+"&start=0&range=10";
+    loadItems();
 }

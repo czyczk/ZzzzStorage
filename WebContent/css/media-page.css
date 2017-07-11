@@ -324,3 +324,26 @@ input:checked ~ input:active {
 	display: none;
 }
 
+.orderWrapper{
+	position: fixed;
+}
+
+.styled-select {
+	width: 200px;
+	height: 34px;
+	overflow: hidden;
+	background: url("http://images.cnblogs.com/cnblogs_com/shishm/201203/20120302110411201.jpg") no-repeat right #ddd;
+	position: relative;
+	top: 50px;
+}
+
+.styled-select select {
+	background: transparent;
+	width: 200px;
+	padding: 5px;
+	font-size: 16px;
+	border: 1px solid #ccc;
+	height: 34px;
+	-webkit-appearance: none;
+}
+

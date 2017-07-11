@@ -214,3 +214,10 @@ function submitUpdate() {
         }
     });
 }
+
+function handleOrderBy() {
+    orderBy = $('.orderby option:selected').val();
+    console.log(orderBy);
+    sqlStatement = "requestType=list&mediaType=music&orderBy="+orderBy+"&start=0&range=10";
+    loadItems();
+}
