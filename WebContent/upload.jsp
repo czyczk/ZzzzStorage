@@ -226,5 +226,6 @@
 		<script src="js/upload.js"></script>
     	<script src="js/uploadForm.js"></script>
     	<script src="js/FileUpload.js"></script>
+		<script src="js/util.js"></script>
  	</body>
 </html>

@@ -72,24 +72,10 @@ function handleUpDownloadedTasks(data) {
         <div class="col-sm-8">\
         <div style="margin-top: 2rem;">\
         ';
-        // Append title
-        html += '<h4 style="display: inline-block;text-decoration: none;font-size: 2.0rem;color: rgb(51, 122, 183);">' + item.title + '</h4><span style="margin-left: 1rem;">(' + item.releaseYear + ')</span><br>';
+        // Append indicated filename
+        html += '<h4 style="display: inline-block;text-decoration: none;font-size: 2.0rem;color: rgb(51, 122, 183);">' + it.indicatedFilename + '</h4><br />';
         // Append media type
-        html += '<span>' + item.mediaType.charAt(0) + item.mediaType.substr(1).toLowerCase() + '</span><sapn style="margin-left: 1rem;">' + (item.size / 1024 / 1024).toFixed(2) + 'MB</sapn><br>';
-        html += '<br><p>Description: ';
-        if(item.plot === undefined) {
-            html += 'No description.';
-        } else {
-            html += item.plot;
-        }
-        html += '</p>';
-        html += '<p>Duration: ';
-        if(item.duration === undefined) {
-            html += '';
-        } else {
-            html += item.duration;
-        }
-        html += '</p>';
+        html += '<span>' + item.mediaType.charAt(0) + item.mediaType.substr(1).toLowerCase() + '</span><sapn style="margin-left: 1rem;">' + formatSize(item.size) + '</sapn><br />';
         html += '\
         </div>\
         </div>\

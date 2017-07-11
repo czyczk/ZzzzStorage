@@ -139,7 +139,8 @@ function triggerDownload(it) {
 
     console.info("[Download request] indicatedFilename=" + indicatedFilename);
     // Open a new window and access DownloadServlet
-    window.open("DownloadServlet?SHA256=" + SHA256 + "&size=" + size + "&indicatedFilename=" + indicatedFilename);
+    var targetUrl = "DownloadServlet?SHA256=" + SHA256 + "&size=" + size + "&indicatedFilename=" + encodeURIComponent(indicatedFilename) + "&mediaType=" + encodeURIComponent(mediaType);
+    window.open(targetUrl);
 }
 
 // Update success handler. Invoked by the Ajax request in submitUpdate() in each page.
