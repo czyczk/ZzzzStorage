@@ -9,6 +9,7 @@
 		<link rel="stylesheet" href="css/main-page.css">
 		<link rel="stylesheet" href="css/media-page.css" />
 		<link rel="stylesheet" href="css/bootstrap/bootstrap-select.css">
+		<link rel="stylesheet" href="css/bootstrap/bootstrap-tagsinput.css">
 		<script src="js/bootstrap/bootstrap.min.js"></script>
 		<script src="js/prefixfree.min.js"></script>
 		<script src="js/bootstrap/bootstrap-select.js"></script>
@@ -144,6 +145,14 @@
 										<%}%>
 									</select>
 								</div>
+								<div class="form-group director">
+									<label for="director" class="control-label" style="color: #909090;">Director: </label>
+									<input type="text" class="form-control" id="director" name="director">
+								</div>
+								<div class="form-group genre">
+									<label for="genre" class="control-label" style="color: #909090;">Genres: </label>
+									<input type="text" class='form-control' name="genre" id="genre" data-role="tagsinput"/>
+								</div>
 								<div class="form-group">
 									<label for="duration" class="control-label" style="color: #909090;">Duration: </label>
 									<input type="time" id="duration" class="form-control" name="duration">
@@ -157,6 +166,7 @@
 									<label for="thumbUrl" class="control-label" style="color: #909090;">Thumbnail URL: </label>
 									<input type="text" class="form-control" id="thumbUrl" name="thumbUrl">
 								</div>
+
 							</div>
 							<hr>
 							<div class="form-group">
