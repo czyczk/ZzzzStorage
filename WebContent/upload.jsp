@@ -207,30 +207,6 @@
 
 	                       <div class="form-group genre">
 	                       		<label for="genre" class="control-label" style="color: #909090;">Genres: </label>
-	                       		<%--<select class="form-control category movie">--%>
-	                       			<%--<option value="Comedy" selected="selected">Comedy</option>--%>
-	                       			<%--<option value="Action">Action</option>--%>
-	                       			<%--<option value="Fantasy">Fantasy</option>--%>
-	                       			<%--<option value="Thriller">Thriller</option>--%>
-	                       			<%--<option value="Adventure">Adventure</option>--%>
-	                       			<%--<option value="Others">Other</option>--%>
-	                       		<%--</select>--%>
-	                       		<%--<select class="form-control category tvshow">--%>
-	                       			<%--<option value="Criminal" selected="selected">Criminal</option>--%>
-	                       			<%--<option value="Action">Action</option>--%>
-	                       			<%--<option value="Fantasy">Fantasy</option>--%>
-	                       			<%--<option value="Thriller">Thriller</option>--%>
-	                       			<%--<option value="Adventure">Adventure</option>--%>
-	                       			<%--<option value="Others">Other</option>--%>
-	                       		<%--</select>--%>
-	                       		<%--<select class="form-control category music">--%>
-	                       			<%--<option value="Rock" selected="selected">Rock</option>--%>
-	                       			<%--<option value="Action">Action</option>--%>
-	                       			<%--<option value="Fantasy">Fantasy</option>--%>
-	                       			<%--<option value="Thriller">Thriller</option>--%>
-	                       			<%--<option value="Adventure">Adventure</option>--%>
-	                       			<%--<option value="Others">Other</option>--%>
-	                       		<%--</select>--%>
 							    <input type="text" name="genre" id="genre" data-role="tagsinput"/>
 	                       </div>
 	                       <br />

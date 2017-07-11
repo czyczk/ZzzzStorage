@@ -193,28 +193,28 @@ $(function(){
     //     }
     // });
     //
-    var genre = new Bloodhound({
-        datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
-        queryTokenizer: Bloodhound.tokenizers.whitespace,
-        prefetch: {
-            url: '././assets/genre.json',
-            filter: function (list) {
-                return $.map(list, function (genre) {
-                    return {value: genre}
-                })
-            }
-        }
-    });
-    genre.initialize();
-
-    $('.bootstrap-tagsinput input').tagsinput({
-        typeaheadjs: {
-            name: 'genre',
-            displayKey: 'value',
-            valueKey: 'value',
-            source: genre.ttAdapter()
-        }
-    })
+    // var genre = new Bloodhound({
+    //     datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
+    //     queryTokenizer: Bloodhound.tokenizers.whitespace,
+    //     prefetch: {
+    //         url: '././assets/genre.json',
+    //         filter: function (list) {
+    //             return $.map(list, function (genre) {
+    //                 return {value: genre}
+    //             })
+    //         }
+    //     }
+    // });
+    // genre.initialize();
+    //
+    // $('.bootstrap-tagsinput input').tagsinput({
+    //     typeaheadjs: {
+    //         name: 'genre',
+    //         displayKey: 'value',
+    //         valueKey: 'value',
+    //         source: genre.ttAdapter()
+    //     }
+    // })
 
     // $('#genre').bind('input propertychange', function() {
     //     var input = $('#genre').val();

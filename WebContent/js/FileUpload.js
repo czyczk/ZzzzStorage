@@ -192,6 +192,7 @@ function uploadForm() {
         }
         if(mediaType !== 'Episode' || isExisting) {
             var genre;
+            genre = $('#genre').tagsinput('items');
             // if(mediaType == 'Movie') {
             //     genre = $('.movie option:selected').val();
             // } else if(mediaType == 'TVShow') {
@@ -229,6 +230,8 @@ function uploadForm() {
 
 function tvshowSubmit() {
     var formData = new FormData($("#upload-form")[0]);
+    var genre;
+    genre = $('#genre').tagsinput('items');
     formData.append("mediaType", mediaType);
     $.ajax({
         url: 'UploadServlet',
