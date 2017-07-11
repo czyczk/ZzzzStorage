@@ -229,10 +229,10 @@ public class UploadServlet extends HttpServlet {
             movie.setDirector(new String[] { director });
         }
         // Genre
-        // TODO: It's now only one genre
         String genre = req.getParameter("genre");
-        if (genre != null && !genre.trim().isEmpty()) {
-            movie.setGenre(new String[] { genre });
+        if (genre.trim().length() > 0) {
+            String[] attrs = genre.split("`");
+            movie.setGenre(attrs);
         }
         return movie;
     }

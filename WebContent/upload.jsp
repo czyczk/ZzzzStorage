@@ -207,7 +207,7 @@
 
 	                       <div class="form-group genre">
 	                       		<label for="genre" class="control-label" style="color: #909090;">Genres: </label>
-							    <input type="text" name="genre" id="genre" data-role="tagsinput"/>
+							    <input type="text" id="genre" data-role="tagsinput"/>
 	                       </div>
 	                       <br />
 	                       <br />
