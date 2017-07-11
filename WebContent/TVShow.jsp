@@ -87,6 +87,8 @@
             <a href="#" id="delete-button"><span class="glyphicon glyphicon-trash right-sidebar-icon"></span>Delete</a>
         </li>
         <li>
+            <%--<a id="edit-button" href data-toggle="modal" data-target="#property1-form"><span--%>
+                    <%--class="glyphicon glyphicon-info-sign right-sidebar-icon"></span>Edit properties</a>--%>
             <a id="edit-button" href data-toggle="modal" data-target="#property-form"><span
                     class="glyphicon glyphicon-info-sign right-sidebar-icon"></span>Edit properties</a>
         </li>
@@ -104,28 +106,43 @@
                 <form>
                     <div class="basic-info">
                         <h4 style="color: black">Basic Infomation</h4>
-                        <div class="form-group">
+                        <div class="form-group title">
                             <label for="title" class="control-label" style="color: #909090;">Title: </label>
                             <input type="text" class="form-control" id="title" name="title">
                             <div class="errorTitle-required error">Title is required.</div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group tvtitle">
+                            <label for="tvtitle" class="control-label" style="color: #909090;">Title of TV Show: </label>
+                            <input type="text" class="form-control" id="tvtitle" name="title">
+                            <div class="errorTitle-required error">Title is required.</div>
+                        </div>
+                        <div class="form-group type">
                             <label for="type" class="control-label" style="color:#909090;">Type: </label>
                             <span id="type" name="type" class="text-primary">TV Show</span>
+                        </div>
+                        <div class="form-group etype">
+                            <label for="etype" class="control-label" style="color:#909090;">Type: </label>
+                            <span id="etype" name="etype" class="text-primary">Episode</span>
                         </div>
                         <%--<div class="form-group">--%>
                             <%--<label for="size" class="control-label" style="color: #909090;">Size: </label>--%>
                             <%--<span class="text-primary" id="size" name="size"></span>--%>
                         <%--</div>--%>
-                        <div class="form-group">
+                        <div class="form-group season">
                             <label for="season" class="control-label" style="color: #909090;">Season: </label>
                             <input type="number" class="form-control" id="season" name="season">
                             <div class="errorSeason-required error">Season is required.</div>
                             <div class="error-season error">Season is from 1 to 20.</div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group imdb">
                             <label for="imdb" class="control-label" style="color: #909090;">IMDB: </label>
                             <input type="number" id="imdb" name="imdb" class="form-control">
+                            <div class="errorIMDB-required error">IMDB is required.</div>
+                            <div class="error-range error">IMDB should be a 7-digit number.</div>
+                        </div>
+                        <div class="form-group tvimdb">
+                            <label for="tvimdb" class="control-label" style="color: #909090;">TV Show IMDB: </label>
+                            <input type="number" id="tvimdb" name="tvimdb" class="form-control">
                             <div class="errorIMDB-required error">IMDB is required.</div>
                             <div class="error-range error">IMDB should be a 7-digit number.</div>
                         </div>
@@ -133,7 +150,17 @@
                     <hr>
                     <div class="optional-info">
                         <h4 style="color: black">Optional Information</h4>
-                        <div class="form-group">
+                        <div class="form-group episode">
+                            <label for="episode" class="control-label" style="color: #909090">Episode Number: </label>
+                            <input type="number" class="form-control" id="episode" name="episodeNo">
+                        </div>
+                        <div class="form-group titleOfEpisode">
+                            <label for="titleOfEpisode" class="control-label" style="color: #909090">Title of This Episode: </label>
+                            <input type="text" class="form-control" id="titleOfEpisode" name="titleOfEpisode">
+                            <div class="msgEpisodeTitle" style="color:#909090;"></div>
+                        </div>
+
+                        <div class="form-group releaseYear">
                             <label for="releaseYear" class="control-label" style="color: #909090;">Release
                                 Year: </label>
                             <select name="releaseYear" id="releaseYear" class="form-control">
@@ -144,20 +171,44 @@
                                 <%}%>
                             </select>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group runtime">
                             <label for="runtime" class="control-label" style="color: #909090;">Runtime (in minutes): </label>
                             <input type="time" id="runtime" class="form-control" name="runtime">
                         </div>
-                        <div class="form-group">
+                        <div class="form-group episodeRuntime">
+                            <label for="episodeRuntime" class="control-label" style="color: #909090">Runtime (in minutes): </label>
+                            <input type="number" class="form-control" id="episodeRuntime" name="episodeRuntime">
+                        </div>
+                        <div class="form-group plot">
                             <label for="plot" class="control-label" style="color: #909090;">Plot: </label>
                             <textarea class="form-control plot" id="plot" name="plot"></textarea>
                             <div class="msg"></div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group rating">
+                            <label for="rating" class="control-label" style="color: #909090;">Rating: </label>
+                            <input type="number" class="form-control" id="rating" name="rating">
+                            <div class="error-rating error">Rating is from 1 to 10.</div>
+                        </div>
+                        <div class="form-group episodeRating">
+                            <label for="episodeRating" class="control-label" style="color:#909090;">Rating: </label>
+                            <input type="text" class="form-control" id="episodeRating" name="episodeRating">
+                        </div>
+                        <div class="form-group url">
                             <label for="thumbUrl" class="control-label" style="color: #909090;">Thumbnail URL: </label>
                             <input type="text" class="form-control" id="thumbUrl" name="thumbUrl">
                         </div>
+                        <div class="form-group episodeThumbnail">
+                            <label for="episodeThumbnail" class="control-label" style="color:#909090;">Thumb URL: </label>
+                            <input type="text" class="form-control" id="episodeThumbnail" name="episodeThumbnail">
+                            <div class="msgEpisodeThumb" style="color:#909090;"></div>
+                        </div>
+                        <div class="form-group storyLine">
+                            <label for="storyLine" class="control-label" style="color: #909090;">Storyline:</label>
+                            <textarea class="form-control" id="storyLine" name="storyline"></textarea>
+                            <div class="msgStoryLine" style="color: #909090"></div>
+                        </div>
                     </div>
+
                     <hr>
                     <div class="form-group">
                         <div class="row">
@@ -173,10 +224,14 @@
 
     </div>
 </div>
+
+
 <script src="js/tvShow.js"></script>
 <script src="js/mediaPage.js"></script>
 <script src="js/util.js"></script>
 <script src="js/mediaPageRightSidebar.js"></script>
+<script src="js/modal.js"></script>
+
 
 </body>
 <!--
