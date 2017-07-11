@@ -87,7 +87,8 @@ function arrangeItems() {
              */
             html += '<div><span class="item-header">' + it.title + '</span>';
             // Append hidden properties
-            // : title, season, runtime, releaseYear
+            // : imdb, title, season, runtime, releaseYear
+            html += '<span class="item-imdb" style="display: none;">' + fillWithZeroes(it.imdb, 7) + '</span>';
             html += '<span class="item-title" style="display: none;">' + it.title + '</span>';
             html += '<span class="item-season" style="display: none;">' + it.season + '</span>';
             if (it.runtime != undefined && it.runtime != 0) {
@@ -110,7 +111,7 @@ function arrangeItems() {
              * IMDB: xxxxxxx    Runtime: xx min
              */
             // Append IMDB
-            html += '<div><span class="item-imdb">IMDB: ' + fillWithZeroes(it.imdb, 7) + "</span>";
+            html += '<div><span>IMDB: ' + fillWithZeroes(it.imdb, 7) + "</span>";
             // Append runtime if available
             if (it.runtime != undefined && it.runtime != 0) {
                 html += '<span class="item-runtime" style="margin-left: 2rem;">Runtime: ' + formatDuration(mediaType, it.runtime) + '</span>';
