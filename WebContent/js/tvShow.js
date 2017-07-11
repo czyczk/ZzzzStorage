@@ -279,6 +279,7 @@ function arrangeItems() {
 function enterTVShow(firstTime) {
     // Change media type to "episode"
     mediaType = "episode";
+    mediaTypeChanged = true;
     // Collect info from the active TV show
     var imdb = activeTVShow.imdb;
     var season = activeTVShow.season;
@@ -319,6 +320,7 @@ function enterTVShow(firstTime) {
 function backToTVShow() {
     // Change media type back to "tv_show"
     mediaType = "tv_show";
+    mediaTypeChanged = true;
     // Resend the last SQL statement
     sqlStatement = lastSqlStatement;
     $.ajax({
