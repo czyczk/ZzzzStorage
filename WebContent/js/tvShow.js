@@ -483,8 +483,6 @@ function triggerEdit(it) {
             "epiosdeNo": episodeNo
         }
     }
-
-
 }
 
 function toggleFieldsInEditForm() {
