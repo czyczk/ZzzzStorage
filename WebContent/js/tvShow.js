@@ -8,6 +8,8 @@ var defaultThumbPath = "img/sample-covers/default-tv-show-icon-poster-size.png";
 // The default SQL query statement
 var sqlStatement = "requestType=list&mediaType=tv_show&orderBy=title&start=0&range=10";
 var lastSqlStatement;
+// The actively entered TV show
+var activeTVShow;
 
 // Arrange the items onto the page
 function arrangeItems() {
@@ -19,9 +21,24 @@ function arrangeItems() {
         if (mediaType == "tv_show") {
             html = '<div class="info"><div style="text-align: center; margin: 10.5rem 0;"><h2>No TV show.</h2></div></div>';
         } else if (mediaType == "episode") {
-            html = '<div class="info"><div style="text-align: center; margin: 10.5rem 0;"><h2>No episode.</h2></div></div>';
+            // Append a bar to show TV show info and the back button
+            html = '<div class="tv-show-info-bar">\
+                    <div class="item-title" style="display: none;">' + activeTVShow.title + '</div>\
+                    <div class="item-imdb" style="display: none;">' + activeTVShow.imdb + '</div>\
+                    <div class="item-season" style="display: none;">' + activeTVShow.season + '</div>\
+                    <div>\
+                        <a href="#">&#xE96F;</a>\
+                        <span>' + activeTVShow.title + '</span>\
+                        <span style="font-size: 1.4rem; color: rgb(51, 51, 51); margin-left: 0.6rem;">(Season ' + activeTVShow.season + ')</span>\
+                    </div>\
+                 </div>\
+            ';
+            // Hint of "No episode."
+            html += '<div class="info"><div style="text-align: center; margin: 10.5rem 0;"><h2>No episode.</h2></div></div>';
         }
         container.html(html);
+        // Bind click handler for back button
+        $(".tv-show-info-bar").find("a").click(backToTVShow);
         return;
     }
 
@@ -70,7 +87,8 @@ function arrangeItems() {
              */
             html += '<div><span class="item-header">' + it.title + '</span>';
             // Append hidden properties
-            // : title, season, runtime, releaseYear
+            // : imdb, title, season, runtime, releaseYear
+            html += '<span class="item-imdb" style="display: none;">' + fillWithZeroes(it.imdb, 7) + '</span>';
             html += '<span class="item-title" style="display: none;">' + it.title + '</span>';
             html += '<span class="item-season" style="display: none;">' + it.season + '</span>';
             if (it.runtime != undefined && it.runtime != 0) {
@@ -93,7 +111,7 @@ function arrangeItems() {
              * IMDB: xxxxxxx    Runtime: xx min
              */
             // Append IMDB
-            html += '<div><span class="item-imdb">IMDB: ' + fillWithZeroes(it.imdb, 7) + "</span>";
+            html += '<div><span>IMDB: ' + fillWithZeroes(it.imdb, 7) + "</span>";
             // Append runtime if available
             if (it.runtime != undefined && it.runtime != 0) {
                 html += '<span class="item-runtime" style="margin-left: 2rem;">Runtime: ' + formatDuration(mediaType, it.runtime) + '</span>';
@@ -138,13 +156,13 @@ function arrangeItems() {
     } else if (items[0].mediaType == "EPISODE") {
         // Append a bar to show TV show info and the back button
         html += '<div class="tv-show-info-bar">\
-                    <div class="item-title" style="display: none;">' + items[0].tvShow.title + '</div>\
-                    <div class="item-imdb" style="display: none;">' + items[0].tvShow.imdb + '</div>\
-                    <div class="item-season" style="display: none;">' + items[0].tvShow.season + '</div>\
+                    <div class="item-title" style="display: none;">' + activeTVShow.title + '</div>\
+                    <div class="item-imdb" style="display: none;">' + activeTVShow.imdb + '</div>\
+                    <div class="item-season" style="display: none;">' + activeTVShow.season + '</div>\
                     <div>\
                         <a href="#">&#xE96F;</a>\
-                        <span>' + items[0].tvShow.title + '</span>\
-                        <span style="font-size: 1.4rem; color: rgb(51, 51, 51); margin-left: 0.6rem;">(Season ' + items[0].tvShow.season + ')</span>\
+                        <span>' + activeTVShow.title + '</span>\
+                        <span style="font-size: 1.4rem; color: rgb(51, 51, 51); margin-left: 0.6rem;">(Season ' + activeTVShow.season + ')</span>\
                     </div>\
                  </div>\
             ';
@@ -180,7 +198,7 @@ function arrangeItems() {
 
             // Append hidden fields (structural requirement)
             // : SHA256, size, episodeNo, title, runtime, imdb (of TV show), season (of TV show)
-            html += '<span class="item-sha256" style="display: none;">' + it.SHA256 + '</span>';
+            html += '<span class="item-SHA256" style="display: none;">' + it.SHA256 + '</span>';
             html += '<span class="item-size" style="display: none;">' + it.size + '</span>';
             html += '<span class="item-episodeNo" style="display: none;">' + it.episodeNo + '</span>';
             if (it.title != undefined) {
@@ -242,7 +260,13 @@ function arrangeItems() {
                 var det = $(this).parent().parent().attr("id");
                 var imdb = det.substr(0, 7);
                 var season = det.substr(7);
-                enterTVShow(imdb, season);
+                var title = $("#"+det).find(".item-title").text();
+                activeTVShow = {
+                    "imdb": imdb,
+                    "season": season,
+                    "title": title
+                };
+                enterTVShow(true);
             }
         );
     } else if (mediaType == "episode") {
@@ -252,9 +276,13 @@ function arrangeItems() {
 }
 
 // An override of loadItems() in mediaPage.js. Click handler for entering masks of TV shows.
-function enterTVShow(imdb, season) {
+function enterTVShow(firstTime) {
     // Change media type to "episode"
     mediaType = "episode";
+    mediaTypeChanged = true;
+    // Collect info from the active TV show
+    var imdb = activeTVShow.imdb;
+    var season = activeTVShow.season;
     // First query for the total number of episodes of that TV show
     $.ajax({
         url: "FileListGeneratorServlet",
@@ -263,8 +291,12 @@ function enterTVShow(imdb, season) {
         async: false,
         success: updateNumItemsInTotal
     });
+
+    // If it's a query for the first time, backup the last query
+    if (firstTime)
+        lastSqlStatement = sqlStatement;
+
     // Then, query for items
-    lastSqlStatement = sqlStatement;
     sqlStatement = "requestType=list&mediaType=episode&orderBy=episode_no&imdb=" + imdb + "&season=" + season + "&start=0&range=10";
     $.ajax({
         url: "FileListGeneratorServlet",
@@ -288,6 +320,7 @@ function enterTVShow(imdb, season) {
 function backToTVShow() {
     // Change media type back to "tv_show"
     mediaType = "tv_show";
+    mediaTypeChanged = true;
     // Resend the last SQL statement
     sqlStatement = lastSqlStatement;
     $.ajax({
@@ -420,18 +453,39 @@ function submitUpdate() {
 }
 
 function triggerDelete(det) {
-    var SHA256 = $("#"+det).find(".item-SHA256").text();
-    var size = $('#'+det).find('.item-size').text();
+    if (mediaType == "tv_show") {
+        var imdb = $("#"+det).find(".item-imdb").text();
+        var season = $("#"+det).find(".item-season").text();
 
-    $.ajax({
-        url: "DeleteServlet",
-        data: "mediaType=" + encodeURIComponent(mediaType) + "&SHA256=" + SHA256 + "&size=" + size,
-        type: "post",
-        success: function() {
-            loadItems();
-        },
-        error: function(data) {
-            alert(data);
-        }
-    });
+        $.ajax({
+            url: "DeleteServlet",
+            data: "mediaType=" + encodeURIComponent(mediaType) + "&imdb=" + imdb + "&season=" + season,
+            type: "post",
+            success: function() {
+                loadItems();
+            },
+            error: function(data) {
+                alert(data.message);
+            }
+        });
+    } else if (mediaType == "episode") {
+        var SHA256 = $("#"+det).find(".item-SHA256").text();
+        var size = $("#"+det).find(".item-size").text();
+        var imdb = activeTVShow.imdb;
+        var season = activeTVShow.season;
+        var episodeNo = $("#"+det).find(".item-episodeNo").text();
+
+        $.ajax({
+            url: "DeleteServlet",
+            data: "mediaType=" + encodeURIComponent(mediaType) + "&SHA256=" + SHA256 + "&size=" + size + "&imdb=" + imdb + "&season=" + season + "&episodeNo=" + episodeNo,
+            type: "post",
+            async: false,
+            success: function() {
+                enterTVShow(false);
+            },
+            error: function(data) {
+                alert(data.message);
+            }
+        });
+    }
 }

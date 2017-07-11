@@ -65,5 +65,6 @@
 		</div>
     	
     	<script src="js/download.js"></script>
+		<script src="js/util.js"></script>
  	</body>
 </html>

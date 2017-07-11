@@ -7,10 +7,11 @@ var sha256;
 var mediaType;
 var uploadRange = 'prohibited';
 var formError = false;
-var isExists = false;
+var isExisting = false;
 
 $(function () {
     $('#type').click(function () {
+        // Set mediaType to the type selected
         mediaType = $('#type option:selected').val();
     });
     mediaType = $('#type option:selected').val();
@@ -173,15 +174,15 @@ function uploadForm() {
             var imdb = $('#imdb').val();
             var season = $('#season').val();
             $.ajax({
-                url: 'TVShowCheckerServlet',
-                data: 'IMDB=' + imdb + "&season=" + season,
+                url: 'FileListGeneratorServlet',
+                data: 'requestType=exists&mediaType=episode&imdb=' + imdb + "&season=" + season,
                 type: 'post',
                 dataType: 'json',
                 async: false,
                 success: function (data) {
-                    isExists = data.message;
-                    if(!isExists){
-                        alert("Please create a correspond TV Show.");
+                    isExisting = data;
+                    if(!isExisting){
+                        alert("Please create a corresponding TV show first.");
                     }
                 },
                 error: function () {
@@ -189,8 +190,16 @@ function uploadForm() {
                 }
             });
         }
-        if(mediaType !== 'Episode' || isExists){
-            var genre;
+        if(mediaType !== 'Episode' || isExisting) {
+            var genres = $('#genre').tagsinput('items');
+            var genreStr = "";
+            if (genres.length > 0) {
+                for (var i in genres) {
+                    genreStr += genres[i];
+                    if (i < genres.length - 1)
+                        genreStr += "`";
+                }
+            }
             // if(mediaType == 'Movie') {
             //     genre = $('.movie option:selected').val();
             // } else if(mediaType == 'TVShow') {
@@ -202,7 +211,7 @@ function uploadForm() {
             formData.append("requestType", uploadRange);
             formData.append("SHA256", sha256);
             formData.append("size", fileSize);
-            formData.append("genre", genre);
+            formData.append("genre", genreStr);
             $.ajax({
                 url: "UploadServlet",
                 data: formData,
@@ -228,6 +237,8 @@ function uploadForm() {
 
 function tvshowSubmit() {
     var formData = new FormData($("#upload-form")[0]);
+    var genre;
+    genre = $('#genre').tagsinput('items');
     formData.append("mediaType", mediaType);
     $.ajax({
         url: 'UploadServlet',

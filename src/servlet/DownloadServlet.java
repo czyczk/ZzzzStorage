@@ -1,7 +1,10 @@
 package servlet;
 
 import model.User;
+import model.libraryModel.*;
+import model.transferModel.DownloadTask;
 import util.DBUtil;
+import util.ServletUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,6 +17,7 @@ import java.io.FilenameFilter;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.file.Files;
+import java.util.ArrayList;
 
 /**
  * Created by czyczk on 2017-6-25.
@@ -32,6 +36,7 @@ public class DownloadServlet extends HttpServlet {
         // Get current active user
         User user = (User) req.getSession().getAttribute("activeUser");
         int ownerId = user.getId();
+        ArrayList<DownloadTask> downloadTasks = (ArrayList<DownloadTask>) req.getSession().getAttribute("downloadTasks");
 
         // Get the SHA256, size and the indicated filename of the target file
         String SHA256 = req.getParameter("SHA256");
@@ -67,5 +72,42 @@ public class DownloadServlet extends HttpServlet {
         resp.setHeader("Content-Length", String.valueOf(target.length()));
         resp.setHeader("Content-Disposition", "attachment; filename*=UTF-8''" + URLEncoder.encode(indicatedFilename, "UTF-8"));
         Files.copy(target.toPath(), resp.getOutputStream());
+
+        // Get media type to generate a corresponding downloaded task
+        MediaTypeEnum mediaType = MediaTypeEnum.valueOf(req.getParameter("mediaType").toUpperCase());
+        FileAssociatedItem item = FileAssociatedItem.createItem(mediaType, SHA256, size);
+//        try {
+//            item = FileAssociatedItem.createItem(mediaType, SHA256, size);
+//            switch (mediaType) {
+//                case MOVIE:
+//                {
+//                    int imdb = Integer.parseInt(req.getParameter("imdb"));
+//                    Movie movie = (Movie) item;
+//                    movie.setImdb(imdb);
+//                    item = movie;
+//                }
+//                break;
+//                case EPISODE:
+//                {
+//                    int imdb = Integer.parseInt(req.getParameter("imdb"));
+//                    int season = Integer.parseInt(req.getParameter("season"));
+//                    int episodeNo = Integer.parseInt(req.getParameter("episodeNo"));
+//                    TVShow tvShow = new TVShow();
+//                    tvShow.setOwnerId(ownerId);
+//                    tvShow.setImdb(imdb);
+//                    tvShow.setSeason(season);
+//                    Episode episode = (Episode) item;
+//                    episode.setTvShow(tvShow);
+//                    episode.setEpisodeNo(episodeNo);
+//                    item = episode;
+//                }
+//                break;
+//            }
+//        } catch (IllegalArgumentException e) {
+//            e.printStackTrace();
+//        }
+        item.setOwnerId(ownerId);
+        DownloadTask task = new DownloadTask(item, indicatedFilename, false);
+        downloadTasks.add(task);
     }
 }

@@ -78,7 +78,7 @@
 <div class="right-sidebar" id="right-sidebar">
     <ul>
         <li>
-            <a href="play.jsp"><span class="glyphicon glyphicon-play right-sidebar-icon"></span>Play</a>
+            <a href="play.jsp" id="play-button"><span class="glyphicon glyphicon-play right-sidebar-icon"></span>Play</a>
         </li>
         <li>
             <a href="#" id="download-button"><span class="glyphicon glyphicon-cloud-download right-sidebar-icon"></span>Download</a>

@@ -4,6 +4,7 @@ var mediaType = "movie";
 var defaultThumbPath = "img/sample-covers/default-movie-icon-poster-size.png";
 // The default SQL query statement
 var sqlStatement = "requestType=list&mediaType=movie&orderBy=title&start=0&range=10";
+var pageNumber = 0;
 
 // Arrange the items onto the page
 function arrangeItems() {
@@ -15,10 +16,14 @@ function arrangeItems() {
         container.html(html);
         return;
     }
+    pageNumber = items.length / 8;
 
     // Arrange the items
     var html = '<div>';
     items.forEach(function (it) {
+    // for(var j = 0; j < items.length; j++){
+    //     console.log(j);
+    //     console.log(items);
         html += '\
 	    <div class="col-lg-6 col-sm-6">\
 	    <div class="item-card" id="'+ it.imdb +'">\
@@ -114,6 +119,12 @@ function arrangeItems() {
         // Endings
         html += '</div></div></div></div></div>';
     });
+    // html += '<ul class ="pagination" style="position: absolute;top: 1150px; left: 1100px;">';
+    // for(pageNumber = 0; pageNumber <= items.length / 8;pageNumber++){
+    //     pageNumber+=1;
+    //     html += '<li><a href="#">'+pageNumber+'</a></li>'
+    // }
+    // html += '</ul>';
 
     container.html(html);
 }
