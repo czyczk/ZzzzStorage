@@ -1,10 +1,12 @@
 // Media type
 var mediaType = "movie";
+var orderBy = "title";
 // The default thumb URL for a movie item
 var defaultThumbPath = "img/sample-covers/default-movie-icon-poster-size.png";
 // The default SQL query statement
-var sqlStatement = "requestType=list&mediaType=movie&orderBy=title&start=0&range=10";
+var sqlStatement = "requestType=list&mediaType=movie&orderBy="+orderBy+"&start=0&range=10";
 var pageNumber = 0;
+
 
 // Arrange the items onto the page
 function arrangeItems() {
@@ -244,4 +246,11 @@ function submitUpdate() {
             alert("Internal error.");
         }
     });
+}
+
+function handleOrderBy() {
+    orderBy = $('.orderby option:selected').val();
+    console.log(orderBy);
+    sqlStatement = "requestType=list&mediaType=movie&orderBy="+orderBy+"&start=0&range=10";
+    loadItems();
 }

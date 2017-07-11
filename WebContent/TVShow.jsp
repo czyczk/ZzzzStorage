@@ -61,14 +61,23 @@
 <div id="contentWrapper">
     <div id="contentLeft">
         <div class="left-sidebar leftNav">
-            <dl>
-                <dt><a href="#">Comedy</a></dt>
-                <dt><a href="#">Action</a></dt>
-                <dt><a href="#">Fantasy</a></dt>
-                <dt><a href="#">Thriller</a></dt>
-                <dt><a href="#">Adventure</a></dt>
-                <dt><a href="#">Other</a></dt>
-            </dl>
+            <%--<dl>--%>
+                <%--<dt><a href="#">Comedy</a></dt>--%>
+                <%--<dt><a href="#">Action</a></dt>--%>
+                <%--<dt><a href="#">Fantasy</a></dt>--%>
+                <%--<dt><a href="#">Thriller</a></dt>--%>
+                <%--<dt><a href="#">Adventure</a></dt>--%>
+                <%--<dt><a href="#">Other</a></dt>--%>
+            <%--</dl>--%>
+                <div class="orderWrapper">
+                    <div class="styled-select">
+                        <select class="orderby" title="Order by..." id="orderby">
+                            <option value="">Order By...</option>
+                            <option value="imdb">IMDB</option>
+                            <option value="title">Title</option>
+                        </select>
+                    </div>
+                </div>
         </div>
     </div>
 

@@ -8,8 +8,10 @@
         <link rel="stylesheet" href="css/nav.css">
 		<link rel="stylesheet" href="css/main-page.css">
 		<link rel="stylesheet" href="css/media-page.css" />
+		<link rel="stylesheet" href="css/bootstrap/bootstrap-select.css">
 		<script src="js/bootstrap/bootstrap.min.js"></script>
 		<script src="js/prefixfree.min.js"></script>
+		<script src="js/bootstrap/bootstrap-select.js"></script>
 
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<title>Movie</title>
@@ -58,14 +60,25 @@
 		<div id="contentWrapper">
 			<div id="contentLeft">
 				<div class="left-sidebar leftNav">
-					<dl>
-						<dt><a href="#">Comedy</a></dt>
-						<dt><a href="#">Action</a></dt>
-						<dt><a href="#">Fantasy</a></dt>
-						<dt><a href="#">Thriller</a></dt>
-						<dt><a href="#">Adventure</a></dt>
-						<dt><a href="#">Other</a></dt>
-					</dl>
+					<%--<dl>--%>
+						<%--<dt><a href="#">Comedy</a></dt>--%>
+						<%--<dt><a href="#">Action</a></dt>--%>
+						<%--<dt><a href="#">Fantasy</a></dt>--%>
+						<%--<dt><a href="#">Thriller</a></dt>--%>
+						<%--<dt><a href="#">Adventure</a></dt>--%>
+						<%--<dt><a href="#">Other</a></dt>--%>
+					<%--</dl>--%>
+						<div class="orderWrapper">
+							<div class="styled-select">
+								<select class="orderby" title="Order by..." id="orderby">
+									<option value="">Order By...</option>
+									<option value="imdb">IMDB</option>
+									<option value="title">Title</option>
+								</select>
+							</div>
+						</div>
+
+
 				</div>
 			</div>
 
