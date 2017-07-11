@@ -148,7 +148,11 @@ function handleUpdateSuccess(data) {
     if (data.messageType == "success") {
         // Reload the content
         $('#property-form').modal('hide');
-        loadItems();
+        if (mediaType != "episode") {
+            loadItems();
+        } else {
+            enterTVShow(false);
+        }
     } else {
         // Alert error
         alert(data.message);
