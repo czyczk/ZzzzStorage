@@ -511,26 +511,57 @@ function toggleFieldsInEditForm() {
 function submitUpdate() {
     // TODO: Incomplete properties
     // Collect new info
-    newItem = {
-        "title": $('#title').val(),
-        "imdb": $('#imdb').val(),
-        "releaseYear": $('#releaseYear').val(),
-        "plot": $('#plot').val(),
-        "thumbUrl": $('#thumbUrl').val()
-    };
-    if($('#runtime').val() != "") {
-        newItem.duration = $('#runtime').val();
-    }
-    // Send update request
-    $.ajax({
-        url: "UpdateServlet",
-        type: "post",
-        data: "mediaType=" + encodeURIComponent(mediaType) + "&oldItem=" + JSON.stringify(oldItem) + "&newItem=" + JSON.stringify(newItem),
-        success: handleUpdateSuccess,
-        error: function() {
-            alert("Internal error.");
+    if(mediaType == 'tv_show'){
+        newItem = {
+            "title": $('#tv-show-title').val(),
+            "season": $("#season").val(),
+            "imdb": $('#imdb').val(),
+            "releaseYear": $('#releaseYear').val(),
+            "thumbUrl": $('#tv-show-thumbUrl').val()
+        };
+        if($('#plot').val() != ""){
+            newItem.plot = $('#plot').val();
         }
-    });
+        if($('#runtime').val() != "") {
+            newItem.duration = $('#runtime').val();
+        }
+        // Send update request
+        $.ajax({
+            url: "UpdateServlet",
+            type: "post",
+            data: "mediaType=" + encodeURIComponent(mediaType) + "&oldItem=" + JSON.stringify(oldItem) + "&newItem=" + JSON.stringify(newItem),
+            success: handleUpdateSuccess,
+            error: function() {
+                alert("Internal error.");
+            }
+        });
+    } else if(mediaType == 'episode') {
+        newItem = {
+            "episodeNo": $('#episodeNo').val(),
+            "imdb": activeTVShow.imdb,
+            "season": activeTVShow.season,
+            "releaseYear": $('#releaseYear').val()
+        };
+        if($('#episode-title').val() != ""){
+            newItem.title = $('#episode-title').val();
+        }
+        if($('#storyLine').val() != ""){
+            newItem.storyLine = $('#storyLine').val();
+        }
+        if($('#episode-thumbUrl').val() != ""){
+            newItem.thumbUrl = $('#episode-thumbUrl').val();
+        }
+        $.ajax({
+            url: "UpdateServlet",
+            type: "post",
+            data: "mediaType=" + encodeURIComponent(mediaType) + "&oldItem=" + JSON.stringify(oldItem) + "&newItem=" + JSON.stringify(newItem),
+            success: handleUpdateSuccess,
+            error: function() {
+                alert("Internal error.");
+            }
+        });
+    }
+
 }
 
 function triggerDelete(det) {
