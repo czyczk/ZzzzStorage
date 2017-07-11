@@ -214,7 +214,7 @@ function arrangeItems() {
             // Append episode number (+ title) as header
             var header = "";
             header += it.episodeNo;
-            if (it.title != undefined) {
+            if (it.title != undefined && it.title != "") {
                 header += ' - ' + it.title;
             }
             html += '<div><span class="item-header">' + header + '</span>';
