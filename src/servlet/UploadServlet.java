@@ -376,7 +376,7 @@ public class UploadServlet extends HttpServlet {
             sendErrorMessage(resp, "Invalid value of episodeNo.");
             throw new FieldMissingException();
         }
-        episode.setTitle(req.getParameter("title"));
+        episode.setTitle(req.getParameter("titleOfEpisode"));
         try {
             int runtime = Integer.parseInt(req.getParameter("runtime"));
             episode.setRuntime(runtime);
