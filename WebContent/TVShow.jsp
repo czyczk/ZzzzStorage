@@ -135,6 +135,7 @@
                         <div class="form-group field-tv-show">
                             <label for="tv-show-title" class="control-label" style="color: #909090;">Title: </label>
                             <input type="text" class="form-control" id="tv-show-title" name="title">
+                            <div class="title" style="color: #909090"></div>
                             <div class="errorTitle-required error">Title is required.</div>
                         </div>
 
@@ -143,8 +144,10 @@
                         <div class="form-group field-episode">
                             <label for="episodeNo" class="control-label" style="color: #909090;">Episode number: </label>
                             <input type="number" id="episodeNo" name="episodeNo" class="form-control">
-                            <div class="errorEpisodeNo-required error">Episode number is required.</div>
+                            <div class="errorEpisode-required error">Episode number is required.</div>
                             <div class="error-range error">It should be a positive number.</div>
+                            <%--<div class="error-episode error">Episode is begin from 1.</div>--%>
+                            <%--<div class="errorEpisode-required error">Episode number is required.</div>--%>
                         </div>
 
                         <!-- Common -->

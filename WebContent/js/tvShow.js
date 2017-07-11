@@ -353,7 +353,7 @@ function backToTVShow() {
 
 // Bind properties in the new property form for validation
 function bindProperties() {
-    $(".plot").bind('input propertychange', function() {
+    $("#plot").bind('input propertychange', function() {
         if ($(this).val().length <= 256) {
             $('.msg').html($(this).val().length + '/256 words.');
 
@@ -362,8 +362,8 @@ function bindProperties() {
         }
     });
 
-    $('#title').bind('input propertychange', function() {
-        var title = $('#title').val();
+    $('#tv-show-title').bind('input propertychange', function() {
+        var title = $('#tv-show-title').val();
         if(title == "") {
             formError = true;
             $('.errorTitle-required').show();
@@ -373,6 +373,31 @@ function bindProperties() {
         }
     });
 
+    // $('#title').bind('input propertychange', function() {
+    //     var title = $('#title').val();
+    //     if(title == "") {
+    //         formError = true;
+    //         $('.errorTitle-required').show();
+    //     } else {
+    //         formError = false;
+    //         $('.errorTitle-required').hide();
+    //     }
+    // });
+    $("#tv-show-title").bind('input propertychange', function () {
+        if ($(this).val().length <= 255) {
+            $('.title').text($(this).val().length + '/255 words.');
+        } else {
+            $(this).val($(this).val().substring(0, 255));
+        }
+    });
+    $("#storyline").bind('input propertychange', function () {
+        if ($(this).val().length <= 255) {
+            $('.msg').text($(this).val().length + '/255 words.');
+
+        } else {
+            $(this).val($(this).val().substring(0, 255));
+        }
+    });
     $('#imdb').bind('input propertychange', function() {
         var imdb = $('#imdb').val();
         if(imdb == "") {
@@ -406,6 +431,22 @@ function bindProperties() {
             $('.error-season').hide();
         }
     })
+    // $('#episodeNo').bind('input propertychange', function () {
+    //     var episode = $('#episodeNo').val();
+    //     if(episode < 1) {
+    //         formError = true;
+    //         $('.error-range').show();
+    //         $('.errorEpisode-required').hide();
+    //     } else if(episode == "") {
+    //         formError = true;
+    //         $('.errorEpisode-required').show();
+    //         $(".error-range").hide();
+    //     } else {
+    //         formError = false;
+    //         $('.error-range').hide();
+    //         $('.errorEpisode-required').hide();
+    //     }
+    // });
 }
 
 function triggerEdit(it) {
@@ -569,9 +610,30 @@ function triggerDelete(det) {
     }
 }
 
+
+$(function () {
+    $('#episodeNo').bind('input propertychange', function () {
+        var episode = $('#episodeNo').val();
+        if(episode < 1) {
+            formError = true;
+            $('.error-range').show();
+            $('.errorEpisode-required').hide();
+        } else if(episode == "") {
+            formError = true;
+            $('.errorEpisode-required').show();
+            $(".error-range").hide();
+        } else {
+            formError = false;
+            $('.error-range').hide();
+            $('.errorEpisode-required').hide();
+        }
+    });
+})
+
 function handleOrderBy() {
     orderBy = $('.orderby option:selected').val();
     console.log(orderBy);
     sqlStatement = "requestType=list&mediaType=tv_show&orderBy="+orderBy+"&start=0&range=10";
     loadItems();
 }
+
