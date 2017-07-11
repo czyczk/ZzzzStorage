@@ -99,7 +99,7 @@
 					<div class="modal-body">
 						<form>
 							<div class="basic-info">
-								<h4 style = "color: black">Basic Infomation</h4>
+								<h4 style = "color: black">Basic Information</h4>
 								<div class="form-group">
 									<label for="title" class="control-label" style="color: #909090;">Title: </label>
 									<input type="text" class="form-control" id="title" name="title">

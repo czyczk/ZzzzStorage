@@ -104,65 +104,62 @@
             </div>
             <div class="modal-body">
                 <form>
+                    <!-- Basic information -->
                     <div class="basic-info">
-                        <h4 style="color: black">Basic Infomation</h4>
-                        <div class="form-group title">
-                            <label for="title" class="control-label" style="color: #909090;">Title: </label>
-                            <input type="text" class="form-control" id="title" name="title">
-                            <div class="errorTitle-required error">Title is required.</div>
-                        </div>
-                        <div class="form-group tvtitle">
-                            <label for="tvtitle" class="control-label" style="color: #909090;">Title of TV Show: </label>
-                            <input type="text" class="form-control" id="tvtitle" name="title">
-                            <div class="errorTitle-required error">Title is required.</div>
-                        </div>
-                        <div class="form-group type">
-                            <label for="type" class="control-label" style="color:#909090;">Type: </label>
-                            <span id="type" name="type" class="text-primary">TV Show</span>
-                        </div>
-                        <div class="form-group etype">
-                            <label for="etype" class="control-label" style="color:#909090;">Type: </label>
-                            <span id="etype" name="etype" class="text-primary">Episode</span>
-                        </div>
-                        <%--<div class="form-group">--%>
-                            <%--<label for="size" class="control-label" style="color: #909090;">Size: </label>--%>
-                            <%--<span class="text-primary" id="size" name="size"></span>--%>
-                        <%--</div>--%>
-                        <div class="form-group season">
-                            <label for="season" class="control-label" style="color: #909090;">Season: </label>
-                            <input type="number" class="form-control" id="season" name="season">
-                            <div class="errorSeason-required error">Season is required.</div>
-                            <div class="error-season error">Season is from 1 to 20.</div>
-                        </div>
-                        <div class="form-group imdb">
+                        <h4 style="color: black">Basic Information</h4>
+                        <!-- Fields of TV Show -->
+                        <!-- IMDB -->
+                        <div class="form-group field-tv-show">
                             <label for="imdb" class="control-label" style="color: #909090;">IMDB: </label>
                             <input type="number" id="imdb" name="imdb" class="form-control">
                             <div class="errorIMDB-required error">IMDB is required.</div>
                             <div class="error-range error">IMDB should be a 7-digit number.</div>
                         </div>
-                        <div class="form-group tvimdb">
-                            <label for="tvimdb" class="control-label" style="color: #909090;">TV Show IMDB: </label>
-                            <input type="number" id="tvimdb" name="tvimdb" class="form-control">
-                            <div class="errorIMDB-required error">IMDB is required.</div>
-                            <div class="error-range error">IMDB should be a 7-digit number.</div>
+                        <!-- Season -->
+                        <div class="form-group field-tv-show">
+                            <label for="season" class="control-label" style="color: #909090;">Season: </label>
+                            <input type="number" id="season" name="season" class="form-control">
+                            <div class="errorSeason-required error">Season is required.</div>
+                            <div class="error-range error">It should be a positive number.</div>
                         </div>
-                    </div>
-                    <hr>
-                    <div class="optional-info">
-                        <h4 style="color: black">Optional Information</h4>
-                        <div class="form-group episode">
-                            <label for="episode" class="control-label" style="color: #909090">Episode Number: </label>
-                            <input type="number" class="form-control" id="episode" name="episodeNo">
-                        </div>
-                        <div class="form-group titleOfEpisode">
-                            <label for="titleOfEpisode" class="control-label" style="color: #909090">Title of This Episode: </label>
-                            <input type="text" class="form-control" id="titleOfEpisode" name="titleOfEpisode">
-                            <div class="msgEpisodeTitle" style="color:#909090;"></div>
+                        <!-- Title -->
+                        <div class="form-group field-tv-show">
+                            <label for="tv-show-title" class="control-label" style="color: #909090;">Title: </label>
+                            <input type="text" class="form-control" id="tv-show-title" name="title">
+                            <div class="errorTitle-required error">Title is required.</div>
                         </div>
 
-                        <div class="form-group releaseYear">
-                            <label for="releaseYear" class="control-label" style="color: #909090;">Release
-                                Year: </label>
+                        <!-- Field of Episode -->
+                        <!-- Episode number -->
+                        <div class="form-group field-episode">
+                            <label for="episodeNo" class="control-label" style="color: #909090;">Episode number: </label>
+                            <input type="number" id="episodeNo" name="episodeNo" class="form-control">
+                            <div class="errorEpisodeNo-required error">Episode number is required.</div>
+                            <div class="error-range error">It should be a positive number.</div>
+                        </div>
+
+                        <!-- Common -->
+                        <!-- Type -->
+                        <div class="form-group type field-common">
+                            <label for="type" class="control-label" style="color:#909090;">Type: </label>
+                            <span id="type" class="text-primary">TV Show</span>
+                        </div>
+
+                        <!-- Field of Episode -->
+                        <!-- Size -->
+                        <div class="form-group field-episode">
+                            <label for="size" class="control-label" style="color: #909090;">Size: </label>
+                            <span class="text-primary" id="size"></span>
+                        </div>
+                    </div>
+                    <hr />
+                    <!-- Optional information -->
+                    <div class="optional-info">
+                        <h4 style="color: black">Optional Information</h4>
+                        <!-- Fields of TV show -->
+                        <!-- Release year -->
+                        <div class="form-group field-tv-show">
+                            <label for="releaseYear" class="control-label" style="color: #909090;">Release year: </label>
                             <select name="releaseYear" id="releaseYear" class="form-control">
                                 <% for (int year = 2017; year > 1900; year--) {
                                 %>
@@ -171,45 +168,62 @@
                                 <%}%>
                             </select>
                         </div>
-                        <div class="form-group runtime">
-                            <label for="runtime" class="control-label" style="color: #909090;">Runtime (in minutes): </label>
-                            <input type="time" id="runtime" class="form-control" name="runtime">
+                        <!-- Runtime -->
+                        <div class="form-group field-tv-show">
+                            <label for="tv-show-runtime" class="control-label" style="color: #909090;">Runtime (in minutes): </label>
+                            <input type="time" id="tv-show-runtime" class="form-control" name="runtime">
                         </div>
-                        <div class="form-group episodeRuntime">
-                            <label for="episodeRuntime" class="control-label" style="color: #909090">Runtime (in minutes): </label>
-                            <input type="number" class="form-control" id="episodeRuntime" name="episodeRuntime">
+                        <!-- Thumb URL -->
+                        <div class="form-group field-tv-show">
+                            <label for="tv-show-thumbUrl" class="control-label" style="color: #909090;">Thumbnail URL: </label>
+                            <input type="text" class="form-control" id="tv-show-thumbUrl" name="thumbUrl">
                         </div>
-                        <div class="form-group plot">
+                        <!-- Rating -->
+                        <div class="form-group field-tv-show">
+                            <label for="tv-show-rating" class="control-label" style="color: #909090;">Rating: </label>
+                            <input type="number" class="form-control" id="tv-show-rating" name="rating">
+                            <div class="error-rating error">Rating is from 1 to 10.</div>
+                        </div>
+                        <!-- Plot -->
+                        <div class="form-group field-tv-show">
                             <label for="plot" class="control-label" style="color: #909090;">Plot: </label>
                             <textarea class="form-control plot" id="plot" name="plot"></textarea>
                             <div class="msg"></div>
                         </div>
-                        <div class="form-group rating">
-                            <label for="rating" class="control-label" style="color: #909090;">Rating: </label>
-                            <input type="number" class="form-control" id="rating" name="rating">
+                        <!-- TODO: Genre -->
+
+                        <!-- Fields of Episode -->
+                        <!-- Title -->
+                        <div class="form-group field-episode">
+                            <label for="episode-title" class="control-label" style="color: #909090;">Title: </label>
+                            <input type="text" class="form-control" id="episode-title" name="title">
+                            <div class="errorTitle-required error">Title is required.</div>
+                        </div>
+                        <!-- Runtime -->
+                        <div class="form-group field-episode">
+                            <label for="episode-runtime" class="control-label" style="color: #909090;">Runtime (in minutes): </label>
+                            <input type="time" id="episode-runtime" class="form-control" name="runtime">
+                        </div>
+                        <!-- Thumb URL -->
+                        <div class="form-group field-episode">
+                            <label for="episode-thumbUrl" class="control-label" style="color: #909090;">Thumbnail URL: </label>
+                            <input type="text" class="form-control" id="episode-thumbUrl" name="thumbUrl">
+                        </div>
+                        <!-- Rating -->
+                        <div class="form-group field-episode">
+                            <label for="episode-rating" class="control-label" style="color: #909090;">Rating: </label>
+                            <input type="number" class="form-control" id="episode-rating" name="rating">
                             <div class="error-rating error">Rating is from 1 to 10.</div>
                         </div>
-                        <div class="form-group episodeRating">
-                            <label for="episodeRating" class="control-label" style="color:#909090;">Rating: </label>
-                            <input type="text" class="form-control" id="episodeRating" name="episodeRating">
-                        </div>
-                        <div class="form-group url">
-                            <label for="thumbUrl" class="control-label" style="color: #909090;">Thumbnail URL: </label>
-                            <input type="text" class="form-control" id="thumbUrl" name="thumbUrl">
-                        </div>
-                        <div class="form-group episodeThumbnail">
-                            <label for="episodeThumbnail" class="control-label" style="color:#909090;">Thumb URL: </label>
-                            <input type="text" class="form-control" id="episodeThumbnail" name="episodeThumbnail">
-                            <div class="msgEpisodeThumb" style="color:#909090;"></div>
-                        </div>
-                        <div class="form-group storyLine">
-                            <label for="storyLine" class="control-label" style="color: #909090;">Storyline:</label>
-                            <textarea class="form-control" id="storyLine" name="storyline"></textarea>
-                            <div class="msgStoryLine" style="color: #909090"></div>
+                        <!-- Storyline -->
+                        <div class="form-group field-episode">
+                            <label for="storyline" class="control-label" style="color: #909090;">Storyline: </label>
+                            <textarea class="form-control storyline" id="storyline" name="storyline"></textarea>
+                            <div class="msg"></div>
                         </div>
                     </div>
 
-                    <hr>
+                    <hr />
                     <div class="form-group">
                         <div class="row">
                             <button type="button"
@@ -230,7 +244,6 @@
 <script src="js/mediaPage.js"></script>
 <script src="js/util.js"></script>
 <script src="js/mediaPageRightSidebar.js"></script>
-<script src="js/modal.js"></script>
 
 
 </body>

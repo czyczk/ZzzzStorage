@@ -94,8 +94,11 @@ function arrangeItems() {
             if (it.runtime != undefined && it.runtime != 0) {
                 html += '<span class="item-runtime" style="display: none;">' + it.runtime + '</span>';
             }
-            if (it.releaseYear != 0) {
+            if (it.releaseYear != 0 && it.releaseYear != 0) {
                 html += '<span class="item-releaseYear" style="display: none;">' + it.releaseYear + '</span>';
+            }
+            if (it.rating != undefined && it.rating != 0) {
+                html += '<span class="item-rating" style="display: none;">' + it.rating + '</span>';
             }
             // Append season
             html += '<span style="margin-left: 1rem;">(Season ' + it.season;
@@ -114,14 +117,14 @@ function arrangeItems() {
             html += '<div><span>IMDB: ' + fillWithZeroes(it.imdb, 7) + "</span>";
             // Append runtime if available
             if (it.runtime != undefined && it.runtime != 0) {
-                html += '<span class="item-runtime" style="margin-left: 2rem;">Runtime: ' + formatDuration(mediaType, it.runtime) + '</span>';
+                html += '<span style="margin-left: 2rem;">Runtime: ' + formatDuration(mediaType, it.runtime) + '</span>';
             }
             html += '</div>';
 
             // Append genres if available
             var genres = it.genre;
             if (genres != undefined && genres.length > 0) {
-                html += '<p>Genre: ';
+                html += '<p class="item-genre">Genre: ';
                 for (i = 0; i < genres.length; i++) {
                     html += genres[i];
                     if (i < genres.length - 1) {
@@ -133,7 +136,7 @@ function arrangeItems() {
 
             // Append rating if available
             if (it.rating != undefined) {
-                html += '<p class="item-rating">Rating: ' + it.rating + "</p>";
+                html += '<p>Rating: ' + it.rating + "</p>";
             }
             // Append plot if available
             if (it.plot != undefined) {
@@ -197,7 +200,7 @@ function arrangeItems() {
             ';
 
             // Append hidden fields (structural requirement)
-            // : SHA256, size, episodeNo, title, runtime, imdb (of TV show), season (of TV show)
+            // : SHA256, size, episodeNo, title, runtime, rating, imdb (of TV show), season (of TV show)
             html += '<span class="item-SHA256" style="display: none;">' + it.SHA256 + '</span>';
             html += '<span class="item-size" style="display: none;">' + it.size + '</span>';
             html += '<span class="item-episodeNo" style="display: none;">' + it.episodeNo + '</span>';
@@ -207,7 +210,9 @@ function arrangeItems() {
             if (it.runtime != undefined && it.runtime != 0) {
                 html += '<span class="item-runtime" style="display: none;">' + it.runtime + '</span>';
             }
-            // html += '</span>';
+            if (it.rating != undefined && it.rating != 0) {
+                html += '<span class="item-rating" style="display: none;">' + it.rating + '</span>';
+            }
             html += '<span class="item-imdb" style="display: none;">' + it.tvShow.imdb + '</span>';
             html += '<span class="item-season" style="display: none;">' + it.tvShow.season + '</span>';
 
@@ -227,7 +232,7 @@ function arrangeItems() {
 
             // Append rating if available
             if (it.rating != undefined) {
-                html += '<p class="item-rating">Rating: ' + it.rating + '</p>';
+                html += '<p">Rating: ' + it.rating + '</p>';
             }
 
             // Append storyline if available
@@ -273,6 +278,9 @@ function arrangeItems() {
         // Bind click handler for back button
         $(".tv-show-info-bar").find("a").click(backToTVShow);
     }
+
+    // Show relevant fields and hide irrelevant ones in Edit Form
+    toggleFieldsInEditForm();
 }
 
 // An override of loadItems() in mediaPage.js. Click handler for entering masks of TV shows.
@@ -399,31 +407,102 @@ function bindProperties() {
 }
 
 function triggerEdit(it) {
-    // TODO
-    var title = $('#'+it).find('.item-title').text();
-    var imdb = $('#'+it).find('.item-imdb').text().substring(5).trim();
-    var releaseYear = $('#'+it).find('.item-releaseYear').text().substring(1,5);
-    var duration = $('#'+it).find('.item-runtime').text();
-    var plot = $('#'+it).find('.item-plot').text().substring(6);
-    var thumbUrl = $('#'+it).find('.thumbnail').attr('src');
-    var season = $('#'+it).find('.item-season').text();
-    $('#title').val(title);
-    $('#imdb').val(fillWithZeroes(imdb));
-    $('#releaseYear').val(releaseYear);
-    $('#season').val(season);
-    if (duration != 'undefined')
-        $('#duration').val(duration);
-    if (plot != undefined)
-        $('#plot').val(plot);
-    if (thumbUrl != defaultThumbPath)
-        $('#thumbUrl').val(thumbUrl);
-    else
-        $('#thumbUrl').val("");
+    // Fill properties of the TV show
+    if (mediaType == "tv_show") {
+        // Required fields
+        var imdb = $('#'+it).find('.item-imdb').text();
+        var season = $('#'+it).find('.item-season').text();
+        var title = $('#'+it).find('.item-title').text();
+        // Optional fields
+        var releaseYear = $('#'+it).find('.item-releaseYear').text();
+        var runtime = $('#'+it).find('.item-runtime').text();
+        var thumbUrl = $('#'+it).find('.thumbnail').attr('src');
+        var rating = $('#'+it).find('.item-rating').text();
+        var plot = $('#'+it).find('.item-plot').text().substr(6);
+        var genres = $('#'+it).find('.item-genre').text().substr(7);
 
-    oldItem = {
-        "imdb": imdb,
-        "season": season
-    };
+        // Fill required fields
+        $('#imdb').val(fillWithZeroes(imdb));
+        $('#season').val(season);
+        $('#tv-show-title').val(title);
+        // Fill optional fields
+        $('#releaseYear').val(releaseYear);
+        if (runtime !== undefined)
+            $('#tv-show-runtime').val(runtime);
+        if (thumbUrl !== defaultThumbPath)
+            $('#tv-show-thumbUrl').val(thumbUrl);
+        else
+            $('#tv-show-thumbUrl').val("");
+        if (rating !== undefined)
+            $('#tv-show-rating').val(rating);
+        if (plot !== undefined)
+            $('#tv-show-plot').val(plot);
+        // TODO: Genres
+
+        oldItem = {
+            "imdb": imdb,
+            "season": season
+        };
+    } else if (mediaType == "episode") {
+        // Necessary fields
+        var imdb = activeTVShow.imdb;
+        var season = activeTVShow.season;
+        var SHA256 = $('#'+it).find('.item-SHA256').text();
+        var size = $('#'+it).find('.item-size').text();
+        // Required fields
+        var episodeNo = $('#'+it).find('.item-episodeNo').text();
+        // Optional fields
+        var title = $('#'+it).find('.item-title').text();
+        var runtime = $('#'+it).find('.item-runtime').text();
+        var thumbUrl = $('#'+it).find('.thumbnail').attr('src');
+        var rating = $('#'+it).find('.item-rating').text();
+        var storyline = $('#'+it).find('.item-storyline').text().substr(11);
+
+        // Fill required fields
+        $('#size').text(formatSize($('#'+it).find('.item-size').text()));
+        $('#episodeNo').val(episodeNo);
+        // Fill optional fields
+        if (title != undefined)
+            $('#episode-title').val(title);
+        if (runtime !== undefined)
+            $('#episode-runtime').val(runtime);
+        if (thumbUrl !== defaultThumbPath)
+            $('#episode-thumbUrl').val(thumbUrl);
+        else
+            $('#episode-thumbUrl').val("");
+        if (rating !== undefined)
+            $('#episode-rating').val(rating);
+        if (storyline !== undefined)
+            $('#storyline').val(storyline);
+
+        oldItem = {
+            "imdb": imdb,
+            "season": season,
+            "epiosdeNo": episodeNo
+        }
+    }
+
+
+}
+
+function toggleFieldsInEditForm() {
+    if (mediaType == "tv_show") {
+        $(".field-tv-show").each(function () {
+            $(this).show();
+        });
+        $(".field-episode").each(function () {
+            $(this).hide();
+        });
+        $("#type").text("TV Show");
+    } else if (mediaType == "episode") {
+        $(".field-episode").each(function () {
+            $(this).show();
+        });
+        $(".field-tv-show").each(function () {
+            $(this).hide();
+        });
+        $("#type").text("Episode");
+    }
 }
 
 // Submit the new property form. Invoked by the "update-submit" button.
