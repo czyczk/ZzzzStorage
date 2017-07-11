@@ -78,7 +78,7 @@ function handleUploadedTasks(data) {
         // Append title
         html += '<h4 style="display: inline-block;text-decoration: none;font-size: 2.0rem;color: rgb(51, 122, 183);">' + item.title + '</h4><span style="margin-left: 1rem;">(' + item.releaseYear + ')</span><br>';
         // Append media type
-        html += '<span>' + item.mediaType.charAt(0) + item.mediaType.substr(1).toLowerCase() + '</span><sapn style="margin-left: 1rem;">' + (item.size / 1024 / 1024).toFixed(2) + 'MB</sapn><br>';
+        html += '<span>' + item.mediaType.charAt(0) + item.mediaType.substr(1).toLowerCase() + '</span><sapn style="margin-left: 1rem;">' + formatSize(item.size) + '</sapn><br />';
         html += '<br><p>Description: ';
         if(item.plot == undefined) {
             html += 'No description.';

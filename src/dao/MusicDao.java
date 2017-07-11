@@ -178,7 +178,7 @@ public class MusicDao implements ILibraryItemDao<Music> {
     }
 
     public List<Music> list(int ownerId, OrderByEnum orderBy, int start, int range) {
-        if (orderBy != OrderByEnum.ARTIST && orderBy != OrderByEnum.GENRE && orderBy != OrderByEnum.TITLE)
+        if (orderBy != OrderByEnum.ARTIST && orderBy != OrderByEnum.GENRE && orderBy != OrderByEnum.TITLE && orderBy != OrderByEnum.ALBUM)
             throw new IllegalArgumentException("Not supported order for music.");
 
         List<Music> result = new ArrayList<>();
@@ -186,7 +186,7 @@ public class MusicDao implements ILibraryItemDao<Music> {
         PreparedStatement ps = null;
         ResultSet rs = null;
 
-        if (orderBy == OrderByEnum.TITLE) {
+        if (orderBy == OrderByEnum.TITLE || orderBy == OrderByEnum.ALBUM) {
             try {
                 con = DBUtil.getConnection();
                 String sql = "SELECT * FROM music WHERE owner_id=" + ownerId + " ORDER BY " + orderBy.toString() +

@@ -191,8 +191,15 @@ function uploadForm() {
             });
         }
         if(mediaType !== 'Episode' || isExisting) {
-            var genre;
-            genre = $('#genre').tagsinput('items');
+            var genres = $('#genre').tagsinput('items');
+            var genreStr = "";
+            if (genres.length > 0) {
+                for (var i in genres) {
+                    genreStr += genres[i];
+                    if (i < genres.length - 1)
+                        genreStr += "`";
+                }
+            }
             // if(mediaType == 'Movie') {
             //     genre = $('.movie option:selected').val();
             // } else if(mediaType == 'TVShow') {
@@ -204,7 +211,7 @@ function uploadForm() {
             formData.append("requestType", uploadRange);
             formData.append("SHA256", sha256);
             formData.append("size", fileSize);
-            formData.append("genre", genre);
+            formData.append("genre", genreStr);
             $.ajax({
                 url: "UploadServlet",
                 data: formData,
