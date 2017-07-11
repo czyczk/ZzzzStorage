@@ -612,7 +612,7 @@ function triggerDelete(det) {
     }
 }
 
-<<<<<<< HEAD
+
 $(function () {
     $('#episodeNo').bind('input propertychange', function () {
         var episode = $('#episodeNo').val();
@@ -631,11 +631,11 @@ $(function () {
         }
     });
 })
-=======
+
 function handleOrderBy() {
     orderBy = $('.orderby option:selected').val();
     console.log(orderBy);
     sqlStatement = "requestType=list&mediaType=tv_show&orderBy="+orderBy+"&start=0&range=10";
     loadItems();
 }
->>>>>>> 32f5631d2480ce1950b60109d89afd799201b47d
+

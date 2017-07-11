@@ -85,7 +85,7 @@ function arrangeItems() {
         // Append genres if available
         var genres = it.genre;
         if (genres != undefined && genres.length > 0) {
-            html += '<p>Genre: '
+            html += '<p class="item-genre">Genre: '
             for (i = 0; i < genres.length; i++) {
                 html += genres[i];
                 if (i < genres.length - 1) {
@@ -98,7 +98,7 @@ function arrangeItems() {
         // Append directors if available
         var directors = it.director;
         if (directors != undefined && directors.length > 0) {
-            html += '<p>Director: ';
+            html += '<p class="item-director">Director: ';
             for (i = 0; i < directors.length; i++) {
                 html += directors[i];
                 if (i < directors.length - 1) {
@@ -198,12 +198,18 @@ function triggerEdit(it) {
     var imdb = $('#'+it).find('.item-imdb').text().substring(5).trim();
     var releaseYear = $('#'+it).find('.item-releaseYear').text().substring(1,5);
     var duration = $('#'+it).find('.item-duration').text();
+    var director = $("#"+it).find('.item-director').text().substring(9);
+    var genre = $("#"+it).find('.item-genre').text().substring(6);
     var plot = $('#'+it).find('.item-plot').text().substring(6);
     var thumbUrl = $('#'+it).find('.thumbnail').attr('src');
     $('#size').text(formatSize(size));
     $('#title').val(title);
     $('#imdb').val(fillWithZeroes(imdb));
     $('#releaseYear').val(releaseYear);
+    if(director!='undefined')
+        $("#director").val(director);
+    if(genre!='undefined')
+        $("#genre").val(genre);
     if (duration != 'undefined')
         $('#duration').val(duration);
     if (plot != undefined)
