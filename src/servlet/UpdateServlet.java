@@ -3,9 +3,7 @@ package servlet;
 import com.google.gson.JsonSyntaxException;
 import dao.DaoFactory;
 import model.User;
-import model.libraryModel.MediaTypeEnum;
-import model.libraryModel.Movie;
-import model.libraryModel.Music;
+import model.libraryModel.*;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import util.JsonUtil;
 import util.ServletUtil;
@@ -49,25 +47,43 @@ public class UpdateServlet extends HttpServlet {
                 case MOVIE:
                 {
                     System.out.println("[SQL update] Updating a movie item.");
-                    Movie oldMovie = JsonUtil.getGson().fromJson(oldItemJson, Movie.class);
-                    Movie newMovie = JsonUtil.getGson().fromJson(newItemJson, Movie.class);
-                    oldMovie.setOwnerId(ownerId);
-                    newMovie.setOwnerId(ownerId);
-                    DaoFactory.getLibraryItemDao().update(oldMovie, newMovie);
+                    Movie oldItem = JsonUtil.getGson().fromJson(oldItemJson, Movie.class);
+                    Movie newItem = JsonUtil.getGson().fromJson(newItemJson, Movie.class);
+                    oldItem.setOwnerId(ownerId);
+                    newItem.setOwnerId(ownerId);
+                    DaoFactory.getLibraryItemDao().update(oldItem, newItem);
                 }
                 break;
                 case MUSIC:
                 {
                     System.out.println("[SQL update] Updating a music item.");
-                    Music oldMusic = JsonUtil.getGson().fromJson(oldItemJson, Music.class);
-                    Music newMusic = JsonUtil.getGson().fromJson(newItemJson, Music.class);
-                    oldMusic.setOwnerId(ownerId);
-                    newMusic.setOwnerId(ownerId);
-                    DaoFactory.getLibraryItemDao().update(oldMusic, newMusic);
+                    Music oldItem = JsonUtil.getGson().fromJson(oldItemJson, Music.class);
+                    Music newItem = JsonUtil.getGson().fromJson(newItemJson, Music.class);
+                    oldItem.setOwnerId(ownerId);
+                    newItem.setOwnerId(ownerId);
+                    DaoFactory.getLibraryItemDao().update(oldItem, newItem);
                 }
                 break;
                 case TV_SHOW:
-                    throw new NotImplementedException();
+                {
+                    System.out.println("[SQL update] Updating a TV show item.");
+                    TVShow oldItem = JsonUtil.getGson().fromJson(oldItemJson, TVShow.class);
+                    TVShow newItem = JsonUtil.getGson().fromJson(newItemJson, TVShow.class);
+                    oldItem.setOwnerId(ownerId);
+                    newItem.setOwnerId(ownerId);
+                    DaoFactory.getLibraryItemDao().update(oldItem, newItem);
+                }
+                break;
+                case EPISODE:
+                {
+                    System.out.println("[SQL update] Updating an episode item.");
+                    Episode oldItem = JsonUtil.getGson().fromJson(oldItemJson, Episode.class);
+                    Episode newItem = JsonUtil.getGson().fromJson(newItemJson, Episode.class);
+                    oldItem.setOwnerId(ownerId);
+                    newItem.setOwnerId(ownerId);
+                    DaoFactory.getLibraryItemDao().update(oldItem, newItem);
+                }
+                break;
                 default: throw new IllegalArgumentException("Not supported media type.");
             }
         } catch (JsonSyntaxException e) {
