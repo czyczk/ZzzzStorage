@@ -30,11 +30,14 @@ body {
     /*width: 240px;*/
     /*width: 16em;*/
     width: 15%;
-
-	background: rgba(0, 0, 0, .60);
 	overflow: hidden;
-	box-shadow: 0 0 0 1px hsla(0,0%,100%,.3) inset,
-                0 .5em 1em rgba(0, 0, 0, 0.6);
+
+}
+
+.bootstrap-select{
+	position: relative;
+	top: 20px;
+	left: 10px;
 }
 
 
